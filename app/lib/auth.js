@@ -1,11 +1,15 @@
-export const getToken = () => Promise.resolve(localStorage.token)
+import Emitter from 'tiny-emitter'
 
+export const AuthEmitter = new Emitter()
+
+export const getToken = () => Promise.resolve(localStorage.token)
 export const isLoggedIn = () => Promise.resolve(!!localStorage.token)
 
-export const login = (email, password) => {
+export const login = ({ email, password }) => {
   return fetchApi(email, password)
     .then(res => {
       if (res.authenticated) {
+        AuthEmitter.emit('auth-changed', { loggedIn: true })
         localStorage.token = res.token
         return res.token
       }
@@ -17,6 +21,7 @@ export const login = (email, password) => {
 export const logout = () =>
   Promise.resolve()
     .then(() => delete localStorage.token)
+    .then(() => AuthEmitter.emit('auth-changed', { loggedIn: false }))
 
 function fetchApi (email, password) {
   if (email === 'gui' && password === 'xundas') {
