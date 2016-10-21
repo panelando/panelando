@@ -4,8 +4,12 @@ const webpack = require('webpack')
 module.exports = {
   context: path.join(__dirname, './app'),
   entry: {
-    jsx: './index.js',
-    html: './index.html'
+    js: './index.js',
+    html: './index.html',
+    vendors: [
+      'react',
+      'react-dom'
+    ]
   },
   output: {
     path: path.join(__dirname, './build'),
@@ -32,5 +36,8 @@ module.exports = {
         'file?name=[name].[ext]'
       ]
     }]
-  }
+  },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
+  ]
 }
