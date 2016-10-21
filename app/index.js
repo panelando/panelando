@@ -1,7 +1,7 @@
 import React from 'react'
 import DOM from 'react-dom'
+import App from './routes'
 
-DOM.render(
-  <h1>Hello World</h1>,
-  document.getElementById('app')
-)
+DOM.render((
+  <App />
+), document.getElementById('app'))
