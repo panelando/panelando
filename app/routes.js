@@ -23,11 +23,11 @@ const requireAuth = (nextState, replace, callback) => {
 
 const App = () => (
   <Router history={hashHistory}>
-    <Route path="/" component={Layout}>
-      <Route path="login" component={Login} />
+    <Route path="login" component={Login} />
+    <Route path="/" component={Layout} onEnter={requireAuth} >
       <Route path="logout" component={Logout} />
       <Route path="about" component={About} />
-      <Route path="dashboard" component={Dashboard} onEnter={requireAuth} />
+      <Route path="dashboard" component={Dashboard} />
     </Route>
   </Router>
 )

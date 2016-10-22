@@ -40,7 +40,7 @@ module.exports = {
         'file?name=[name].[ext]'
       ]
     }, {
-      test: /\.scss$/,
+      test: /\.(scss|css)$/,
       loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass')
     }]
   },
