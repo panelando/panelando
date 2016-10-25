@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { AuthEmitter, isLoggedIn, getToken } from 'lib/auth'
+
 import {
   Avatar,
   FontIcon,
