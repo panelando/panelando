@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getToken } from '../lib/auth'
+import { getToken } from 'lib/auth'
 
 class Dashboard extends Component {
   constructor (props) {

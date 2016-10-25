@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { logout } from '../lib/auth'
+import { logout } from 'lib/auth'
 
 class Logout extends Component {
   componentDidMount () {

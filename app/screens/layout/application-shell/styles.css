@@ -1,0 +1,49 @@
+.drawer aside {
+  border-right: none !important;
+}
+
+.drawerHeaderContainer {
+  width: 100%;
+  height: 240px;
+  position: relative;
+  overflow: hidden;
+  background: url("https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/cf1a3030269011.561bad833079d.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+.drawerHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: rgba(0,0,0,.3);
+}
+
+.drawerUserAvatar {
+  width: 70px;
+  height: 70px;
+}
+
+.drawerUserName {
+  margin-top: 15px;
+  font-size: 20px;
+  color: white;
+  font-weight: 300;
+}
+
+.drawerUserLocation {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  font-size: 23px;
+  font-weight: 400;
+  color: white;
+  transform: scale(.7)
+}
+
+.drawerMenu {
+  flex: 1;
+}

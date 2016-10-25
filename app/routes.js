@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import { hashHistory, Router, Route, Link, withRouter } from 'react-router'
-import { isLoggedIn } from './lib/auth'
+import { hashHistory, Router, Route, IndexRoute, Link, withRouter } from 'react-router'
+import { isLoggedIn } from 'lib/auth'
 
-import Layout from './screens/layout'
-import Login from './screens/login'
-import Logout from './screens/logout'
-import About from './screens/about'
-import Dashboard from './screens/dashboard'
+import { ApplicationShell } from 'screens/layout'
+import { Login, Logout } from 'screens/auth'
+import { RecipeList } from 'screens/recipes'
 
 const requireAuth = (nextState, replace, callback) => {
   isLoggedIn()
@@ -24,10 +22,10 @@ const requireAuth = (nextState, replace, callback) => {
 const App = () => (
   <Router history={hashHistory}>
     <Route path="login" component={Login} />
-    <Route path="/" component={Layout} onEnter={requireAuth} >
+
+    <Route path="/" component={ApplicationShell} onEnter={requireAuth} >
+      <IndexRoute component={RecipeList} />
       <Route path="logout" component={Logout} />
-      <Route path="about" component={About} />
-      <Route path="dashboard" component={Dashboard} />
     </Route>
   </Router>
 )

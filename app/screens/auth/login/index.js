@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { login } from '../lib/auth'
+import { login } from 'lib/auth'
 
 import {
   AppBar,
@@ -55,7 +55,7 @@ class Login extends Component {
         <Panel>
           <AppBar>LOGIN</AppBar>
 
-          <Grid>
+          <Grid style={{ flex: 1 }}>
             <Row center="xs">
               <Col xs={12} sm={12} lg={6} >
                 <Card style={{padding: '20px', margin: '80px 0 10px'}}>
