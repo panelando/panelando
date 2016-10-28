@@ -49,7 +49,7 @@ class List extends Component {
   }
 
   handleLogout = () => logout().then(() => redirect('login'))
-  handleAddRecipeClick = () => alert('hey')
+  handleAddButton = () => alert('hey')
   handleTabChange = (tabIndex) => this.setState({ tabIndex })
   handleActive = () => console.log('Special one activated')
   favorite = () => console.log('Favorited')
@@ -112,9 +112,10 @@ class List extends Component {
                     <IconButton icon="favorite" onClick={this.favorite} />
                     <span>42</span>
                   </CardActions>
-
                 </Card>
               ))}
+
+              <Button icon="add" floating accent className={styles.addButton} onClick={this.handleAddButton} />
             </Tab>
 
             <Tab label="Populares">
@@ -126,6 +127,7 @@ class List extends Component {
             </Tab>
           </Tabs>
         </section>
+
       </Panel>
     )
   }
