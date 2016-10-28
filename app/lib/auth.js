@@ -1,9 +1,11 @@
+import { hashHistory } from 'react-router'
 import Emitter from 'tiny-emitter'
 
 export const AuthEmitter = new Emitter()
 
 export const getToken = () => Promise.resolve(localStorage.token)
 export const isLoggedIn = () => Promise.resolve(!!localStorage.token)
+export const redirect = path => hashHistory.push(path)
 
 export const login = ({ username, password }) => {
   return fetchApi(username, password)
