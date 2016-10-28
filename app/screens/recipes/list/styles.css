@@ -1,7 +1,20 @@
-.section {
-  flex: 1;
+.leftMenu {
+  margin-left: auto;
+}
+
+.menuIcon > button {
+  color: white !important;
 }
 
 .recipe {
   margin-bottom: 30px;
+}
+
+.recipeInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recipeInfo div:last-child {
+  padding-right: 8px;
 }
