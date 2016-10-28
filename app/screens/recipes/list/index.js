@@ -48,11 +48,13 @@ class List extends Component {
     }
   }
 
-  handleLogout = () => logout().then(() => redirect('login'))
+  handleLogout = () => logout().then(() => redirect('/login'))
   handleAddButton = () => alert('hey')
   handleTabChange = (tabIndex) => this.setState({ tabIndex })
   handleActive = () => console.log('Special one activated')
   favorite = () => console.log('Favorited')
+
+  goToRecipe = id => () => redirect(`/${id}`)
 
   render () {
     return (
@@ -71,17 +73,19 @@ class List extends Component {
 
           </AppBar>
 
-          <Tabs index={this.state.tabIndex} onChange={this.handleTabChange} fixed inverse ripple>
+          <Tabs index={this.state.tabIndex} onChange={this.handleTabChange} fixed inverse>
             <Tab label="Descobrir">
-              {[...Array(10)].map((x, i) => (
-                <Card className={styles.recipe} key={i}>
+              {[...Array(10)].map((x, recipeId) => (
+                <Card className={styles.recipe} key={recipeId}>
                   <CardMedia
                     aspectRatio="wide"
                     image="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d8108430269011.561bad832d25f.jpg"
+                    onClick={this.goToRecipe(recipeId)}
                   />
 
                   <CardTitle
                     title="Whiskey Glazed Flat Iron Steaks and Grilled Potatoes"
+                    onClick={this.goToRecipe(recipeId)}
                   />
 
                   <CardText className={styles.recipeInfo}>
