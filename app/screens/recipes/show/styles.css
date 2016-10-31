@@ -1,0 +1,26 @@
+.leftMenu {
+  margin-left: auto;
+}
+
+.menuIcon > button {
+  color: white !important;
+}
+
+.recipe {
+  margin-bottom: 30px;
+}
+
+.recipeInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recipeInfo div:last-child {
+  padding-right: 8px;
+}
+
+.comment > span > span:nth-child(2) {
+  padding: 1.5rem 0;
+  min-height: 7.2rem;
+  height: auto !important;
+}
