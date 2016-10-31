@@ -107,19 +107,19 @@ class Show extends Component {
 
                 <ListSubHeader caption="Modo de Preparo" />
 
-                <ListItem caption="Bata os ovos até formar clara em neve">
+                <ListItem className={styles.step} caption="Bata os ovos até formar clara em neve">
                   <IconButton><StepIcon /></IconButton>
                 </ListItem>
 
-                <ListItem caption="Misture no liquidificador o leite">
+                <ListItem className={styles.step} caption="Misture no liquidificador o leite">
                   <IconButton><StepIcon /></IconButton>
                 </ListItem>
 
-                <ListItem caption="Junte a farinha com tudo e misture bem">
+                <ListItem className={styles.step} caption="Junte a farinha com tudo e misture bem">
                   <IconButton><StepIcon /></IconButton>
                 </ListItem>
 
-                <ListItem caption="Leve ao forno 180ºC por 60 minutos">
+                <ListItem className={styles.step} caption="Leve ao forno 180ºC por 60 minutos asd asd asd asd asd asd asd ads ">
                   <IconButton><StepIcon /></IconButton>
                 </ListItem>
 
