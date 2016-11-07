@@ -4,7 +4,7 @@ import { isLoggedIn } from 'lib/auth'
 
 import { ApplicationShell } from 'screens/layout'
 import { Login, Logout } from 'screens/auth'
-import { RecipeList } from 'screens/recipes'
+import { RecipeList, RecipeShow } from 'screens/recipes'
 
 const requireAuth = (nextState, replace, callback) => {
   isLoggedIn()
@@ -25,6 +25,7 @@ const App = () => (
 
     <Route path="/" component={ApplicationShell} onEnter={requireAuth} >
       <IndexRoute component={RecipeList} />
+      <Route path="/:id" component={RecipeShow} />
       <Route path="logout" component={Logout} />
     </Route>
   </Router>

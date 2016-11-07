@@ -18,3 +18,9 @@
 .recipeInfo div:last-child {
   padding-right: 8px;
 }
+
+.addButton {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
