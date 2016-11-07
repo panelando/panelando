@@ -11,6 +11,7 @@ import {
   CardMedia,
   CardText,
   CardTitle,
+  Chip,
   IconButton,
   Input,
   List,
@@ -83,7 +84,9 @@ class Show extends Component {
                 style={{ borderTop: '1px solid #f5f5f5', borderBottom: '1px solid #f5f5f5' }}
               />
 
-              <CardActions>
+            <CardActions
+              style={{ borderBottom: '1px solid #f5f5f5' }}
+            >
                 <IconButton icon="favorite" onClick={this.favorite} />
                 <span>42</span>
               </CardActions>
@@ -125,6 +128,19 @@ class Show extends Component {
 
                 <ListDivider />
 
+                <ListSubHeader caption="Tags" />
+
+                <ListItem className={styles.tags}>
+                  <Chip>vegan</Chip>
+                  <Chip>glutenfree</Chip>
+                  <Chip>comida árabe</Chip>
+                  <Chip>sugarfree</Chip>
+                  <Chip></Chip>
+                  <Chip>comida árabe</Chip>
+                </ListItem>
+
+                <ListDivider />
+
                 <ListSubHeader caption="Comentários" />
 
                 <ListItem
@@ -139,11 +155,23 @@ class Show extends Component {
                   className={styles.comment}
                   avatar="https://dl.dropboxusercontent.com/u/2247264/assets/o.jpg"
                   caption="Ozymandias"
-                  legend="Can i use codorna eggs?"
+                  legend="Can I use codorna eggs?"
                   rightIcon="reply"
                 />
 
                 <ListSubHeader caption="Adicionar Comentário" />
+
+                <form className={styles.commentForm}>
+                  <div className={styles.commentBox}>
+                    <Avatar className={styles.commentAvatar}>
+                      <img src="https://avatars2.githubusercontent.com/u/7416751?v=3&s=466" />
+                    </Avatar>
+
+                    <Input className={styles.commentInput} multiline label="Adicionar Comentário" value={this.state.comment} onChange={this.handleCommentChange} />
+                  </div>
+
+                  <Button type="submit" className={styles.commentButton} icon="send" label="Enviar" primary />
+                </form>
               </List>
             </Card>
           </section>

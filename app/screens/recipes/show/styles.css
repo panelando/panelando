@@ -19,11 +19,15 @@
   padding-right: 8px;
 }
 
-
 .step > span > span:nth-child(2) {
   padding: 1.5rem 0;
   height: auto !important;
   white-space: normal;
+}
+
+.tags > span > span {
+  flex-wrap: wrap-reverse;
+  flex: initial;
 }
 
 .comment > span > span:nth-child(2) {
@@ -31,3 +35,27 @@
   min-height: 7.2rem;
   height: auto !important;
 }
+
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  padding: .7rem 1.6rem 1.5rem;
+}
+
+.commentBox {
+  display: flex;
+}
+
+.commentInput {
+  margin-left: 15px;
+  flex: 1;
+}
+
+.commentAvatar {
+  top: 17px;
+}
+
+.commentButton {
+  align-self: flex-end;
+}
+

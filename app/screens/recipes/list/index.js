@@ -54,7 +54,6 @@ class List extends Component {
             <IconButton icon="menu" inverse={true} onClick={this.props.onToggleDrawer} />
             <span>RECEITAS</span>
 
-
             <div className={styles.leftMenu}>
               <IconMenu position="topRight" className={styles.menuIcon}>
                 <MenuItem value="signout" icon="exit_to_app" caption="Sign out" onClick={this.handleLogout} />
