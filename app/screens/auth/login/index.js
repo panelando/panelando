@@ -1,76 +1,56 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { login } from 'lib/auth'
+import { auth } from 'lib/firebase'
 
 import {
-  AppBar,
   Button,
-  Card,
-  CardTitle,
-  CardText,
-  Input,
   Layout,
   NavBar,
   Panel
 } from 'react-toolbox'
 
-import { Grid, Row, Col } from 'react-flexbox-grid/lib/index'
+import styles from './styles'
 
 class Login extends Component {
-  constructor (props) {
-    super(props)
+  signInWithGoogle = () => {
+    const provider = new auth.GoogleAuthProvider()
 
-    this.state = {
-      error: null,
-      username: '',
-      password: ''
-    }
+    provider.addScope('https://www.googleapis.com/auth/userinfo.profile')
+
+    auth().signInWithPopup(provider)
+      .then(result => console.info(result))
+      .catch(err => console.error(err))
   }
 
-  handleChange = (name, value) => {
-    this.setState({ ...this.state, [name]: value})
-  }
+  signInWithFacebook = () => {
+    const provider = new auth.FacebookAuthProvider()
 
-  handleSubmit = (event) => {
-    event.preventDefault()
-
-    const { username, password } = this.state
-
-    login({ username, password })
-      .then(() => {
-        const { location } = this.props
-
-        if (location.state && location.state.nextPathname) {
-          return this.props.router.replace(location.state.nextPathname)
-        }
-
-        return this.props.router.replace('/')
-      })
-      .catch(err => this.setState({ error: err.message }))
+    auth().signInWithPopup(provider)
+      .then(result => console.info(result))
+      .catch(err => console.error(err))
   }
 
   render () {
     return (
       <Layout>
-        <Panel>
-          <AppBar>LOGIN</AppBar>
+        <Panel className={styles.panel}>
+          <div className={styles.container}>
+            <div className={styles.logo}>
+              <img src="http://emojipedia-us.s3.amazonaws.com/cache/d5/6d/d56d6855c382a1de6e926882cce931f0.png" />
+            </div>
 
-          <Grid style={{ flex: 1 }}>
-            <Row center="xs">
-              <Col xs={12} sm={12} lg={6} >
-                <Card style={{padding: '20px', margin: '80px 0 10px'}}>
-                  <CardTitle>Login</CardTitle>
-                  <CardText>
-                    <form onSubmit={this.handleSubmit}>
-                      <Input type="text" label="User" icon="face" value={this.state.username} onChange={this.handleChange.bind(this, 'username')} />
-                      <Input type="password" label="Senha" icon="lock" value={this.state.password} onChange={this.handleChange.bind(this, 'password')} />
-                      <Button type="submit" label="Login" primary raised />
-                    </form>
-                  </CardText>
-                </Card>
-              </Col>
-            </Row>
-          </Grid>
+            <div className={styles.header}>Panelando</div>
+            <div className={styles.subHeader}>Cozinhe aqui suas ideias</div>
+
+            <div className={styles.buttons}>
+              <Button className={styles.google} label="Login com Google" raised primary onClick={this.signInWithGoogle} />
+              <Button className={styles.facebook} label="Login com Facebook" raised primary onClick={this.signInWithFacebook} />
+            </div>
+          </div>
+
+          <footer className={styles.footer}>
+            Copyright © 2016 Panelando
+          </footer>
         </Panel>
       </Layout>
     )
