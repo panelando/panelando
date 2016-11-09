@@ -50,7 +50,7 @@ class Show extends Component {
               <span>{this.trim("Whiskey Glazed Flat Iron Steaks and Grilled Potatoes")}</span>
             </AppBar>
 
-            <Card className={styles.recipe}>
+            <Card>
               <CardMedia
                 aspectRatio="wide"
                 image="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d8108430269011.561bad832d25f.jpg"

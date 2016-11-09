@@ -6,10 +6,6 @@
   color: white !important;
 }
 
-.recipe {
-  margin-bottom: 30px;
-}
-
 .recipeInfo {
   display: flex;
   justify-content: space-between;
