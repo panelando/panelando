@@ -1,37 +1,27 @@
 import { hashHistory } from 'react-router'
-import Emitter from 'tiny-emitter'
+import { auth } from 'lib/firebase'
 
-export const AuthEmitter = new Emitter()
-
-export const getToken = () => Promise.resolve(localStorage.token)
-export const isLoggedIn = () => Promise.resolve(!!localStorage.token)
 export const redirect = path => hashHistory.push(path)
 
-export const login = ({ username, password }) => {
-  return fetchApi(username, password)
-    .then(res => {
-      if (res.authenticated) {
-        AuthEmitter.emit('auth-changed', { loggedIn: true })
-        localStorage.token = res.token
-        return res.token
-      }
+export const signInWithGoogle = () => {
+  const provider = new auth.GoogleAuthProvider()
 
-      return Promise.reject(new Error('Login failed due to network'))
-    })
+  provider.addScope('https://www.googleapis.com/auth/userinfo.profile')
+
+  return auth().signInWithPopup(provider)
 }
 
-export const logout = () =>
-  Promise.resolve()
-    .then(() => delete localStorage.token)
-    .then(() => AuthEmitter.emit('auth-changed', { loggedIn: false }))
+export const signInWithFacebook = () => {
+  const provider = new auth.FacebookAuthProvider()
 
-function fetchApi (username, password) {
-  if (username === 'gui' && password === 'xundas') {
-    return Promise.resolve({
-      authenticated: true,
-      token: Math.random().toString(36).substring(7)
-    })
-  }
-
-  return Promise.reject(new Error('Invalid username or password'))
+  return auth().signInWithPopup(provider)
 }
+
+export const signOut = () => {
+  return auth().signOut()
+}
+
+export const getCurrentUser = () => {
+  return Promise.resolve(auth().currentUser)
+}
+

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { auth } from 'lib/firebase'
+import { signInWithGoogle, signInWithFacebook } from 'lib/auth'
 
 import {
   Button,
@@ -12,22 +12,26 @@ import {
 import styles from './styles'
 
 class Login extends Component {
-  signInWithGoogle = () => {
-    const provider = new auth.GoogleAuthProvider()
-
-    provider.addScope('https://www.googleapis.com/auth/userinfo.profile')
-
-    auth().signInWithPopup(provider)
-      .then(result => console.info(result))
-      .catch(err => console.error(err))
+  googleLogin = () => {
+    signInWithGoogle()
+      .then(this.redirectAfterLogin)
+      .catch(err => console.error(`Sign-in Error: ${err}`))
   }
 
-  signInWithFacebook = () => {
-    const provider = new auth.FacebookAuthProvider()
+  facebookLogin = () => {
+    signInWithFacebook()
+      .then(this.redirectAfterLogin)
+      .catch(err => console.error(`Sign-in Error: ${err}`))
+  }
 
-    auth().signInWithPopup(provider)
-      .then(result => console.info(result))
-      .catch(err => console.error(err))
+  redirectAfterLogin = () => {
+    const { location } = this.props
+
+    if (location.state && location.state.nextPathname) {
+      return this.props.router.replace(location.state.nextPathname)
+    }
+
+    return this.props.router.replace('/')
   }
 
   render () {
@@ -43,8 +47,8 @@ class Login extends Component {
             <div className={styles.subHeader}>Cozinhe aqui suas ideias</div>
 
             <div className={styles.buttons}>
-              <Button className={styles.google} label="Login com Google" raised primary onClick={this.signInWithGoogle} />
-              <Button className={styles.facebook} label="Login com Facebook" raised primary onClick={this.signInWithFacebook} />
+              <Button className={styles.google} label="Login com Google" raised primary onClick={this.googleLogin} />
+              <Button className={styles.facebook} label="Login com Facebook" raised primary onClick={this.facebookLogin} />
             </div>
           </div>
 
