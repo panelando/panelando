@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { AuthEmitter, isLoggedIn, getToken } from 'lib/auth'
 
 import {
   Avatar,
@@ -18,9 +17,7 @@ class ApplicationShell extends Component {
     super(props)
 
     this.state = {
-      drawerActive: false,
-      loggedIn: false,
-      token: null
+      drawerActive: false
     }
   }
 
@@ -36,18 +33,7 @@ class ApplicationShell extends Component {
     return React.cloneElement(this.props.children, propsToPassToChildren)
   }
 
-  componentWillMount () {
-    AuthEmitter.on('auth-changed', ({ loggedIn }) => this.setState({ loggedIn }))
-  }
-
-  componentDidMount () {
-    isLoggedIn()
-      .then(loggedIn => this.setState({ loggedIn }))
-      .then(getToken)
-      .then(token => this.setState({ token }))
-  }
-
-  render() {
+  render () {
     return (
       <Layout>
         <NavDrawer className={styles.drawer} active={this.state.drawerActive}

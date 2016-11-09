@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index'
-import { logout, redirect } from 'lib/auth'
+import { signOut, redirect } from 'lib/auth'
 
 import {
   AppBar,
@@ -38,7 +38,7 @@ class List extends Component {
     }
   }
 
-  handleLogout = () => logout().then(() => redirect('/login'))
+  handleSignOut = () => signOut().then(() => redirect('/login'))
   handleAddButton = () => alert('hey')
   handleTabChange = (tabIndex) => this.setState({ tabIndex })
   handleActive = () => console.log('Special one activated')
@@ -56,7 +56,7 @@ class List extends Component {
 
             <div className={styles.leftMenu}>
               <IconMenu position="topRight" className={styles.menuIcon}>
-                <MenuItem value="signout" icon="exit_to_app" caption="Sign out" onClick={this.handleLogout} />
+                <MenuItem value="signout" icon="exit_to_app" caption="Sign out" onClick={this.handleSignOut} />
               </IconMenu>
             </div>
 

@@ -1,22 +1,21 @@
 import React, { Component } from 'react'
 import { hashHistory, Router, Route, IndexRoute, Link, withRouter } from 'react-router'
-import { isLoggedIn } from 'lib/auth'
-
 import { ApplicationShell } from 'screens/layout'
 import { Login, Logout } from 'screens/auth'
 import { RecipeList, RecipeShow } from 'screens/recipes'
+import { auth } from 'lib/firebase'
 
 const requireAuth = (nextState, replace, callback) => {
-  isLoggedIn()
-    .then(loggedIn => {
-      if (!loggedIn) {
-        replace({
-          pathname: '/login',
-          state: { nextPathname: nextState.location.pathname }
-        })
-      }
-    })
-    .then(callback)
+  auth().onAuthStateChanged(user => {
+    if (!user) {
+      replace({
+        pathname: '/login',
+        state: { nextPathname: nextState.location.pathname }
+      })
+    }
+
+    callback()
+  })
 }
 
 const App = () => (

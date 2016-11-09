@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "dependencies": {
     "classnames": "^2.2.5",
+    "firebase": "^3.5.3",
     "flexboxgrid": "^6.3.1",
     "immutability-helper": "^2.0.0",
     "react": "^15.3.2",

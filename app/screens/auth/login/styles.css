@@ -1,0 +1,51 @@
+.panel {
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  margin-bottom: 2.2rem;
+}
+
+.logo img {
+  width: 130px;
+}
+
+.header {
+  font-size: 2.7rem;
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+}
+
+.subHeader {
+  font-size: 1.8rem;
+  font-weight: 300;
+  margin-bottom: 4.5rem;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.google {
+  background: #4285f4 !important;
+  margin-bottom: 20px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.4rem;
+  border-top: solid 1px #eee;
+  text-align: center;
+  color: #505050;
+}
