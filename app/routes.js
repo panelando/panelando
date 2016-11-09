@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { hashHistory, Router, Route, IndexRoute, Link, withRouter } from 'react-router'
 import { ApplicationShell } from 'screens/layout'
-import { Login, Logout } from 'screens/auth'
+import { Login } from 'screens/auth'
 import { RecipeList, RecipeShow } from 'screens/recipes'
 import { auth } from 'lib/firebase'
 
@@ -25,7 +25,6 @@ const App = () => (
     <Route path="/" component={ApplicationShell} onEnter={requireAuth} >
       <IndexRoute component={RecipeList} />
       <Route path="/:id" component={RecipeShow} />
-      <Route path="logout" component={Logout} />
     </Route>
   </Router>
 )

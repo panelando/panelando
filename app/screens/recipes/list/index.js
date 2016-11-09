@@ -38,13 +38,21 @@ class List extends Component {
     }
   }
 
-  handleSignOut = () => signOut().then(() => redirect('/login'))
-  handleAddButton = () => alert('hey')
-  handleTabChange = (tabIndex) => this.setState({ tabIndex })
-  handleActive = () => console.log('Special one activated')
-  favorite = () => console.log('Favorited')
+  handleSignOut = () => {
+    signOut().then(() => redirect('/login'))
+  }
 
-  goToRecipe = id => () => redirect(`/${id}`)
+  handleTabChange = tabIndex => {
+    this.setState({ tabIndex })
+  }
+
+  seeRecipe = id => () => {
+    redirect(`/${id}`)
+  }
+
+  addRecipe = () => {
+    redirect('/new')
+  }
 
   render () {
     return (
@@ -69,12 +77,12 @@ class List extends Component {
                   <CardMedia
                     aspectRatio="wide"
                     image="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d8108430269011.561bad832d25f.jpg"
-                    onClick={this.goToRecipe(recipeId)}
+                    onClick={this.seeRecipe(recipeId)}
                   />
 
                   <CardTitle
                     title="Whiskey Glazed Flat Iron Steaks and Grilled Potatoes"
-                    onClick={this.goToRecipe(recipeId)}
+                    onClick={this.seeRecipe(recipeId)}
                   />
 
                   <CardText className={styles.recipeInfo}>
@@ -102,20 +110,20 @@ class List extends Component {
                   />
 
                   <CardActions>
-                    <IconButton icon="favorite" onClick={this.favorite} />
+                    <IconButton icon="favorite" />
                     <span>42</span>
                   </CardActions>
                 </Card>
               ))}
 
-              <Button icon="add" floating accent className={styles.addButton} onClick={this.handleAddButton} />
+              <Button icon="add" floating accent className={styles.addButton} onClick={this.addRecipe} />
             </Tab>
 
             <Tab label="Populares">
               <small>Populares</small>
             </Tab>
 
-            <Tab label="Novidades" onActive={this.handleActive}>
+            <Tab label="Novidades">
               <small>Novidades</small>
             </Tab>
           </Tabs>
