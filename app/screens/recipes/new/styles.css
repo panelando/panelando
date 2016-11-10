@@ -1,0 +1,49 @@
+.input {
+  width: 100%;
+}
+
+.activeInput {
+  composes: input
+}
+
+.activeInput .inputIcon svg path {
+  fill: #303f9f;
+}
+
+.dropdown {
+  composes: input;
+}
+
+.dropdown li {
+  padding: 2rem;
+  font-size: 15px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.dropdown li:last-child {
+  border-bottom: none;
+}
+
+
+.inputIcon svg path {
+  fill: #bdbdbd;
+}
+
+.listItemInput span span,
+.listItemInput span span span {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.listItemDropdown {
+  composes: listItemInput
+}
+
+.listItemDropdown span span span:first-child {
+  width: initial;
+}
+
+.listDivider {
+  margin-top: 1.8rem;
+}
