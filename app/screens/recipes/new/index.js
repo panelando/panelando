@@ -135,17 +135,24 @@ class New extends Component {
     this.setState({ data })
   })
 
+  submit = () => {
+    console.info(this.state.data)
+  }
+
   render () {
     return (
       <Panel scrollY>
         <section>
-          <AppBar>
+          <AppBar
+            rightIcon="send"
+            onRightIconClick={this.submit}
+          >
             <IconButton icon="arrow_back" inverse={true} onClick={this.props.router.goBack} />
             <span>Nova Receita</span>
           </AppBar>
 
           <Card>
-            <List>
+            <List ripple>
               <ListSubHeader caption="Informações da Receita" />
 
               <ListItem className={styles.listItemInput}>
