@@ -54,7 +54,7 @@ class New extends Component {
   }
 
   createIcon = icon => (
-    <IconButton className={styles.inputIcon} tabIndex="-100">{icon}</IconButton>
+    <IconButton className={styles.inputIcon} tabIndex="-1">{icon}</IconButton>
   )
 
   difficultyValues = [
@@ -64,6 +64,14 @@ class New extends Component {
     { value: 'hard', label: 'Difícil' },
     { value: 'very_hard', label: 'Muito Difícil' }
   ]
+
+  icons = {
+    difficulty: this.createIcon(<DifficultyIcon />),
+    ingredient: this.createIcon(<IngredientIcon />),
+    portion: this.createIcon(<PortionIcon />),
+    step: this.createIcon(<StepIcon />),
+    time: this.createIcon(<TimeIcon />),
+  }
 
   getClassForInput = input => {
     if (input === this.state.activeInput) {
@@ -128,17 +136,6 @@ class New extends Component {
   })
 
   render () {
-    const createIcon = icon =>
-      <IconButton className={styles.inputIcon} tabIndex="-1">{icon}</IconButton>
-
-    const icons = {
-      difficulty: createIcon(<DifficultyIcon />),
-      ingredient: createIcon(<IngredientIcon />),
-      portion: createIcon(<PortionIcon />),
-      step: createIcon(<StepIcon />),
-      time: createIcon(<TimeIcon />),
-    }
-
     return (
       <Panel scrollY>
         <section>
@@ -166,7 +163,7 @@ class New extends Component {
                 <Input
                   type="number" step="10" min="0" max="180"
                   className={this.getClassForInput('time')}
-                  icon={icons.time}
+                  icon={this.icons.time}
                   label="Tempo de preparo (minutos)"
                   value={this.state.data.time}
                   onChange={this.handleDataChange('time')}
@@ -176,7 +173,7 @@ class New extends Component {
               </ListItem>
 
               <ListItem className={styles.listItemDropdown}>
-                {icons.difficulty}
+                {this.icons.difficulty}
 
                 <Dropdown
                   auto={false}
@@ -192,7 +189,7 @@ class New extends Component {
                 <Input
                   type="number"
                   className={this.getClassForInput('portion')}
-                  icon={icons.portion}
+                  icon={this.icons.portion}
                   label="Número de porções"
                   value={this.state.data.portion}
                   onChange={this.handleDataChange('portion')}
