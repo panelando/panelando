@@ -7,6 +7,7 @@ import {
   AutoComplete,
   Button,
   Card,
+  Chip,
   Dropdown,
   IconButton,
   Input,
@@ -32,16 +33,29 @@ class New extends Component {
     super(props)
 
     this.state = {
-      title: '',
-      time: '',
-      portion: '',
-      difficulty: '',
-      ingredients: '',
-      steps: '',
-      tags: '',
-      activeInput: false
+      data: {
+        title: '',
+        time: '',
+        portion: '',
+        difficulty: '',
+        tags: [],
+        steps: [],
+        ingredients: []
+      },
+
+      inputs: {
+        tag: '',
+        step: '',
+        ingredient: '',
+      },
+
+      activeInput: null
     }
   }
+
+  createIcon = icon => (
+    <IconButton className={styles.inputIcon} tabIndex="-100">{icon}</IconButton>
+  )
 
   difficultyValues = [
     { value: 'very_easy', label: 'Muito Fácil' },
@@ -59,27 +73,59 @@ class New extends Component {
     return styles.input
   }
 
-  handleDifficultyChange = difficulty => {
-    this.setState({ difficulty })
+  handleDataChange = field => value => {
+    const data = R.merge(this.state.data, { [field]: value })
+
+    this.setState({ data })
   }
 
-  handleChange = field => value => {
-    this.setState({
-      [field]: value
-    })
+  handleInputChange = field => value => {
+    const inputs = R.merge(this.state.inputs, { [field]: value })
+
+    this.setState({ inputs })
   }
 
-  handleFocus = field => () => {
+  handleInputFocus = field => () => {
     this.setState({
       activeInput: field
     })
   }
 
-  handleBlur = field => () => {
+  handleInputBlur = field => () => {
     this.setState({
-      activeInput: false
+      activeInput: null
     })
   }
+
+  handleDifficultyChange = difficulty => {
+    const data = R.merge(this.state.data, { difficulty })
+
+    this.setState({ data })
+  }
+
+  addItemToData = R.curry((dataId, inputId, event) => {
+    if (event.keyCode !== 13) return
+
+    const item = event.target.value
+    const list = R.prop(dataId, this.state.data)
+    const input = R.prop(inputId, this.state.inputs)
+    const newList = R.append(item, list)
+
+    const data = R.merge(this.state.data, { [dataId]: newList })
+    const inputs = R.merge(this.state.inputs, { [inputId]: '' })
+
+    this.setState({ data, inputs })
+  })
+
+  removeItemFromData = R.curry((dataId, item) => {
+    const list = R.prop(dataId, this.state.data)
+    const index = R.findIndex(R.equals(item), list)
+    const newList = R.remove(index, 1, list)
+
+    const data = R.merge(this.state.data, { [dataId]: newList })
+
+    this.setState({ data })
+  })
 
   render () {
     const createIcon = icon =>
@@ -87,9 +133,9 @@ class New extends Component {
 
     const icons = {
       difficulty: createIcon(<DifficultyIcon />),
-      ingredients: createIcon(<IngredientIcon />),
+      ingredient: createIcon(<IngredientIcon />),
       portion: createIcon(<PortionIcon />),
-      steps: createIcon(<StepIcon />),
+      step: createIcon(<StepIcon />),
       time: createIcon(<TimeIcon />),
     }
 
@@ -111,8 +157,8 @@ class New extends Component {
                   className={styles.input}
                   icon="local_dining"
                   label="Nome da receita"
-                  value={this.state.title}
-                  onChange={this.handleChange('title')}
+                  value={this.state.data.title}
+                  onChange={this.handleDataChange('title')}
                 />
               </ListItem>
 
@@ -122,10 +168,10 @@ class New extends Component {
                   className={this.getClassForInput('time')}
                   icon={icons.time}
                   label="Tempo de preparo (minutos)"
-                  value={this.state.time}
-                  onChange={this.handleChange('time')}
-                  onFocus={this.handleFocus('time')}
-                  onBlur={this.handleBlur('time')}
+                  value={this.state.data.time}
+                  onChange={this.handleDataChange('time')}
+                  onFocus={this.handleInputFocus('time')}
+                  onBlur={this.handleInputBlur('time')}
                 />
               </ListItem>
 
@@ -138,19 +184,20 @@ class New extends Component {
                   label="Dificuldade"
                   onChange={this.handleDifficultyChange}
                   source={this.difficultyValues}
-                  value={this.state.difficulty}
+                  value={this.state.data.difficulty}
                 />
               </ListItem>
 
               <ListItem className={styles.listItemInput}>
                 <Input
+                  type="number"
                   className={this.getClassForInput('portion')}
                   icon={icons.portion}
                   label="Número de porções"
-                  value={this.state.portion}
-                  onChange={this.handleChange('portion')}
-                  onFocus={this.handleFocus('portion')}
-                  onBlur={this.handleBlur('portion')}
+                  value={this.state.data.portion}
+                  onChange={this.handleDataChange('portion')}
+                  onFocus={this.handleInputFocus('portion')}
+                  onBlur={this.handleInputBlur('portion')}
                 />
               </ListItem>
 
@@ -160,16 +207,33 @@ class New extends Component {
 
               <ListItem className={styles.listItemInput}>
                 <Input
-                  className={this.getClassForInput('ingredients')}
-                  icon={icons.ingredients}
-                  label="Nome e quantidade do ingrediente"
-                  multiline
-                  value={this.state.ingredients}
-                  onChange={this.handleChange('ingredients')}
-                  onFocus={this.handleFocus('ingredients')}
-                  onBlur={this.handleBlur('ingredients')}
+                  className={this.getClassForInput('ingredient')}
+                  icon={this.icons.ingredient}
+                  label="Ingrediente e quantidade"
+                  value={this.state.inputs.ingredient}
+                  onChange={this.handleInputChange('ingredient')}
+                  onFocus={this.handleInputFocus('ingredient')}
+                  onBlur={this.handleInputBlur('ingredient')}
+                  onKeyDown={this.addItemToData('ingredients', 'ingredient')}
                 />
               </ListItem>
+
+              <div>
+                {this.state.data.ingredients.length > 0 && (
+                  this.state.data.ingredients.map((ingredient, index) =>
+                    <ListItem
+                      caption={ingredient}
+                      className={styles.listItemIngredient}
+                      rightIcon="clear"
+                      key={`${ingredient}_${index}`}
+                      onClick={() => this.removeItemFromData('ingredients', ingredient)}
+                    >
+                      <IconButton><IngredientIcon /></IconButton>
+                    </ListItem>
+                  )
+                )}
+              </div>
+
 
               <ListDivider className={styles.listDivider} />
 
@@ -177,16 +241,32 @@ class New extends Component {
 
               <ListItem className={styles.listItemInput}>
                 <Input
-                  className={this.getClassForInput('steps')}
-                  icon={icons.steps}
+                  className={this.getClassForInput('step')}
+                  icon={this.icons.step}
                   label="Descrição do passo-a-passo"
-                  multiline
-                  value={this.state.steps}
-                  onChange={this.handleChange('steps')}
-                  onFocus={this.handleFocus('steps')}
-                  onBlur={this.handleBlur('steps')}
+                  value={this.state.inputs.step}
+                  onChange={this.handleInputChange('step')}
+                  onFocus={this.handleInputFocus('step')}
+                  onBlur={this.handleInputBlur('step')}
+                  onKeyDown={this.addItemToData('steps', 'step')}
                 />
               </ListItem>
+
+              <div>
+                {this.state.data.steps.length > 0 && (
+                  this.state.data.steps.map((step, index) =>
+                    <ListItem
+                      caption={step}
+                      className={styles.listItemStep}
+                      rightIcon="clear"
+                      key={`${step}_${index}`}
+                      onClick={() => this.removeItemFromData('steps', step)}
+                    >
+                      <strong>{index + 1}</strong>
+                    </ListItem>
+                  )
+                )}
+              </div>
 
               <ListDivider className={styles.listDivider} />
 
@@ -196,13 +276,36 @@ class New extends Component {
                 <Input
                   className={styles.input}
                   icon="label_outline"
-                  label="Nome da tag"
-                  multiline
-                  value={this.state.tags}
-                  onChange={this.handleChange('tag')}
+                  label="Tag"
+                  value={this.state.inputs.tag}
+                  onChange={this.handleInputChange('tag')}
+                  onKeyDown={this.addItemToData('tags', 'tag')}
                 />
               </ListItem>
 
+              <div>
+                {this.state.data.tags.length > 0 && (
+                  <ListItem className={styles.listItemTags} >
+                    {this.state.data.tags.map((tag, index) =>
+                      <Chip
+                        deletable
+                        key={`${tag}_${index}`}
+                        onDeleteClick={() => this.removeItemFromData('tags', tag)}
+                      >
+                        {tag}
+                      </Chip>
+                    )}
+                  </ListItem>
+                )}
+              </div>
+
+              <ListDivider className={styles.listDivider} />
+
+              <ListItem
+                caption="Publicar Receita"
+                leftIcon="send"
+                onClick={this.submit}
+              />
             </List>
           </Card>
         </section>

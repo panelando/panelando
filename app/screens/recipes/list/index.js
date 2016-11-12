@@ -128,7 +128,6 @@ class List extends Component {
             </Tab>
           </Tabs>
         </section>
-
       </Panel>
     )
   }
