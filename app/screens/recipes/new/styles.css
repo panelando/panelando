@@ -1,13 +1,32 @@
+.addPicture {
+  position: fixed;
+  display: flex;
+  right: 20px;
+  bottom: 20px;
+}
+
+.recipeImage {
+  margin-bottom: 1.8rem;
+}
+
 .input {
   width: 100%;
 }
 
+.fileInput {
+  display: none;
+}
+
 .activeInput {
-  composes: input
+  composes: input;
 }
 
 .activeInput .inputIcon svg path {
   fill: #303f9f;
+}
+
+.inputIcon svg path {
+  fill: #bdbdbd;
 }
 
 .dropdown {
@@ -24,9 +43,12 @@
   border-bottom: none;
 }
 
+.list {
+  padding: 0
+}
 
-.inputIcon svg path {
-  fill: #bdbdbd;
+.listDivider {
+  margin-top: 1.8rem;
 }
 
 .listItemInput span span,
@@ -37,7 +59,7 @@
 }
 
 .listItemDropdown {
-  composes: listItemInput
+  composes: listItemInput;
 }
 
 .listItemDropdown span span span:first-child {
@@ -54,9 +76,5 @@
 .listItemTags > span > span {
   flex-wrap: wrap-reverse;
   flex: initial;
-}
-
-.listDivider {
-  margin-top: 1.8rem;
 }
 

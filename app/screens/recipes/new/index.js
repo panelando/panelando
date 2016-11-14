@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
+import Promise from 'bluebird'
 import R from 'ramda'
 import { withRouter } from 'react-router'
+import { database, storage } from 'lib/firebase'
 
 import {
   AppBar,
   AutoComplete,
-  Button,
+  BrowseButton,
   Card,
+  CardMedia,
   Chip,
   Dropdown,
   IconButton,
@@ -34,13 +37,26 @@ class New extends Component {
 
     this.state = {
       data: {
-        title: '',
-        time: '',
-        portion: '',
-        difficulty: '',
-        tags: [],
-        steps: [],
-        ingredients: []
+        picture: null,
+        title: 'Pudim de Milho',
+        time: '30',
+        portion: '5',
+        difficulty: 'easy',
+        tags: [
+          'pudim',
+          'receita da vovó'
+        ],
+        steps: [
+          'Bata o milho e os outros ingredientes no liquidificador',
+          'Misture os ovos e mexa bem',
+          'Coloque no forno pré-aquecido a 180C'
+        ],
+        ingredients: [
+          '3 ovos',
+          '200 gramas de milho',
+          '1 colhere de sopa de fermento',
+          '4 xícaras de leite'
+        ]
       },
 
       inputs: {
@@ -48,6 +64,8 @@ class New extends Component {
         step: '',
         ingredient: '',
       },
+
+      recipeImagePreview: 'https://d13yacurqjgara.cloudfront.net/users/386433/screenshots/1689880/placehold.gif',
 
       activeInput: null
     }
@@ -135,24 +153,108 @@ class New extends Component {
     this.setState({ data })
   })
 
-  submit = () => {
-    console.info(this.state.data)
+  publish = () => {
+    const createRecipe = () => {
+      return database()
+        .ref('recipes')
+        .push(this.state.data)
+        .then(R.prop('key'))
+    }
+
+    const uploadPicture = (key) => {
+      return storage()
+        .ref('recipes')
+        .child(key)
+        .put(this.state.data.picture)
+        .then(R.always(key))
+    }
+
+    const getDownloadURL = (key) => {
+      return storage()
+        .ref('recipes')
+        .child(key)
+        .getDownloadURL()
+        .then(downloadURL => ({ downloadURL, key }))
+    }
+
+    const updateRecipeWithPicture = ({ key, downloadURL }) => {
+      return database()
+        .ref('recipes')
+        .child(key)
+        .set(R.merge(this.state.data, { image: downloadURL }))
+    }
+
+    return Promise.resolve()
+      .then(createRecipe)
+      .then(uploadPicture)
+      .then(getDownloadURL)
+      .then(updateRecipeWithPicture)
+      .then(console.info)
+  }
+
+  handleFileInput = () => {
+    const { fileInput } = this.refs
+
+    fileInput.click()
+  }
+
+  displayImagePreview = file => {
+    const fileReader = new FileReader()
+
+    fileReader.readAsDataURL(file)
+
+    fileReader.addEventListener('load', event => {
+      const recipeImagePreview = event.target.result
+
+      this.setState({ recipeImagePreview })
+    })
+  }
+
+  handlePhotoChange = event => {
+    const target = event.target
+    const picture = target.files[0]
+
+    if (picture) {
+      const data = R.merge(this.state.data, { picture })
+
+      this.displayImagePreview(picture)
+
+      this.setState({ data })
+    }
   }
 
   render () {
     return (
       <Panel scrollY>
+        <input
+          type="file"
+          ref="fileInput"
+          className={styles.fileInput}
+          onChange={this.handlePhotoChange}
+        />
+
         <section>
           <AppBar
             rightIcon="send"
-            onRightIconClick={this.submit}
+            onRightIconClick={this.publish}
           >
             <IconButton icon="arrow_back" inverse={true} onClick={this.props.router.goBack} />
             <span>Nova Receita</span>
           </AppBar>
 
           <Card>
-            <List ripple>
+            <List
+              className={styles.list}
+              ripple
+            >
+              <CardMedia
+                aspectRatio="wide"
+                className={styles.recipeImage}
+                image={this.state.recipeImagePreview}
+                onClick={this.handleFileInput}
+              >
+              </CardMedia>
+
               <ListSubHeader caption="Informações da Receita" />
 
               <ListItem className={styles.listItemInput}>
@@ -308,10 +410,18 @@ class New extends Component {
               <ListItem
                 caption="Publicar Receita"
                 leftIcon="send"
-                onClick={this.submit}
+                onClick={this.publish}
               />
             </List>
           </Card>
+
+          <BrowseButton
+            className={styles.addPicture}
+            onChange={this.handlePhotoChange}
+            icon="add_a_photo"
+            accent
+            floating
+          />
         </section>
       </Panel>
     )
