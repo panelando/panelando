@@ -30,20 +30,54 @@ import {
   TimeIcon
 } from 'components/icons'
 
+import { MenuDialog } from 'components'
+
 import styles from './styles'
 
 class Show extends Component {
   state = {
-    comment: ''
+    comment: '',
+
+    dialog: {
+      active: false,
+      recipeId: null
+    }
   }
 
-  trim = (str, quantity = 30) => str.substring(0, quantity)
+  trim = (str, quantity = 30) => {
+    return str.substring(0, quantity)
+  }
 
-  handleCommentChange = comment => this.setState({ comment })
+  handleCommentChange = comment => {
+    this.setState({ comment })
+  }
+
+  handleDialogToggle = () => {
+    this.setState({
+      dialog: {
+        active: !this.state.dialog.active
+      }
+    })
+  }
+
+  addRecipeToMenu = id => {
+    this.setState({
+      dialog: {
+        active: true,
+        recipeId: id
+      }
+    })
+  }
 
   render () {
       return (
         <Panel scrollY>
+          <MenuDialog
+            active={this.state.dialog.active}
+            recipeId={this.state.dialog.recipeId}
+            onDialogToggle={this.handleDialogToggle}
+          />
+
           <section>
             <AppBar>
               <IconButton icon="arrow_back" inverse={true} onClick={this.props.router.goBack} />
@@ -87,7 +121,9 @@ class Show extends Component {
             <CardActions
               style={{ borderBottom: '1px solid #f5f5f5' }}
             >
-                <IconButton icon="favorite" onClick={this.favorite} />
+                <IconButton icon="bookmark_border" onClick={() => this.addRecipeToMenu(this.props.params.id)} />
+
+                <IconButton icon="favorite_border" onClick={this.favorite} />
                 <span>42</span>
               </CardActions>
 

@@ -1,0 +1,10 @@
+.input {
+  width: 100%;
+}
+
+.listItem span span,
+.listItem span span span {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+}

@@ -340,7 +340,6 @@ class New extends Component {
                 )}
               </div>
 
-
               <ListDivider className={styles.listDivider} />
 
               <ListSubHeader caption="Modo de Preparo" />

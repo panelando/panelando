@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index'
 import { signOut, redirect } from 'lib/auth'
+import { MenuDialog } from 'components'
 
 import {
   AppBar,
@@ -30,11 +31,14 @@ import {
 import styles from './styles'
 
 class List extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
+  state = {
+    tabs: {
       tabIndex: 0
+    },
+
+    dialog: {
+      active: false,
+      recipeId: null
     }
   }
 
@@ -43,20 +47,49 @@ class List extends Component {
   }
 
   handleTabChange = tabIndex => {
-    this.setState({ tabIndex })
+    this.setState({
+      tabs: { tabIndex }
+    })
   }
 
-  seeRecipe = id => () => {
+  handleDialogToggle = () => {
+    this.setState({
+      dialog: {
+        active: !this.state.dialog.active
+      }
+    })
+  }
+
+  seeRecipe = id => {
     redirect(`/${id}`)
   }
 
-  addRecipe = () => {
+  addRecipeToMenu = id => {
+    this.setState({
+      dialog: {
+        active: true,
+        recipeId: id
+      }
+    })
+  }
+
+  favoriteRecipe = id => {
+    // TODO: save this to firebase
+  }
+
+  newRecipe = () => {
     redirect('/new')
   }
 
   render () {
     return (
       <Panel scrollY>
+        <MenuDialog
+          active={this.state.dialog.active}
+          recipeId={this.state.dialog.recipeId}
+          onDialogToggle={this.handleDialogToggle}
+        />
+
         <section>
           <AppBar>
             <IconButton icon="menu" inverse={true} onClick={this.props.onToggleDrawer} />
@@ -67,22 +100,21 @@ class List extends Component {
                 <MenuItem value="signout" icon="exit_to_app" caption="Sign out" onClick={this.handleSignOut} />
               </IconMenu>
             </div>
-
           </AppBar>
 
-          <Tabs index={this.state.tabIndex} onChange={this.handleTabChange} fixed inverse>
+          <Tabs index={this.state.tabs.tabIndex} onChange={this.handleTabChange} fixed inverse>
             <Tab label="Descobrir">
               {[...Array(10)].map((x, recipeId) => (
                 <Card className={styles.recipe} key={recipeId}>
                   <CardMedia
                     aspectRatio="wide"
                     image="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d8108430269011.561bad832d25f.jpg"
-                    onClick={this.seeRecipe(recipeId)}
+                    onClick={() => this.seeRecipe(recipeId)}
                   />
 
                   <CardTitle
                     title="Whiskey Glazed Flat Iron Steaks and Grilled Potatoes"
-                    onClick={this.seeRecipe(recipeId)}
+                    onClick={() => this.seeRecipe(recipeId)}
                   />
 
                   <CardText className={styles.recipeInfo}>
@@ -110,13 +142,15 @@ class List extends Component {
                   />
 
                   <CardActions>
-                    <IconButton icon="favorite" />
+                    <IconButton icon="bookmark_border" onClick={() => this.addRecipeToMenu(recipeId)}/>
+
+                    <IconButton icon="favorite_border" onClick={() => this.favoriteRecipe(recipeId)}/>
                     <span>42</span>
                   </CardActions>
                 </Card>
               ))}
 
-              <Button icon="add" floating accent className={styles.addButton} onClick={this.addRecipe} />
+              <Button icon="add" floating accent className={styles.addButton} onClick={this.newRecipe} />
             </Tab>
 
             <Tab label="Populares">
