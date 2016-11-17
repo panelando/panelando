@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Promise from 'bluebird'
 import R from 'ramda'
 import { withRouter } from 'react-router'
-import { database, storage } from 'lib/firebase'
+import { database, storage, normalize } from 'lib/firebase'
 
 import {
   AppBar,
@@ -29,6 +29,8 @@ import {
   TimeIcon
 } from 'components/icons'
 
+import { DropdownItem } from 'components'
+
 import styles from './styles'
 
 class New extends Component {
@@ -42,6 +44,7 @@ class New extends Component {
         time: '30',
         portion: '5',
         difficulty: 'easy',
+        category: 'glutenfree',
         tags: [
           'pudim',
           'receita da vovó'
@@ -63,6 +66,7 @@ class New extends Component {
         tag: '',
         step: '',
         ingredient: '',
+        categories: []
       },
 
       recipeImagePreview: 'https://d13yacurqjgara.cloudfront.net/users/386433/screenshots/1689880/placehold.gif',
@@ -107,7 +111,6 @@ class New extends Component {
 
   handleInputChange = field => value => {
     const inputs = R.merge(this.state.inputs, { [field]: value })
-
     this.setState({ inputs })
   }
 
@@ -189,7 +192,6 @@ class New extends Component {
       .then(uploadPicture)
       .then(getDownloadURL)
       .then(updateRecipeWithPicture)
-      .then(console.info)
   }
 
   handleFileInput = () => {
@@ -221,6 +223,24 @@ class New extends Component {
 
       this.setState({ data })
     }
+  }
+
+  handleCategoryChange = category => {
+    this.setState({
+      data: R.merge(this.state.data, { category })
+    })
+  }
+
+  componentDidMount () {
+    database()
+      .ref('categories')
+      .once('value')
+      .then(snapshot => snapshot.val())
+      .then(normalize)
+      .then(values => this.setState({
+        inputs: R.merge(this.state.inputs, { categories: values })
+      }))
+      .then(() => console.info(this.state.inputs))
   }
 
   render () {
@@ -304,6 +324,21 @@ class New extends Component {
                   onChange={this.handleDataChange('portion')}
                   onFocus={this.handleInputFocus('portion')}
                   onBlur={this.handleInputBlur('portion')}
+                />
+              </ListItem>
+
+              <ListDivider className={styles.listDivider} />
+
+              <ListSubHeader caption="Categoria da Receita" />
+
+              <ListItem className={styles.listItemInput}>
+                <Dropdown
+                  className={styles.input}
+                  source={this.state.inputs.categories}
+                  onChange={this.handleCategoryChange}
+                  label="Selecionar categoria"
+                  template={DropdownItem}
+                  value={this.state.data.category}
                 />
               </ListItem>
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { DropdownItem } from 'components'
 
 import {
   Dialog,
@@ -47,38 +48,6 @@ class MenuDialog extends Component {
     { label: 'Salvar', onClick: this.save }
   ]
 
-  dropdownItemTemplate (item) {
-    const containerStyle = {
-      display: 'flex',
-      flexDirection: 'row'
-    };
-
-    const imageStyle = {
-      display: 'flex',
-      width: '32px',
-      height: '32px',
-      flexGrow: 0,
-      marginRight: '8px',
-      backgroundColor: '#ccc'
-    };
-
-    const contentStyle = {
-      display: 'flex',
-      flexDirection: 'column',
-      flexGrow: 2
-    };
-
-    return (
-      <div style={containerStyle}>
-        <img src={item.img} style={imageStyle} />
-        <div style={contentStyle}>
-          <strong>{item.name}</strong>
-          <small>10 receitas</small>
-        </div>
-      </div>
-    );
-  }
-
   render () {
     return (
       <Dialog
@@ -113,7 +82,7 @@ class MenuDialog extends Component {
                   source={this.state.menus}
                   onChange={this.handleDropdownChange}
                   label="Selecionar menu"
-                  template={this.dropdownItemTemplate}
+                  template={DropdownItem}
                   value={this.state.selected}
                 />
               </ListItem>

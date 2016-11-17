@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.image {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  flex-grow: 0;
+  margin-right: 8px;
+  background-color: #ccc;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+}
+
