@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Promise from 'bluebird'
 import R from 'ramda'
 import { withRouter } from 'react-router'
-import { database, storage, normalize } from 'lib/firebase'
+import { auth, database, storage, normalize } from 'lib/firebase'
 
 import {
   AppBar,
@@ -232,15 +232,28 @@ class New extends Component {
   }
 
   componentDidMount () {
-    database()
-      .ref('categories')
-      .once('value')
-      .then(snapshot => snapshot.val())
-      .then(normalize)
-      .then(values => this.setState({
-        inputs: R.merge(this.state.inputs, { categories: values })
-      }))
-      .then(() => console.info(this.state.inputs))
+    const getUsers = () => {
+      return Promise.resolve()
+        .then(() => auth().currentUser)
+        .then(R.pick(['uid', 'displayName', 'photoURL']))
+        .then(user => this.setState({
+          data: R.merge(this.state.data, { user })
+        }))
+    }
+
+    const getCategories = () => {
+      return database()
+        .ref('categories')
+        .once('value')
+        .then(snapshot => snapshot.val())
+        .then(normalize)
+        .then(categories => this.setState({
+          inputs: R.merge(this.state.inputs, { categories })
+        }))
+    }
+
+    Promise.all([getUsers(), getCategories()])
+      .catch(err => console.log(err))
   }
 
   render () {
