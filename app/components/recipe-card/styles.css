@@ -1,0 +1,12 @@
+.container {
+  margin-bottom: 30px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.favorite {
+  color: #ff0000 !important;
+}
