@@ -145,7 +145,6 @@ class List extends Component {
       .then(snapshot => snapshot.val())
       .then(normalize)
       .then(recipes => this.setState({ recipes }))
-      .then(console.info)
   }
 
   render () {
@@ -182,6 +181,7 @@ class List extends Component {
                   onSeeDetails={this.seeRecipe}
                   onFavorite={this.favoriteRecipe}
                   onUnfavorite={this.unfavoriteRecipe}
+                  onBookmark={() => this.addRecipeToMenu(recipe.id)}
                 />
               ))}
 
