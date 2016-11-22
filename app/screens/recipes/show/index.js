@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import R from 'ramda'
 import { withRouter } from 'react-router'
-import { Grid, Row, Col } from 'react-flexbox-grid/lib/index'
+import { auth, database, normalize } from 'lib/firebase'
 
 import {
   AppBar,
@@ -38,6 +39,15 @@ class Show extends Component {
   state = {
     comment: '',
 
+    recipe: {
+      title: '',
+      ingredients: [],
+      comments: [],
+      steps: [],
+      tags: [],
+      user: {}
+    },
+
     dialog: {
       active: false,
       recipeId: null
@@ -50,6 +60,35 @@ class Show extends Component {
 
   handleCommentChange = comment => {
     this.setState({ comment })
+  }
+
+  submitComment = () => {
+    const id = this.props.params.id
+    const user = auth().currentUser
+
+    const text = this.state.comment
+    const { displayName, photoURL } = user
+
+    const reference = database().ref(`recipes/${id}/comments`)
+
+    reference
+      .once('value')
+      .then(R.invoker(0, 'val'))
+      .then(R.defaultTo([]))
+      .then(R.append({
+        text,
+        displayName,
+        photoURL
+      }))
+      .then(comments => {
+        const recipe = R.merge(this.state.recipe, { comments })
+
+        reference.set(comments)
+        this.setState({ recipe })
+        this.setState({ comment: '' })
+      })
+
+
   }
 
   handleDialogToggle = () => {
@@ -69,6 +108,69 @@ class Show extends Component {
     })
   }
 
+  canFavoriteRecipe = id => {
+    const uid = auth().currentUser.uid
+    const recipe = this.state.recipe
+    const getLikes = R.compose(R.defaultTo([]), R.prop('likes'))
+    const likes = getLikes(recipe)
+
+    return R.not(R.contains(uid, likes))
+  }
+
+  favoriteRecipe = id => {
+    const uid = auth().currentUser.uid
+    const reference = database().ref(`recipes/${id}/likes`)
+
+    reference
+      .once('value')
+      .then(R.invoker(0, 'val'))
+      .then(R.defaultTo([]))
+      .then(R.cond([
+        [R.contains(uid), R.identity],
+        [R.T, R.append(uid)]
+      ]))
+      .then(likes => {
+        const recipe = R.merge(this.state.recipe, { likes })
+
+        reference.set(likes)
+        this.setState({ recipe })
+      })
+  }
+
+  unfavoriteRecipe = id => {
+    const reference = database().ref(`recipes/${id}/likes`)
+    const uid = auth().currentUser.uid
+
+    reference
+      .once('value')
+      .then(R.invoker(0, 'val'))
+      .then(R.defaultTo([]))
+      .then(uids => R.cond([
+          [R.contains(uid), R.remove(R.indexOf(uid, uids), 1)],
+          [R.T, R.identity]
+        ])(uids)
+      )
+      .then(likes => {
+        const recipe = R.merge(this.state.recipe, { likes })
+
+        reference.set(likes)
+        this.setState({ recipe })
+      })
+  }
+
+
+  componentDidMount () {
+    const id = this.props.params.id
+
+    database()
+      .ref('recipes')
+      .child(id)
+      .once('value')
+      .then(R.invoker(0, 'val'))
+      .then(R.merge({ comments: [], likes: []}))
+      .then(recipe => this.setState({ recipe }))
+  }
+
   render () {
       return (
         <Panel scrollY>
@@ -81,119 +183,98 @@ class Show extends Component {
           <section>
             <AppBar>
               <IconButton icon="arrow_back" inverse={true} onClick={this.props.router.goBack} />
-              <span>{this.trim("Whiskey Glazed Flat Iron Steaks and Grilled Potatoes")}</span>
+              <span>{this.trim(this.state.recipe.title)}</span>
             </AppBar>
 
             <Card>
               <CardMedia
                 aspectRatio="wide"
-                image="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d8108430269011.561bad832d25f.jpg"
+                image={this.state.recipe.image}
               />
 
               <CardTitle
-                title="Whiskey Glazed Flat Iron Steaks and Grilled Potatoes"
+                title={this.state.recipe.title}
               />
 
               <CardText className={styles.recipeInfo}>
                 <div>
                   <IconButton><TimeIcon /></IconButton>
-                  <span>60 min</span>
+                  <span>{this.state.recipe.time} min</span>
                 </div>
 
                 <div>
                   <IconButton><PortionIcon /></IconButton>
-                  <span>3 porções</span>
+                  <span>{this.state.recipe.portion} porções</span>
                 </div>
 
                 <div>
                   <IconButton><DifficultyIcon /></IconButton>
-                  <span>Muito Difícil</span>
+                  <span>{this.state.recipe.difficulty}</span>
                 </div>
               </CardText>
 
               <CardTitle
-                avatar="https://avatars2.githubusercontent.com/u/7416751?v=3&s=466"
-                title="Guilherme Coelho"
+                avatar={this.state.recipe.user.photoURL}
+                title={this.state.recipe.user.displayName}
                 subtitle="Food artisan and disruptive entrepreneur"
                 style={{ borderTop: '1px solid #f5f5f5', borderBottom: '1px solid #f5f5f5' }}
               />
 
-            <CardActions
-              style={{ borderBottom: '1px solid #f5f5f5' }}
-            >
+              <CardActions style={{ borderBottom: '1px solid #f5f5f5' }}>
                 <IconButton icon="bookmark_border" onClick={() => this.addRecipeToMenu(this.props.params.id)} />
 
-                <IconButton icon="favorite_border" onClick={this.favorite} />
-                <span>42</span>
+                {this.canFavoriteRecipe(this.props.params.id) ? (
+                  <IconButton className={styles.favorite} icon="favorite_border" onClick={() => this.favoriteRecipe(this.props.params.id)}/>
+                ) : (
+                  <IconButton className={styles.favorite} icon="favorite" onClick={() => this.unfavoriteRecipe(this.props.params.id)}/>
+                )}
+
+                <span>{this.state.recipe.likes ? this.state.recipe.likes.length : 0}</span>
               </CardActions>
 
               <List selectable ripple>
                 <ListSubHeader caption="Ingredientes" />
 
-                <ListItem caption="200g de farinha de trigo">
-                  <IconButton><IngredientIcon /></IconButton>
-                </ListItem>
-
-                <ListItem caption="2 xícaras de leite">
-                  <IconButton><IngredientIcon /></IconButton>
-                </ListItem>
-
-                <ListItem caption="3 ovos">
-                  <IconButton><IngredientIcon /></IconButton>
-                </ListItem>
+                {this.state.recipe.ingredients.map((ingredient, index) => (
+                  <ListItem caption={ingredient} key={`${ingredient}${index}`}>
+                    <IconButton><IngredientIcon /></IconButton>
+                  </ListItem>
+                ))}
 
                 <ListDivider />
 
                 <ListSubHeader caption="Modo de Preparo" />
 
-                <ListItem className={styles.step} caption="Bata os ovos até formar clara em neve">
-                  <IconButton><StepIcon /></IconButton>
-                </ListItem>
-
-                <ListItem className={styles.step} caption="Misture no liquidificador o leite">
-                  <IconButton><StepIcon /></IconButton>
-                </ListItem>
-
-                <ListItem className={styles.step} caption="Junte a farinha com tudo e misture bem">
-                  <IconButton><StepIcon /></IconButton>
-                </ListItem>
-
-                <ListItem className={styles.step} caption="Leve ao forno 180ºC por 60 minutos asd asd asd asd asd asd asd ads ">
-                  <IconButton><StepIcon /></IconButton>
-                </ListItem>
+                {this.state.recipe.steps.map((step, index) => (
+                  <ListItem className={styles.step} caption={step} key={`${step}${index}`}>
+                    <IconButton><StepIcon /></IconButton>
+                  </ListItem>
+                ))}
 
                 <ListDivider />
 
                 <ListSubHeader caption="Tags" />
 
                 <ListItem className={styles.tags}>
-                  <Chip>vegan</Chip>
-                  <Chip>glutenfree</Chip>
-                  <Chip>comida árabe</Chip>
-                  <Chip>sugarfree</Chip>
-                  <Chip></Chip>
-                  <Chip>comida árabe</Chip>
+                  {this.state.recipe.tags.map((tag, index) => (
+                    <Chip key={`${tag}${index}`}>{tag}</Chip>
+                  ))}
                 </ListItem>
 
                 <ListDivider />
 
                 <ListSubHeader caption="Comentários" />
 
-                <ListItem
-                  className={styles.comment}
-                  avatar="https://dl.dropboxusercontent.com/u/2247264/assets/m.jpg"
-                  caption="Dr. Manhattan"
-                  legend="I like this recipe very much. I'm gonna use it on my Mars Birthday. But there's no such a thing as coconut oil on planets, unless of course your planet is called Earth in which yes, you can find it hanging on shelves."
-                  rightIcon="reply"
-                />
-
-                <ListItem
-                  className={styles.comment}
-                  avatar="https://dl.dropboxusercontent.com/u/2247264/assets/o.jpg"
-                  caption="Ozymandias"
-                  legend="Can I use codorna eggs?"
-                  rightIcon="reply"
-                />
+                {this.state.recipe.comments.map((comment, index) => (
+                  <ListItem
+                    className={styles.comment}
+                    key={`${comment}${index}`}
+                    avatar={comment.photoURL}
+                    caption={comment.displayName}
+                    legend={comment.text}
+                    rightIcon="reply"
+                  />
+                ))}
 
                 <ListSubHeader caption="Adicionar Comentário" />
 
@@ -206,7 +287,14 @@ class Show extends Component {
                     <Input className={styles.commentInput} multiline label="Adicionar Comentário" value={this.state.comment} onChange={this.handleCommentChange} />
                   </div>
 
-                  <Button type="submit" className={styles.commentButton} icon="send" label="Enviar" primary />
+                  <Button
+                    type="submit"
+                    className={styles.commentButton}
+                    icon="send"
+                    label="Enviar"
+                    primary
+                    onClick={this.submitComment}
+                  />
                 </form>
               </List>
             </Card>

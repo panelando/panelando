@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import R from 'ramda'
+import { auth, database, normalize } from 'lib/firebase'
 import { DropdownItem } from 'components'
 
 import {
@@ -15,19 +17,9 @@ import styles from './styles'
 
 class MenuDialog extends Component {
   state = {
-    selectedMenu: 0,
+    selectedMenu: null,
     newMenu: '',
-    menus: [{
-      value: 1,
-      name: 'Receitas de verão',
-      img: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d8108430269011.561bad832d25f.jpg',
-      recipes: [1, 2]
-    }, {
-      value: 2,
-      name: 'Receitas para fazer com crianças',
-      img: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/7058fc30269011.561bad832e69f.jpg',
-      recipes: [1, 2, 3, 4]
-    }]
+    menus: []
   }
 
   handleNewChange = value => {
@@ -35,18 +27,68 @@ class MenuDialog extends Component {
   }
 
   handleDropdownChange = value => {
-    this.setState({ selected: value })
+    this.setState({ selectedMenu: value })
   }
 
   save = () => {
-    console.info(this.props)
-    console.info(this.state)
+    const uid = auth().currentUser.uid
+    const ref = database().ref(`menus/${uid}`)
+
+    const name = this.state.newMenu ? this.state.newMenu : this.state.selectedMenu
+    const recipeId = this.props.recipeId
+
+    if (!name) return
+
+    return ref.once('value')
+      .then(R.invoker(0, 'val'))
+      .then(R.defaultTo([]))
+      .then(menus => {
+        let index = R.findIndex(R.propEq('name', name), menus)
+        let menu = R.find(R.propEq('name', name), menus)
+
+        if (menu) {
+          let recipes = R.append(recipeId, R.prop('recipes', menu))
+          let newMenus = R.assoc('recipes', recipes, menu)
+          return R.update(index, newMenus, menus)
+        }
+
+        return R.append({
+          name: name,
+          recipes: [recipeId]
+        }, menus)
+      })
+      .then(menus => {
+        this.props.onDialogToggle()
+        return ref.set(menus)
+      })
+      .then(() => {
+        this.setState({ selectedMenu: null, newMenu: '' })
+      })
   }
 
   actions = [
     { label: 'Cancelar', onClick: this.props.onDialogToggle },
     { label: 'Salvar', onClick: this.save }
   ]
+
+  componentDidMount () {
+    const uid = auth().currentUser.uid
+    const ref = database().ref(`menus/${uid}`)
+
+    ref.once('value')
+      .then(R.invoker(0, 'val'))
+      .then(R.defaultTo([]))
+      .then(R.map(menu => {
+        const length = R.length(R.prop('recipes', menu))
+        const description = `${length} ${length > 1 ? 'receitas' : 'receita'}`
+
+        return R.assoc('description', description, menu)
+      }))
+      .then(R.map(menu => R.assoc('value', R.prop('name', menu), menu)))
+      .then(menus => {
+        this.setState({ menus })
+      })
+  }
 
   render () {
     return (
@@ -83,7 +125,7 @@ class MenuDialog extends Component {
                   onChange={this.handleDropdownChange}
                   label="Selecionar menu"
                   template={DropdownItem}
-                  value={this.state.selected}
+                  value={this.state.selectedMenu}
                 />
               </ListItem>
             </div>

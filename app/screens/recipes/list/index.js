@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import R from 'ramda'
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index'
 import { signOut, redirect } from 'lib/auth'
+import { database, normalize, auth } from 'lib/firebase'
 import { MenuDialog } from 'components'
 
 import {
@@ -28,6 +30,8 @@ import {
   TimeIcon
 } from 'components/icons'
 
+import { RecipeCard } from 'components'
+
 import styles from './styles'
 
 class List extends Component {
@@ -39,7 +43,11 @@ class List extends Component {
     dialog: {
       active: false,
       recipeId: null
-    }
+    },
+
+    recipes: [],
+    popularRecipes: [],
+    favoriteRecipes: []
   }
 
   handleSignOut = () => {
@@ -73,12 +81,93 @@ class List extends Component {
     })
   }
 
+  canFavoriteRecipe = id => {
+    const uid = auth().currentUser.uid
+    const recipe = R.find(R.propEq('id', id), this.state.recipes)
+    const getLikes = R.compose(R.defaultTo([]), R.prop('likes'))
+    const likes = getLikes(recipe)
+
+    return R.not(R.contains(uid, likes))
+  }
+
   favoriteRecipe = id => {
-    // TODO: save this to firebase
+    const reference = database().ref(`recipes/${id}/likes`)
+    const recipeIndex = R.findIndex(R.propEq('id', id), this.state.recipes)
+    const uid = auth().currentUser.uid
+
+    reference
+      .once('value')
+      .then(R.invoker(0, 'val'))
+      .then(R.defaultTo([]))
+      .then(R.cond([
+        [R.contains(uid), R.identity],
+        [R.T, R.append(uid)]
+      ]))
+      .then(likes => {
+        const recipe = R.merge(R.nth(recipeIndex, this.state.recipes), { likes })
+        const recipes = R.update(recipeIndex, recipe, this.state.recipes)
+
+        reference.set(likes)
+        this.setState({ recipes })
+
+      })
+  }
+
+  unfavoriteRecipe = id => {
+    const reference = database().ref(`recipes/${id}/likes`)
+    const recipeIndex = R.findIndex(R.propEq('id', id), this.state.recipes)
+    const uid = auth().currentUser.uid
+
+    reference
+      .once('value')
+      .then(R.invoker(0, 'val'))
+      .then(R.defaultTo([]))
+      .then(uids => R.cond([
+          [R.contains(uid), R.remove(R.indexOf(uid, uids), 1)],
+          [R.T, R.identity]
+        ])(uids)
+      )
+      .then(likes => {
+        const recipe = R.merge(R.nth(recipeIndex, this.state.recipes), { likes })
+        const recipes = R.update(recipeIndex, recipe, this.state.recipes)
+
+        reference.set(likes)
+        this.setState({ recipes })
+      })
   }
 
   newRecipe = () => {
     redirect('/new')
+  }
+
+  getPopularRecipes = R.compose(
+    R.reverse,
+    R.sortBy(
+      R.compose(
+        R.length,
+        R.defaultTo([]),
+        R.prop('likes')
+      )
+    )
+  )
+
+  getFavoriteRecipes = recipes => {
+    const uid = auth().currentUser.uid
+
+    return R.filter(
+      R.compose(R.contains(uid), R.defaultTo([]), R.prop('likes'))
+    )(recipes)
+  }
+
+  componentDidMount () {
+    const uid = auth().currentUser.uid
+
+    database()
+      .ref('recipes')
+      .once('value')
+      .then(snapshot => snapshot.val())
+      .then(normalize)
+      .then(recipes => this.setState({ recipes }))
   }
 
   render () {
@@ -88,6 +177,9 @@ class List extends Component {
           active={this.state.dialog.active}
           recipeId={this.state.dialog.recipeId}
           onDialogToggle={this.handleDialogToggle}
+          onBookmark={this.bookmarkRecipe}
+          onFavorite={this.favoriteRecipe}
+          onUnfavorite={this.unFavoriteRecipe}
         />
 
         <section>
@@ -104,61 +196,51 @@ class List extends Component {
 
           <Tabs index={this.state.tabs.tabIndex} onChange={this.handleTabChange} fixed inverse>
             <Tab label="Descobrir">
-              {[...Array(10)].map((x, recipeId) => (
-                <Card className={styles.recipe} key={recipeId}>
-                  <CardMedia
-                    aspectRatio="wide"
-                    image="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d8108430269011.561bad832d25f.jpg"
-                    onClick={() => this.seeRecipe(recipeId)}
-                  />
-
-                  <CardTitle
-                    title="Whiskey Glazed Flat Iron Steaks and Grilled Potatoes"
-                    onClick={() => this.seeRecipe(recipeId)}
-                  />
-
-                  <CardText className={styles.recipeInfo}>
-                    <div>
-                      <IconButton><TimeIcon /></IconButton>
-                      <span>60 min</span>
-                    </div>
-
-                    <div>
-                      <IconButton><PortionIcon /></IconButton>
-                      <span>3 porções</span>
-                    </div>
-
-                    <div>
-                      <IconButton><DifficultyIcon /></IconButton>
-                      <span>Muito Difícil</span>
-                    </div>
-                  </CardText>
-
-                  <CardTitle
-                    avatar="https://avatars2.githubusercontent.com/u/7416751?v=3&s=466"
-                    title="Guilherme Coelho"
-                    subtitle="Food artisan and disruptive entrepreneur"
-                    style={{ borderTop: '1px solid #f5f5f5', borderBottom: '1px solid #f5f5f5' }}
-                  />
-
-                  <CardActions>
-                    <IconButton icon="bookmark_border" onClick={() => this.addRecipeToMenu(recipeId)}/>
-
-                    <IconButton icon="favorite_border" onClick={() => this.favoriteRecipe(recipeId)}/>
-                    <span>42</span>
-                  </CardActions>
-                </Card>
+              {this.state.recipes.map(recipe => (
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  canFavorite={this.canFavoriteRecipe(recipe.id)}
+                  onSeeDetails={this.seeRecipe}
+                  onFavorite={this.favoriteRecipe}
+                  onUnfavorite={this.unfavoriteRecipe}
+                  onBookmark={() => this.addRecipeToMenu(recipe.id)}
+                />
               ))}
 
               <Button icon="add" floating accent className={styles.addButton} onClick={this.newRecipe} />
             </Tab>
 
             <Tab label="Populares">
-              <small>Populares</small>
+              {this.getPopularRecipes(this.state.recipes).map(recipe => (
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  canFavorite={this.canFavoriteRecipe(recipe.id)}
+                  onSeeDetails={this.seeRecipe}
+                  onFavorite={this.favoriteRecipe}
+                  onUnfavorite={this.unfavoriteRecipe}
+                  onBookmark={() => this.addRecipeToMenu(recipe.id)}
+                />
+              ))}
+
+              <Button icon="add" floating accent className={styles.addButton} onClick={this.newRecipe} />
             </Tab>
 
-            <Tab label="Novidades">
-              <small>Novidades</small>
+            <Tab label="Favoritos">
+              {this.getFavoriteRecipes(this.state.recipes).map(recipe => (
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  canFavorite={this.canFavoriteRecipe(recipe.id)}
+                  onSeeDetails={this.seeRecipe}
+                  onFavorite={this.favoriteRecipe}
+                  onUnfavorite={this.unfavoriteRecipe}
+                  onBookmark={() => this.addRecipeToMenu(recipe.id)}
+                />
+              ))}
+
+              <Button icon="add" floating accent className={styles.addButton} onClick={this.newRecipe} />
             </Tab>
           </Tabs>
         </section>
