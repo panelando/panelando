@@ -45,7 +45,9 @@ class List extends Component {
       recipeId: null
     },
 
-    recipes: []
+    recipes: [],
+    popularRecipes: [],
+    favoriteRecipes: []
   }
 
   handleSignOut = () => {
@@ -130,7 +132,7 @@ class List extends Component {
         const recipes = R.update(recipeIndex, recipe, this.state.recipes)
 
         reference.set(likes)
-        this.setState({ recipes: recipes })
+        this.setState({ recipes })
       })
   }
 
@@ -138,13 +140,38 @@ class List extends Component {
     redirect('/new')
   }
 
+  getPopularRecipes = R.compose(
+    R.reverse,
+    R.sortBy(
+      R.compose(
+        R.length,
+        R.defaultTo([]),
+        R.prop('likes')
+      )
+    )
+  )
+
+  getFavoriteRecipes = recipes => {
+    const uid = auth().currentUser.uid
+
+    return R.filter(
+      R.compose(R.contains(uid), R.defaultTo([]), R.prop('likes'))
+    )(recipes)
+  }
+
   componentDidMount () {
+    const uid = auth().currentUser.uid
+
     database()
       .ref('recipes')
       .once('value')
       .then(snapshot => snapshot.val())
       .then(normalize)
-      .then(recipes => this.setState({ recipes }))
+      .then(R.tap(
+        recipes => this.setState({ recipes })
+      ))
+      .then(R.map(R.path(['likes', 'length'])))
+      .then(console.info)
   }
 
   render () {
@@ -189,11 +216,35 @@ class List extends Component {
             </Tab>
 
             <Tab label="Populares">
-              <small>Populares</small>
+              {this.getPopularRecipes(this.state.recipes).map(recipe => (
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  canFavorite={this.canFavoriteRecipe(recipe.id)}
+                  onSeeDetails={this.seeRecipe}
+                  onFavorite={this.favoriteRecipe}
+                  onUnfavorite={this.unfavoriteRecipe}
+                  onBookmark={() => this.addRecipeToMenu(recipe.id)}
+                />
+              ))}
+
+              <Button icon="add" floating accent className={styles.addButton} onClick={this.newRecipe} />
             </Tab>
 
-            <Tab label="Novidades">
-              <small>Novidades</small>
+            <Tab label="Favoritos">
+              {this.getFavoriteRecipes(this.state.recipes).map(recipe => (
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  canFavorite={this.canFavoriteRecipe(recipe.id)}
+                  onSeeDetails={this.seeRecipe}
+                  onFavorite={this.favoriteRecipe}
+                  onUnfavorite={this.unfavoriteRecipe}
+                  onBookmark={() => this.addRecipeToMenu(recipe.id)}
+                />
+              ))}
+
+              <Button icon="add" floating accent className={styles.addButton} onClick={this.newRecipe} />
             </Tab>
           </Tabs>
         </section>

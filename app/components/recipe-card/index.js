@@ -16,6 +16,8 @@ import {
   DifficultyIcon
 } from 'components/icons'
 
+import { DropdownItem } from 'components'
+
 import styles from './styles'
 
 const translateDifficulty = R.cond([
