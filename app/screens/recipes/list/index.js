@@ -167,11 +167,7 @@ class List extends Component {
       .once('value')
       .then(snapshot => snapshot.val())
       .then(normalize)
-      .then(R.tap(
-        recipes => this.setState({ recipes })
-      ))
-      .then(R.map(R.path(['likes', 'length'])))
-      .then(console.info)
+      .then(recipes => this.setState({ recipes }))
   }
 
   render () {
