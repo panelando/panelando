@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import R from 'ramda'
 import { withRouter } from 'react-router'
-import { auth, database } from 'lib/firebase'
+import { auth, database, normalize } from 'lib/firebase'
 
 import {
   AppBar,
@@ -60,6 +60,35 @@ class Show extends Component {
 
   handleCommentChange = comment => {
     this.setState({ comment })
+  }
+
+  submitComment = () => {
+    const id = this.props.params.id
+    const user = auth().currentUser
+
+    const text = this.state.comment
+    const { displayName, photoURL } = user
+
+    const reference = database().ref(`recipes/${id}/comments`)
+
+    reference
+      .once('value')
+      .then(R.invoker(0, 'val'))
+      .then(R.defaultTo([]))
+      .then(R.append({
+        text,
+        displayName,
+        photoURL
+      }))
+      .then(comments => {
+        const recipe = R.merge(this.state.recipe, { comments })
+
+        reference.set(comments)
+        this.setState({ recipe })
+        this.setState({ comment: '' })
+      })
+
+
   }
 
   handleDialogToggle = () => {
@@ -139,7 +168,6 @@ class Show extends Component {
       .once('value')
       .then(R.invoker(0, 'val'))
       .then(R.merge({ comments: [], likes: []}))
-      .then(R.tap(console.info))
       .then(recipe => this.setState({ recipe }))
   }
 
@@ -259,7 +287,14 @@ class Show extends Component {
                     <Input className={styles.commentInput} multiline label="Adicionar Comentário" value={this.state.comment} onChange={this.handleCommentChange} />
                   </div>
 
-                  <Button type="submit" className={styles.commentButton} icon="send" label="Enviar" primary />
+                  <Button
+                    type="submit"
+                    className={styles.commentButton}
+                    icon="send"
+                    label="Enviar"
+                    primary
+                    onClick={this.submitComment}
+                  />
                 </form>
               </List>
             </Card>
