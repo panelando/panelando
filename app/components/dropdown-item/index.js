@@ -6,7 +6,7 @@ const DropdownItem = (props) => (
     <img src={props.image} className={styles.image} />
     <div className={styles.content}>
       <strong>{props.name}</strong>
-      <small>10 receitas</small>
+      <small>{props.description}</small>
     </div>
   </div>
 )
