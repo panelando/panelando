@@ -87,8 +87,6 @@ class Show extends Component {
         this.setState({ recipe })
         this.setState({ comment: '' })
       })
-
-
   }
 
   handleDialogToggle = () => {
