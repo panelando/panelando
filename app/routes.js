@@ -5,6 +5,7 @@ import { auth } from 'lib/firebase'
 import { ApplicationShell } from 'screens/layout'
 import { Login } from 'screens/auth'
 import { RecipeList, RecipeShow, RecipeNew } from 'screens/recipes'
+import { MenuList } from 'screens/menus'
 
 const requireAuth = (nextState, replace, callback) => {
   auth().onAuthStateChanged(user => {
@@ -26,6 +27,7 @@ const App = () => (
     <Route path="/" component={ApplicationShell} onEnter={requireAuth} >
       <IndexRoute component={RecipeList} />
       <Route path="/new" component={RecipeNew} />
+      <Route path="/menus" component={MenuList} />
       <Route path="/:id" component={RecipeShow} />
     </Route>
   </Router>
