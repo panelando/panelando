@@ -167,7 +167,11 @@ class Show extends Component {
       .then(() => this.setState({ isLoading: true }))
       .then(() => reference.once('value'))
       .then(R.invoker(0, 'val'))
-      .then(R.merge({ comments: [], likes: []}))
+      .then(R.merge({
+        id,
+        comments: [],
+        likes: []
+      }))
       .then(recipe => this.setState({ recipe }))
       .then(() => this.setState({ isLoading: false }))
   }
