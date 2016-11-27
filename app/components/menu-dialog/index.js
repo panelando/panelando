@@ -108,7 +108,7 @@ class MenuDialog extends Component {
           <ListItem className={styles.listItem}>
             <Input
               type="text"
-              label="Nome da receita"
+              label="Nome do menu"
               className={styles.input}
               value={this.state.newMenu}
               onChange={this.handleNewChange}
