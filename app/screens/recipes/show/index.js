@@ -31,7 +31,7 @@ import {
   TimeIcon
 } from 'components/icons'
 
-import { MenuDialog } from 'components'
+import { MenuDialog, ProgressBar } from 'components'
 
 import styles from './styles'
 
@@ -47,6 +47,8 @@ class Show extends Component {
       tags: [],
       user: {}
     },
+
+    isLoading: true,
 
     dialog: {
       active: false,
@@ -87,8 +89,6 @@ class Show extends Component {
         this.setState({ recipe })
         this.setState({ comment: '' })
       })
-
-
   }
 
   handleDialogToggle = () => {
@@ -161,14 +161,15 @@ class Show extends Component {
 
   componentDidMount () {
     const id = this.props.params.id
+    const reference = database().ref('recipes').child(id)
 
-    database()
-      .ref('recipes')
-      .child(id)
-      .once('value')
+    return Promise.resolve()
+      .then(() => this.setState({ isLoading: true }))
+      .then(() => reference.once('value'))
       .then(R.invoker(0, 'val'))
       .then(R.merge({ comments: [], likes: []}))
       .then(recipe => this.setState({ recipe }))
+      .then(() => this.setState({ isLoading: false }))
   }
 
   render () {
@@ -186,7 +187,9 @@ class Show extends Component {
               <span>{this.trim(this.state.recipe.title)}</span>
             </AppBar>
 
-            <Card>
+            <ProgressBar loading={this.state.isLoading} />
+
+            <Card style={{ opacity: this.state.isLoading ? 0 : 1 }}>
               <CardMedia
                 aspectRatio="wide"
                 image={this.state.recipe.image}

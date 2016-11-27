@@ -30,12 +30,14 @@ import {
   TimeIcon
 } from 'components/icons'
 
-import { RecipeCard } from 'components'
+import { ProgressBar, RecipeCard } from 'components'
 
 import styles from './styles'
 
 class List extends Component {
   state = {
+    isLoading: false,
+
     tabs: {
       tabIndex: 0
     },
@@ -161,13 +163,15 @@ class List extends Component {
 
   componentDidMount () {
     const uid = auth().currentUser.uid
+    const reference = database().ref('recipes')
 
-    database()
-      .ref('recipes')
-      .once('value')
+    return Promise.resolve()
+      .then(() => this.setState({ isLoading: true }))
+      .then(() => reference.once('value'))
       .then(snapshot => snapshot.val())
       .then(normalize)
       .then(recipes => this.setState({ recipes }))
+      .then(() => this.setState({ isLoading: false }))
   }
 
   render () {
@@ -196,6 +200,8 @@ class List extends Component {
 
           <Tabs index={this.state.tabs.tabIndex} onChange={this.handleTabChange} fixed inverse>
             <Tab label="Descobrir">
+              <ProgressBar loading={this.state.isLoading} />
+
               {this.state.recipes.map(recipe => (
                 <RecipeCard
                   key={recipe.id}
@@ -212,6 +218,8 @@ class List extends Component {
             </Tab>
 
             <Tab label="Populares">
+              <ProgressBar loading={this.state.isLoading} />
+
               {this.getPopularRecipes(this.state.recipes).map(recipe => (
                 <RecipeCard
                   key={recipe.id}
@@ -228,6 +236,8 @@ class List extends Component {
             </Tab>
 
             <Tab label="Favoritos">
+              <ProgressBar loading={this.state.isLoading} />
+
               {this.getFavoriteRecipes(this.state.recipes).map(recipe => (
                 <RecipeCard
                   key={recipe.id}
