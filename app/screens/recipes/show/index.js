@@ -52,7 +52,7 @@ class Show extends Component {
 
     dialog: {
       active: false,
-      recipeId: null
+      recipe: null
     }
   }
 
@@ -99,11 +99,11 @@ class Show extends Component {
     })
   }
 
-  addRecipeToMenu = id => {
+  addRecipeToMenu = recipe => {
     this.setState({
       dialog: {
+        recipe,
         active: true,
-        recipeId: id
       }
     })
   }
@@ -177,7 +177,7 @@ class Show extends Component {
         <Panel scrollY>
           <MenuDialog
             active={this.state.dialog.active}
-            recipeId={this.state.dialog.recipeId}
+           recipe={this.state.dialog.recipe}
             onDialogToggle={this.handleDialogToggle}
           />
 
@@ -224,7 +224,7 @@ class Show extends Component {
               />
 
               <CardActions style={{ borderBottom: '1px solid #f5f5f5' }}>
-                <IconButton icon="bookmark_border" onClick={() => this.addRecipeToMenu(this.props.params.id)} />
+                <IconButton icon="bookmark_border" onClick={() => this.addRecipeToMenu(this.state.recipe)} />
 
                 {this.canFavoriteRecipe(this.props.params.id) ? (
                   <IconButton className={styles.favorite} icon="favorite_border" onClick={() => this.favoriteRecipe(this.props.params.id)}/>

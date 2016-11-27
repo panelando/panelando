@@ -44,7 +44,7 @@ class List extends Component {
 
     dialog: {
       active: false,
-      recipeId: null
+      recipe: null
     },
 
     recipes: [],
@@ -74,11 +74,11 @@ class List extends Component {
     redirect(`/${id}`)
   }
 
-  addRecipeToMenu = id => {
+  addRecipeToMenu = recipe => {
     this.setState({
       dialog: {
-        active: true,
-        recipeId: id
+        recipe,
+        active: true
       }
     })
   }
@@ -179,7 +179,7 @@ class List extends Component {
       <Panel scrollY>
         <MenuDialog
           active={this.state.dialog.active}
-          recipeId={this.state.dialog.recipeId}
+          recipe={this.state.dialog.recipe}
           onDialogToggle={this.handleDialogToggle}
           onBookmark={this.bookmarkRecipe}
           onFavorite={this.favoriteRecipe}
@@ -210,7 +210,7 @@ class List extends Component {
                   onSeeDetails={this.seeRecipe}
                   onFavorite={this.favoriteRecipe}
                   onUnfavorite={this.unfavoriteRecipe}
-                  onBookmark={() => this.addRecipeToMenu(recipe.id)}
+                  onBookmark={() => this.addRecipeToMenu(recipe)}
                 />
               ))}
 
@@ -228,7 +228,7 @@ class List extends Component {
                   onSeeDetails={this.seeRecipe}
                   onFavorite={this.favoriteRecipe}
                   onUnfavorite={this.unfavoriteRecipe}
-                  onBookmark={() => this.addRecipeToMenu(recipe.id)}
+                  onBookmark={() => this.addRecipeToMenu(recipe)}
                 />
               ))}
 
@@ -246,7 +246,7 @@ class List extends Component {
                   onSeeDetails={this.seeRecipe}
                   onFavorite={this.favoriteRecipe}
                   onUnfavorite={this.unfavoriteRecipe}
-                  onBookmark={() => this.addRecipeToMenu(recipe.id)}
+                  onBookmark={() => this.addRecipeToMenu(recipe)}
                 />
               ))}
 
