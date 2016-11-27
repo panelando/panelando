@@ -161,6 +161,21 @@ class List extends Component {
     )(recipes)
   }
 
+  componentWillMount () {
+    const { tab } = this.props.location.query
+
+    const getTabIndex = R.cond([
+      [R.equals('discover'), R.always(0)],
+      [R.equals('popular'), R.always(1)],
+      [R.equals('favorites'), R.always(2)],
+      [R.T, R.always(0)]
+    ], tab)
+
+    const tabIndex = getTabIndex(tab)
+
+    this.handleTabChange(tabIndex)
+  }
+
   componentDidMount () {
     const uid = auth().currentUser.uid
     const reference = database().ref('recipes')
