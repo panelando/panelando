@@ -58,10 +58,10 @@ class ApplicationShell extends Component {
           </div>
 
           <List className={styles.drawerMenu} selectable ripple>
-            <ListItem caption="Início" leftIcon="home" />
-            <ListItem caption="Receitas" leftIcon="restaurant" />
-            <ListItem caption="Menus" leftIcon="star" />
-            <ListItem caption="Likes" leftIcon="favorite" />
+            <Link to="/"><ListItem caption="Receitas" leftIcon="restaurant_menu" /></Link>
+            <Link to="/menus"><ListItem caption="Menus" leftIcon="bookmark_border" /></Link>
+            <Link to={{ pathname: '/', query: { tab: 'popular' } }} ><ListItem caption="Populares" leftIcon="whatshot" /></Link>
+            <Link to={{ pathname: '/', query: { tab: 'favorites' } }} ><ListItem caption="Favoritos" leftIcon="favorite_border" /></Link>
           </List>
         </NavDrawer>
 

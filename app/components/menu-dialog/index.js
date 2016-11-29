@@ -35,7 +35,7 @@ class MenuDialog extends Component {
     const ref = database().ref(`menus/${uid}`)
 
     const name = this.state.newMenu ? this.state.newMenu : this.state.selectedMenu
-    const recipeId = this.props.recipeId
+    const recipe = this.props.recipe
 
     if (!name) return
 
@@ -47,14 +47,15 @@ class MenuDialog extends Component {
         let menu = R.find(R.propEq('name', name), menus)
 
         if (menu) {
-          let recipes = R.append(recipeId, R.prop('recipes', menu))
+          let recipes = R.append(recipe, R.prop('recipes', menu))
           let newMenus = R.assoc('recipes', recipes, menu)
           return R.update(index, newMenus, menus)
         }
 
         return R.append({
           name: name,
-          recipes: [recipeId]
+          image: recipe.image,
+          recipes: [recipe]
         }, menus)
       })
       .then(menus => {
@@ -107,7 +108,7 @@ class MenuDialog extends Component {
           <ListItem className={styles.listItem}>
             <Input
               type="text"
-              label="Nome da receita"
+              label="Nome do menu"
               className={styles.input}
               value={this.state.newMenu}
               onChange={this.handleNewChange}
