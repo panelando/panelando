@@ -20,7 +20,7 @@ webpackJsonp([1],[
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _index = __webpack_require__(508);
+	var _index = __webpack_require__(513);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -236,6 +236,10 @@ webpackJsonp([1],[
 
 	var _recipes = __webpack_require__(506);
 
+	var _menus = __webpack_require__(536);
+
+	var _search = __webpack_require__(539);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var requireAuth = function requireAuth(nextState, replace, callback) {
@@ -261,6 +265,8 @@ webpackJsonp([1],[
 	      { path: '/', component: _layout.ApplicationShell, onEnter: requireAuth },
 	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _recipes.RecipeList }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '/new', component: _recipes.RecipeNew }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/menus', component: _menus.MenuList }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/search', component: _search.SearchList }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '/:id', component: _recipes.RecipeShow })
 	    )
 	  );
@@ -275,11 +281,11 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(requireAuth, 'requireAuth', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/routes.js');
+	  __REACT_HOT_LOADER__.register(requireAuth, 'requireAuth', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/routes.js');
 
-	  __REACT_HOT_LOADER__.register(App, 'App', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/routes.js');
+	  __REACT_HOT_LOADER__.register(App, 'App', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/routes.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/routes.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/routes.js');
 	}();
 
 	;
@@ -5980,17 +5986,17 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(config, 'config', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/firebase.js');
+	  __REACT_HOT_LOADER__.register(config, 'config', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/firebase.js');
 
-	  __REACT_HOT_LOADER__.register(auth, 'auth', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/firebase.js');
+	  __REACT_HOT_LOADER__.register(auth, 'auth', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/firebase.js');
 
-	  __REACT_HOT_LOADER__.register(database, 'database', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/firebase.js');
+	  __REACT_HOT_LOADER__.register(database, 'database', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/firebase.js');
 
-	  __REACT_HOT_LOADER__.register(storage, 'storage', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/firebase.js');
+	  __REACT_HOT_LOADER__.register(storage, 'storage', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/firebase.js');
 
-	  __REACT_HOT_LOADER__.register(addKeyAsId, 'addKeyAsId', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/firebase.js');
+	  __REACT_HOT_LOADER__.register(addKeyAsId, 'addKeyAsId', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/firebase.js');
 
-	  __REACT_HOT_LOADER__.register(normalize, 'normalize', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/firebase.js');
+	  __REACT_HOT_LOADER__.register(normalize, 'normalize', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/firebase.js');
 	}();
 
 	;
@@ -15577,6 +15583,8 @@ webpackJsonp([1],[
 
 	var _reactToolbox = __webpack_require__(247);
 
+	var _firebase = __webpack_require__(237);
+
 	var _styles = __webpack_require__(501);
 
 	var _styles2 = _interopRequireDefault(_styles);
@@ -15606,7 +15614,11 @@ webpackJsonp([1],[
 	    };
 
 	    _this.state = {
-	      drawerActive: false
+	      drawerActive: false,
+	      user: {
+	        displayName: '',
+	        photoURL: ''
+	      }
 	    };
 	    return _this;
 	  }
@@ -15624,6 +15636,17 @@ webpackJsonp([1],[
 	      };
 
 	      return _react2.default.cloneElement(this.props.children, propsToPassToChildren);
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      return Promise.resolve().then(function () {
+	        return (0, _firebase.auth)().currentUser;
+	      }).then(function (user) {
+	        return _this2.setState({ user: user });
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -15645,12 +15668,12 @@ webpackJsonp([1],[
 	              _react2.default.createElement(
 	                _reactToolbox.Avatar,
 	                { className: _styles2.default.drawerUserAvatar },
-	                _react2.default.createElement('img', { src: 'https://avatars2.githubusercontent.com/u/7416751?v=3&s=466' })
+	                _react2.default.createElement('img', { src: this.state.user.photoURL })
 	              ),
 	              _react2.default.createElement(
 	                'div',
 	                { className: _styles2.default.drawerUserName },
-	                'Guilherme Coelho'
+	                this.state.user.displayName
 	              ),
 	              _react2.default.createElement(
 	                'div',
@@ -15667,10 +15690,26 @@ webpackJsonp([1],[
 	          _react2.default.createElement(
 	            _reactToolbox.List,
 	            { className: _styles2.default.drawerMenu, selectable: true, ripple: true },
-	            _react2.default.createElement(_reactToolbox.ListItem, { caption: 'In\xEDcio', leftIcon: 'home' }),
-	            _react2.default.createElement(_reactToolbox.ListItem, { caption: 'Receitas', leftIcon: 'restaurant' }),
-	            _react2.default.createElement(_reactToolbox.ListItem, { caption: 'Menus', leftIcon: 'star' }),
-	            _react2.default.createElement(_reactToolbox.ListItem, { caption: 'Likes', leftIcon: 'favorite' })
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/' },
+	              _react2.default.createElement(_reactToolbox.ListItem, { caption: 'Receitas', leftIcon: 'restaurant_menu' })
+	            ),
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/menus' },
+	              _react2.default.createElement(_reactToolbox.ListItem, { caption: 'Menus', leftIcon: 'bookmark_border' })
+	            ),
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: { pathname: '/', query: { tab: 'popular' } } },
+	              _react2.default.createElement(_reactToolbox.ListItem, { caption: 'Populares', leftIcon: 'whatshot' })
+	            ),
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: { pathname: '/', query: { tab: 'favorites' } } },
+	              _react2.default.createElement(_reactToolbox.ListItem, { caption: 'Favoritos', leftIcon: 'favorite_border' })
+	            )
 	          )
 	        ),
 	        this.childrenWithProps()
@@ -15690,9 +15729,9 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(ApplicationShell, 'ApplicationShell', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/screens/layout/application-shell/index.js');
+	  __REACT_HOT_LOADER__.register(ApplicationShell, 'ApplicationShell', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/layout/application-shell/index.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/screens/layout/application-shell/index.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/layout/application-shell/index.js');
 	}();
 
 	;
@@ -31684,9 +31723,9 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Login, 'Login', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/screens/auth/login/index.js');
+	  __REACT_HOT_LOADER__.register(Login, 'Login', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/auth/login/index.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/screens/auth/login/index.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/auth/login/index.js');
 	}();
 
 	;
@@ -31738,15 +31777,15 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(redirect, 'redirect', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/auth.js');
+	  __REACT_HOT_LOADER__.register(redirect, 'redirect', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/auth.js');
 
-	  __REACT_HOT_LOADER__.register(signInWithGoogle, 'signInWithGoogle', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/auth.js');
+	  __REACT_HOT_LOADER__.register(signInWithGoogle, 'signInWithGoogle', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/auth.js');
 
-	  __REACT_HOT_LOADER__.register(signInWithFacebook, 'signInWithFacebook', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/auth.js');
+	  __REACT_HOT_LOADER__.register(signInWithFacebook, 'signInWithFacebook', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/auth.js');
 
-	  __REACT_HOT_LOADER__.register(signOut, 'signOut', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/auth.js');
+	  __REACT_HOT_LOADER__.register(signOut, 'signOut', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/auth.js');
 
-	  __REACT_HOT_LOADER__.register(getCurrentUser, 'getCurrentUser', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/lib/auth.js');
+	  __REACT_HOT_LOADER__.register(getCurrentUser, 'getCurrentUser', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/lib/auth.js');
 	}();
 
 	;
@@ -31773,11 +31812,11 @@ webpackJsonp([1],[
 
 	var _list2 = _interopRequireDefault(_list);
 
-	var _show = __webpack_require__(523);
+	var _show = __webpack_require__(530);
 
 	var _show2 = _interopRequireDefault(_show);
 
-	var _new = __webpack_require__(525);
+	var _new = __webpack_require__(532);
 
 	var _new2 = _interopRequireDefault(_new);
 
@@ -31812,23 +31851,29 @@ webpackJsonp([1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(34);
+
 	var _ramda = __webpack_require__(244);
 
 	var _ramda2 = _interopRequireDefault(_ramda);
 
-	var _index = __webpack_require__(508);
+	var _qs = __webpack_require__(508);
+
+	var _qs2 = _interopRequireDefault(_qs);
+
+	var _index = __webpack_require__(513);
 
 	var _auth = __webpack_require__(504);
 
 	var _firebase = __webpack_require__(237);
 
-	var _components = __webpack_require__(514);
+	var _components = __webpack_require__(519);
 
 	var _reactToolbox = __webpack_require__(247);
 
-	var _icons = __webpack_require__(520);
+	var _icons = __webpack_require__(525);
 
-	var _styles = __webpack_require__(522);
+	var _styles = __webpack_require__(529);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -31855,13 +31900,19 @@ webpackJsonp([1],[
 	    }
 
 	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = List.__proto__ || Object.getPrototypeOf(List)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+	      isLoading: false,
+
+	      search: {
+	        active: false
+	      },
+
 	      tabs: {
 	        tabIndex: 0
 	      },
 
 	      dialog: {
 	        active: false,
-	        recipeId: null
+	        recipe: null
 	      },
 
 	      recipes: [],
@@ -31907,6 +31958,22 @@ webpackJsonp([1],[
 	      var _this11;
 
 	      return (_this11 = _this).__getFavoriteRecipes__REACT_HOT_LOADER__.apply(_this11, arguments);
+	    }, _this.updateRecipes = function () {
+	      var _this12;
+
+	      return (_this12 = _this).__updateRecipes__REACT_HOT_LOADER__.apply(_this12, arguments);
+	    }, _this.openSearch = function () {
+	      var _this13;
+
+	      return (_this13 = _this).__openSearch__REACT_HOT_LOADER__.apply(_this13, arguments);
+	    }, _this.closeSearch = function () {
+	      var _this14;
+
+	      return (_this14 = _this).__closeSearch__REACT_HOT_LOADER__.apply(_this14, arguments);
+	    }, _this.submitSearch = function () {
+	      var _this15;
+
+	      return (_this15 = _this).__submitSearch__REACT_HOT_LOADER__.apply(_this15, arguments);
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 
@@ -31940,11 +32007,11 @@ webpackJsonp([1],[
 	    }
 	  }, {
 	    key: '__addRecipeToMenu__REACT_HOT_LOADER__',
-	    value: function __addRecipeToMenu__REACT_HOT_LOADER__(id) {
+	    value: function __addRecipeToMenu__REACT_HOT_LOADER__(recipe) {
 	      this.setState({
 	        dialog: {
-	          active: true,
-	          recipeId: id
+	          recipe: recipe,
+	          active: true
 	        }
 	      });
 	    }
@@ -31961,24 +32028,24 @@ webpackJsonp([1],[
 	  }, {
 	    key: '__favoriteRecipe__REACT_HOT_LOADER__',
 	    value: function __favoriteRecipe__REACT_HOT_LOADER__(id) {
-	      var _this12 = this;
+	      var _this16 = this;
 
 	      var reference = (0, _firebase.database)().ref('recipes/' + id + '/likes');
 	      var recipeIndex = _ramda2.default.findIndex(_ramda2.default.propEq('id', id), this.state.recipes);
 	      var uid = (0, _firebase.auth)().currentUser.uid;
 
 	      reference.once('value').then(_ramda2.default.invoker(0, 'val')).then(_ramda2.default.defaultTo([])).then(_ramda2.default.cond([[_ramda2.default.contains(uid), _ramda2.default.identity], [_ramda2.default.T, _ramda2.default.append(uid)]])).then(function (likes) {
-	        var recipe = _ramda2.default.merge(_ramda2.default.nth(recipeIndex, _this12.state.recipes), { likes: likes });
-	        var recipes = _ramda2.default.update(recipeIndex, recipe, _this12.state.recipes);
+	        var recipe = _ramda2.default.merge(_ramda2.default.nth(recipeIndex, _this16.state.recipes), { likes: likes });
+	        var recipes = _ramda2.default.update(recipeIndex, recipe, _this16.state.recipes);
 
 	        reference.set(likes);
-	        _this12.setState({ recipes: recipes });
+	        _this16.updateRecipes(recipes);
 	      });
 	    }
 	  }, {
 	    key: '__unfavoriteRecipe__REACT_HOT_LOADER__',
 	    value: function __unfavoriteRecipe__REACT_HOT_LOADER__(id) {
-	      var _this13 = this;
+	      var _this17 = this;
 
 	      var reference = (0, _firebase.database)().ref('recipes/' + id + '/likes');
 	      var recipeIndex = _ramda2.default.findIndex(_ramda2.default.propEq('id', id), this.state.recipes);
@@ -31987,11 +32054,11 @@ webpackJsonp([1],[
 	      reference.once('value').then(_ramda2.default.invoker(0, 'val')).then(_ramda2.default.defaultTo([])).then(function (uids) {
 	        return _ramda2.default.cond([[_ramda2.default.contains(uid), _ramda2.default.remove(_ramda2.default.indexOf(uid, uids), 1)], [_ramda2.default.T, _ramda2.default.identity]])(uids);
 	      }).then(function (likes) {
-	        var recipe = _ramda2.default.merge(_ramda2.default.nth(recipeIndex, _this13.state.recipes), { likes: likes });
-	        var recipes = _ramda2.default.update(recipeIndex, recipe, _this13.state.recipes);
+	        var recipe = _ramda2.default.merge(_ramda2.default.nth(recipeIndex, _this17.state.recipes), { likes: likes });
+	        var recipes = _ramda2.default.update(recipeIndex, recipe, _this17.state.recipes);
 
 	        reference.set(likes);
-	        _this13.setState({ recipes: recipes });
+	        _this17.updateRecipes(recipes);
 	      });
 	    }
 	  }, {
@@ -32007,29 +32074,83 @@ webpackJsonp([1],[
 	      return _ramda2.default.filter(_ramda2.default.compose(_ramda2.default.contains(uid), _ramda2.default.defaultTo([]), _ramda2.default.prop('likes')))(recipes);
 	    }
 	  }, {
+	    key: '__updateRecipes__REACT_HOT_LOADER__',
+	    value: function __updateRecipes__REACT_HOT_LOADER__(recipes) {
+	      var popularRecipes = this.getPopularRecipes(recipes);
+	      var favoriteRecipes = this.getFavoriteRecipes(recipes);
+
+	      this.setState({ recipes: recipes, popularRecipes: popularRecipes, favoriteRecipes: favoriteRecipes });
+	    }
+	  }, {
+	    key: '__openSearch__REACT_HOT_LOADER__',
+	    value: function __openSearch__REACT_HOT_LOADER__() {
+	      this.setState({
+	        search: { active: true }
+	      });
+	    }
+	  }, {
+	    key: '__closeSearch__REACT_HOT_LOADER__',
+	    value: function __closeSearch__REACT_HOT_LOADER__() {
+	      this.setState({
+	        search: { active: false }
+	      });
+	    }
+	  }, {
+	    key: '__submitSearch__REACT_HOT_LOADER__',
+	    value: function __submitSearch__REACT_HOT_LOADER__(event) {
+	      if (event.keyCode === 13) {
+	        var value = event.target.value.toLowerCase();
+
+	        var query = _qs2.default.stringify({
+	          term: value
+	        });
+
+	        var url = '/search?' + query;
+
+	        (0, _auth.redirect)(url);
+	      }
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var tab = this.props.location.query.tab;
+
+
+	      var getTabIndex = _ramda2.default.cond([[_ramda2.default.equals('discover'), _ramda2.default.always(0)], [_ramda2.default.equals('popular'), _ramda2.default.always(1)], [_ramda2.default.equals('favorites'), _ramda2.default.always(2)], [_ramda2.default.T, _ramda2.default.always(0)]], tab);
+
+	      var tabIndex = getTabIndex(tab);
+
+	      this.handleTabChange(tabIndex);
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this14 = this;
+	      var _this18 = this;
 
 	      var uid = (0, _firebase.auth)().currentUser.uid;
+	      var reference = (0, _firebase.database)().ref('recipes');
 
-	      (0, _firebase.database)().ref('recipes').once('value').then(function (snapshot) {
+	      return Promise.resolve().then(function () {
+	        return _this18.setState({ isLoading: true });
+	      }).then(function () {
+	        return reference.once('value');
+	      }).then(function (snapshot) {
 	        return snapshot.val();
-	      }).then(_firebase.normalize).then(function (recipes) {
-	        return _this14.setState({ recipes: recipes });
+	      }).then(_firebase.normalize).then(this.updateRecipes).then(function () {
+	        return _this18.setState({ isLoading: false });
 	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this15 = this;
+	      var _this19 = this;
 
 	      return _react2.default.createElement(
 	        _reactToolbox.Panel,
 	        { scrollY: true },
 	        _react2.default.createElement(_components.MenuDialog, {
 	          active: this.state.dialog.active,
-	          recipeId: this.state.dialog.recipeId,
+	          recipe: this.state.dialog.recipe,
 	          onDialogToggle: this.handleDialogToggle,
 	          onBookmark: this.bookmarkRecipe,
 	          onFavorite: this.favoriteRecipe,
@@ -32038,7 +32159,20 @@ webpackJsonp([1],[
 	        _react2.default.createElement(
 	          'section',
 	          null,
-	          _react2.default.createElement(
+	          this.state.search.active ? _react2.default.createElement(
+	            _reactToolbox.AppBar,
+	            { className: _styles2.default.searchNavbar },
+	            _react2.default.createElement('input', {
+	              ref: 'searchInput',
+	              autoFocus: true,
+	              onKeyDown: this.submitSearch
+	            }),
+	            _react2.default.createElement(
+	              'div',
+	              { className: _styles2.default.leftMenu },
+	              _react2.default.createElement(_reactToolbox.IconButton, { icon: 'close', className: _styles2.default.closeIcon, onClick: this.closeSearch })
+	            )
+	          ) : _react2.default.createElement(
 	            _reactToolbox.AppBar,
 	            null,
 	            _react2.default.createElement(_reactToolbox.IconButton, { icon: 'menu', inverse: true, onClick: this.props.onToggleDrawer }),
@@ -32050,6 +32184,7 @@ webpackJsonp([1],[
 	            _react2.default.createElement(
 	              'div',
 	              { className: _styles2.default.leftMenu },
+	              _react2.default.createElement(_reactToolbox.IconButton, { icon: 'search', className: _styles2.default.searchIcon, onClick: this.openSearch }),
 	              _react2.default.createElement(
 	                _reactToolbox.IconMenu,
 	                { position: 'topRight', className: _styles2.default.menuIcon },
@@ -32063,16 +32198,17 @@ webpackJsonp([1],[
 	            _react2.default.createElement(
 	              _reactToolbox.Tab,
 	              { label: 'Descobrir' },
+	              _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
 	              this.state.recipes.map(function (recipe) {
 	                return _react2.default.createElement(_components.RecipeCard, {
 	                  key: recipe.id,
 	                  recipe: recipe,
-	                  canFavorite: _this15.canFavoriteRecipe(recipe.id),
-	                  onSeeDetails: _this15.seeRecipe,
-	                  onFavorite: _this15.favoriteRecipe,
-	                  onUnfavorite: _this15.unfavoriteRecipe,
+	                  canFavorite: _this19.canFavoriteRecipe(recipe.id),
+	                  onSeeDetails: _this19.seeRecipe,
+	                  onFavorite: _this19.favoriteRecipe,
+	                  onUnfavorite: _this19.unfavoriteRecipe,
 	                  onBookmark: function onBookmark() {
-	                    return _this15.addRecipeToMenu(recipe.id);
+	                    return _this19.addRecipeToMenu(recipe);
 	                  }
 	                });
 	              }),
@@ -32081,16 +32217,17 @@ webpackJsonp([1],[
 	            _react2.default.createElement(
 	              _reactToolbox.Tab,
 	              { label: 'Populares' },
-	              this.getPopularRecipes(this.state.recipes).map(function (recipe) {
+	              _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
+	              this.state.popularRecipes.map(function (recipe) {
 	                return _react2.default.createElement(_components.RecipeCard, {
 	                  key: recipe.id,
 	                  recipe: recipe,
-	                  canFavorite: _this15.canFavoriteRecipe(recipe.id),
-	                  onSeeDetails: _this15.seeRecipe,
-	                  onFavorite: _this15.favoriteRecipe,
-	                  onUnfavorite: _this15.unfavoriteRecipe,
+	                  canFavorite: _this19.canFavoriteRecipe(recipe.id),
+	                  onSeeDetails: _this19.seeRecipe,
+	                  onFavorite: _this19.favoriteRecipe,
+	                  onUnfavorite: _this19.unfavoriteRecipe,
 	                  onBookmark: function onBookmark() {
-	                    return _this15.addRecipeToMenu(recipe.id);
+	                    return _this19.addRecipeToMenu(recipe);
 	                  }
 	                });
 	              }),
@@ -32099,16 +32236,17 @@ webpackJsonp([1],[
 	            _react2.default.createElement(
 	              _reactToolbox.Tab,
 	              { label: 'Favoritos' },
-	              this.getFavoriteRecipes(this.state.recipes).map(function (recipe) {
+	              _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
+	              this.state.favoriteRecipes.map(function (recipe) {
 	                return _react2.default.createElement(_components.RecipeCard, {
 	                  key: recipe.id,
 	                  recipe: recipe,
-	                  canFavorite: _this15.canFavoriteRecipe(recipe.id),
-	                  onSeeDetails: _this15.seeRecipe,
-	                  onFavorite: _this15.favoriteRecipe,
-	                  onUnfavorite: _this15.unfavoriteRecipe,
+	                  canFavorite: _this19.canFavoriteRecipe(recipe.id),
+	                  onSeeDetails: _this19.seeRecipe,
+	                  onFavorite: _this19.favoriteRecipe,
+	                  onUnfavorite: _this19.unfavoriteRecipe,
 	                  onBookmark: function onBookmark() {
-	                    return _this15.addRecipeToMenu(recipe.id);
+	                    return _this19.addRecipeToMenu(recipe);
 	                  }
 	                });
 	              }),
@@ -32132,9 +32270,9 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(List, 'List', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/screens/recipes/list/index.js');
+	  __REACT_HOT_LOADER__.register(List, 'List', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/recipes/list/index.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/screens/recipes/list/index.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/recipes/list/index.js');
 	}();
 
 	;
@@ -32145,18 +32283,610 @@ webpackJsonp([1],[
 
 	'use strict';
 
+	var stringify = __webpack_require__(509);
+	var parse = __webpack_require__(512);
+	var formats = __webpack_require__(511);
+
+	module.exports = {
+	    formats: formats,
+	    parse: parse,
+	    stringify: stringify
+	};
+
+
+/***/ },
+/* 509 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(510);
+	var formats = __webpack_require__(511);
+
+	var arrayPrefixGenerators = {
+	    brackets: function brackets(prefix) {
+	        return prefix + '[]';
+	    },
+	    indices: function indices(prefix, key) {
+	        return prefix + '[' + key + ']';
+	    },
+	    repeat: function repeat(prefix) {
+	        return prefix;
+	    }
+	};
+
+	var toISO = Date.prototype.toISOString;
+
+	var defaults = {
+	    delimiter: '&',
+	    encode: true,
+	    encoder: utils.encode,
+	    serializeDate: function serializeDate(date) {
+	        return toISO.call(date);
+	    },
+	    skipNulls: false,
+	    strictNullHandling: false
+	};
+
+	var stringify = function stringify(object, prefix, generateArrayPrefix, strictNullHandling, skipNulls, encoder, filter, sort, allowDots, serializeDate, formatter) {
+	    var obj = object;
+	    if (typeof filter === 'function') {
+	        obj = filter(prefix, obj);
+	    } else if (obj instanceof Date) {
+	        obj = serializeDate(obj);
+	    } else if (obj === null) {
+	        if (strictNullHandling) {
+	            return encoder ? encoder(prefix) : prefix;
+	        }
+
+	        obj = '';
+	    }
+
+	    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
+	        if (encoder) {
+	            return [formatter(encoder(prefix)) + '=' + formatter(encoder(obj))];
+	        }
+	        return [formatter(prefix) + '=' + formatter(String(obj))];
+	    }
+
+	    var values = [];
+
+	    if (typeof obj === 'undefined') {
+	        return values;
+	    }
+
+	    var objKeys;
+	    if (Array.isArray(filter)) {
+	        objKeys = filter;
+	    } else {
+	        var keys = Object.keys(obj);
+	        objKeys = sort ? keys.sort(sort) : keys;
+	    }
+
+	    for (var i = 0; i < objKeys.length; ++i) {
+	        var key = objKeys[i];
+
+	        if (skipNulls && obj[key] === null) {
+	            continue;
+	        }
+
+	        if (Array.isArray(obj)) {
+	            values = values.concat(stringify(
+	                obj[key],
+	                generateArrayPrefix(prefix, key),
+	                generateArrayPrefix,
+	                strictNullHandling,
+	                skipNulls,
+	                encoder,
+	                filter,
+	                sort,
+	                allowDots,
+	                serializeDate,
+	                formatter
+	            ));
+	        } else {
+	            values = values.concat(stringify(
+	                obj[key],
+	                prefix + (allowDots ? '.' + key : '[' + key + ']'),
+	                generateArrayPrefix,
+	                strictNullHandling,
+	                skipNulls,
+	                encoder,
+	                filter,
+	                sort,
+	                allowDots,
+	                serializeDate,
+	                formatter
+	            ));
+	        }
+	    }
+
+	    return values;
+	};
+
+	module.exports = function (object, opts) {
+	    var obj = object;
+	    var options = opts || {};
+	    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
+	    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+	    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
+	    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
+	    var encoder = encode ? (typeof options.encoder === 'function' ? options.encoder : defaults.encoder) : null;
+	    var sort = typeof options.sort === 'function' ? options.sort : null;
+	    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
+	    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
+	    if (typeof options.format === 'undefined') {
+	        options.format = formats.default;
+	    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
+	        throw new TypeError('Unknown format option provided.');
+	    }
+	    var formatter = formats.formatters[options.format];
+	    var objKeys;
+	    var filter;
+
+	    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
+	        throw new TypeError('Encoder has to be a function.');
+	    }
+
+	    if (typeof options.filter === 'function') {
+	        filter = options.filter;
+	        obj = filter('', obj);
+	    } else if (Array.isArray(options.filter)) {
+	        filter = options.filter;
+	        objKeys = filter;
+	    }
+
+	    var keys = [];
+
+	    if (typeof obj !== 'object' || obj === null) {
+	        return '';
+	    }
+
+	    var arrayFormat;
+	    if (options.arrayFormat in arrayPrefixGenerators) {
+	        arrayFormat = options.arrayFormat;
+	    } else if ('indices' in options) {
+	        arrayFormat = options.indices ? 'indices' : 'repeat';
+	    } else {
+	        arrayFormat = 'indices';
+	    }
+
+	    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+
+	    if (!objKeys) {
+	        objKeys = Object.keys(obj);
+	    }
+
+	    if (sort) {
+	        objKeys.sort(sort);
+	    }
+
+	    for (var i = 0; i < objKeys.length; ++i) {
+	        var key = objKeys[i];
+
+	        if (skipNulls && obj[key] === null) {
+	            continue;
+	        }
+
+	        keys = keys.concat(stringify(
+	            obj[key],
+	            key,
+	            generateArrayPrefix,
+	            strictNullHandling,
+	            skipNulls,
+	            encoder,
+	            filter,
+	            sort,
+	            allowDots,
+	            serializeDate,
+	            formatter
+	        ));
+	    }
+
+	    return keys.join(delimiter);
+	};
+
+
+/***/ },
+/* 510 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var has = Object.prototype.hasOwnProperty;
+
+	var hexTable = (function () {
+	    var array = [];
+	    for (var i = 0; i < 256; ++i) {
+	        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+	    }
+
+	    return array;
+	}());
+
+	exports.arrayToObject = function (source, options) {
+	    var obj = options && options.plainObjects ? Object.create(null) : {};
+	    for (var i = 0; i < source.length; ++i) {
+	        if (typeof source[i] !== 'undefined') {
+	            obj[i] = source[i];
+	        }
+	    }
+
+	    return obj;
+	};
+
+	exports.merge = function (target, source, options) {
+	    if (!source) {
+	        return target;
+	    }
+
+	    if (typeof source !== 'object') {
+	        if (Array.isArray(target)) {
+	            target.push(source);
+	        } else if (typeof target === 'object') {
+	            target[source] = true;
+	        } else {
+	            return [target, source];
+	        }
+
+	        return target;
+	    }
+
+	    if (typeof target !== 'object') {
+	        return [target].concat(source);
+	    }
+
+	    var mergeTarget = target;
+	    if (Array.isArray(target) && !Array.isArray(source)) {
+	        mergeTarget = exports.arrayToObject(target, options);
+	    }
+
+	    if (Array.isArray(target) && Array.isArray(source)) {
+	        source.forEach(function (item, i) {
+	            if (has.call(target, i)) {
+	                if (target[i] && typeof target[i] === 'object') {
+	                    target[i] = exports.merge(target[i], item, options);
+	                } else {
+	                    target.push(item);
+	                }
+	            } else {
+	                target[i] = item;
+	            }
+	        });
+	        return target;
+	    }
+
+	    return Object.keys(source).reduce(function (acc, key) {
+	        var value = source[key];
+
+	        if (Object.prototype.hasOwnProperty.call(acc, key)) {
+	            acc[key] = exports.merge(acc[key], value, options);
+	        } else {
+	            acc[key] = value;
+	        }
+	        return acc;
+	    }, mergeTarget);
+	};
+
+	exports.decode = function (str) {
+	    try {
+	        return decodeURIComponent(str.replace(/\+/g, ' '));
+	    } catch (e) {
+	        return str;
+	    }
+	};
+
+	exports.encode = function (str) {
+	    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+	    // It has been adapted here for stricter adherence to RFC 3986
+	    if (str.length === 0) {
+	        return str;
+	    }
+
+	    var string = typeof str === 'string' ? str : String(str);
+
+	    var out = '';
+	    for (var i = 0; i < string.length; ++i) {
+	        var c = string.charCodeAt(i);
+
+	        if (
+	            c === 0x2D || // -
+	            c === 0x2E || // .
+	            c === 0x5F || // _
+	            c === 0x7E || // ~
+	            (c >= 0x30 && c <= 0x39) || // 0-9
+	            (c >= 0x41 && c <= 0x5A) || // a-z
+	            (c >= 0x61 && c <= 0x7A) // A-Z
+	        ) {
+	            out += string.charAt(i);
+	            continue;
+	        }
+
+	        if (c < 0x80) {
+	            out = out + hexTable[c];
+	            continue;
+	        }
+
+	        if (c < 0x800) {
+	            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+	            continue;
+	        }
+
+	        if (c < 0xD800 || c >= 0xE000) {
+	            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+	            continue;
+	        }
+
+	        i += 1;
+	        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+	        out += hexTable[0xF0 | (c >> 18)] + hexTable[0x80 | ((c >> 12) & 0x3F)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)];
+	    }
+
+	    return out;
+	};
+
+	exports.compact = function (obj, references) {
+	    if (typeof obj !== 'object' || obj === null) {
+	        return obj;
+	    }
+
+	    var refs = references || [];
+	    var lookup = refs.indexOf(obj);
+	    if (lookup !== -1) {
+	        return refs[lookup];
+	    }
+
+	    refs.push(obj);
+
+	    if (Array.isArray(obj)) {
+	        var compacted = [];
+
+	        for (var i = 0; i < obj.length; ++i) {
+	            if (obj[i] && typeof obj[i] === 'object') {
+	                compacted.push(exports.compact(obj[i], refs));
+	            } else if (typeof obj[i] !== 'undefined') {
+	                compacted.push(obj[i]);
+	            }
+	        }
+
+	        return compacted;
+	    }
+
+	    var keys = Object.keys(obj);
+	    keys.forEach(function (key) {
+	        obj[key] = exports.compact(obj[key], refs);
+	    });
+
+	    return obj;
+	};
+
+	exports.isRegExp = function (obj) {
+	    return Object.prototype.toString.call(obj) === '[object RegExp]';
+	};
+
+	exports.isBuffer = function (obj) {
+	    if (obj === null || typeof obj === 'undefined') {
+	        return false;
+	    }
+
+	    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+	};
+
+
+/***/ },
+/* 511 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var replace = String.prototype.replace;
+	var percentTwenties = /%20/g;
+
+	module.exports = {
+	    'default': 'RFC3986',
+	    formatters: {
+	        RFC1738: function (value) {
+	            return replace.call(value, percentTwenties, '+');
+	        },
+	        RFC3986: function (value) {
+	            return value;
+	        }
+	    },
+	    RFC1738: 'RFC1738',
+	    RFC3986: 'RFC3986'
+	};
+
+
+/***/ },
+/* 512 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(510);
+
+	var has = Object.prototype.hasOwnProperty;
+
+	var defaults = {
+	    allowDots: false,
+	    allowPrototypes: false,
+	    arrayLimit: 20,
+	    decoder: utils.decode,
+	    delimiter: '&',
+	    depth: 5,
+	    parameterLimit: 1000,
+	    plainObjects: false,
+	    strictNullHandling: false
+	};
+
+	var parseValues = function parseValues(str, options) {
+	    var obj = {};
+	    var parts = str.split(options.delimiter, options.parameterLimit === Infinity ? undefined : options.parameterLimit);
+
+	    for (var i = 0; i < parts.length; ++i) {
+	        var part = parts[i];
+	        var pos = part.indexOf(']=') === -1 ? part.indexOf('=') : part.indexOf(']=') + 1;
+
+	        var key, val;
+	        if (pos === -1) {
+	            key = options.decoder(part);
+	            val = options.strictNullHandling ? null : '';
+	        } else {
+	            key = options.decoder(part.slice(0, pos));
+	            val = options.decoder(part.slice(pos + 1));
+	        }
+	        if (has.call(obj, key)) {
+	            obj[key] = [].concat(obj[key]).concat(val);
+	        } else {
+	            obj[key] = val;
+	        }
+	    }
+
+	    return obj;
+	};
+
+	var parseObject = function parseObject(chain, val, options) {
+	    if (!chain.length) {
+	        return val;
+	    }
+
+	    var root = chain.shift();
+
+	    var obj;
+	    if (root === '[]') {
+	        obj = [];
+	        obj = obj.concat(parseObject(chain, val, options));
+	    } else {
+	        obj = options.plainObjects ? Object.create(null) : {};
+	        var cleanRoot = root[0] === '[' && root[root.length - 1] === ']' ? root.slice(1, root.length - 1) : root;
+	        var index = parseInt(cleanRoot, 10);
+	        if (
+	            !isNaN(index) &&
+	            root !== cleanRoot &&
+	            String(index) === cleanRoot &&
+	            index >= 0 &&
+	            (options.parseArrays && index <= options.arrayLimit)
+	        ) {
+	            obj = [];
+	            obj[index] = parseObject(chain, val, options);
+	        } else {
+	            obj[cleanRoot] = parseObject(chain, val, options);
+	        }
+	    }
+
+	    return obj;
+	};
+
+	var parseKeys = function parseKeys(givenKey, val, options) {
+	    if (!givenKey) {
+	        return;
+	    }
+
+	    // Transform dot notation to bracket notation
+	    var key = options.allowDots ? givenKey.replace(/\.([^\.\[]+)/g, '[$1]') : givenKey;
+
+	    // The regex chunks
+
+	    var parent = /^([^\[\]]*)/;
+	    var child = /(\[[^\[\]]*\])/g;
+
+	    // Get the parent
+
+	    var segment = parent.exec(key);
+
+	    // Stash the parent if it exists
+
+	    var keys = [];
+	    if (segment[1]) {
+	        // If we aren't using plain objects, optionally prefix keys
+	        // that would overwrite object prototype properties
+	        if (!options.plainObjects && has.call(Object.prototype, segment[1])) {
+	            if (!options.allowPrototypes) {
+	                return;
+	            }
+	        }
+
+	        keys.push(segment[1]);
+	    }
+
+	    // Loop through children appending to the array until we hit depth
+
+	    var i = 0;
+	    while ((segment = child.exec(key)) !== null && i < options.depth) {
+	        i += 1;
+	        if (!options.plainObjects && has.call(Object.prototype, segment[1].replace(/\[|\]/g, ''))) {
+	            if (!options.allowPrototypes) {
+	                continue;
+	            }
+	        }
+	        keys.push(segment[1]);
+	    }
+
+	    // If there's a remainder, just add whatever is left
+
+	    if (segment) {
+	        keys.push('[' + key.slice(segment.index) + ']');
+	    }
+
+	    return parseObject(keys, val, options);
+	};
+
+	module.exports = function (str, opts) {
+	    var options = opts || {};
+
+	    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
+	        throw new TypeError('Decoder has to be a function.');
+	    }
+
+	    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
+	    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
+	    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
+	    options.parseArrays = options.parseArrays !== false;
+	    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
+	    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
+	    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
+	    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
+	    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
+	    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+
+	    if (str === '' || str === null || typeof str === 'undefined') {
+	        return options.plainObjects ? Object.create(null) : {};
+	    }
+
+	    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+	    var obj = options.plainObjects ? Object.create(null) : {};
+
+	    // Iterate over the keys and setup the new object
+
+	    var keys = Object.keys(tempObj);
+	    for (var i = 0; i < keys.length; ++i) {
+	        var key = keys[i];
+	        var newObj = parseKeys(key, tempObj[key], options);
+	        obj = utils.merge(obj, newObj, options);
+	    }
+
+	    return utils.compact(obj);
+	};
+
+
+/***/ },
+/* 513 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	exports.__esModule = true;
 	exports.Col = exports.Row = exports.Grid = undefined;
 
-	var _Grid2 = __webpack_require__(509);
+	var _Grid2 = __webpack_require__(514);
 
 	var _Grid3 = _interopRequireDefault(_Grid2);
 
-	var _Row2 = __webpack_require__(512);
+	var _Row2 = __webpack_require__(517);
 
 	var _Row3 = _interopRequireDefault(_Row2);
 
-	var _Col2 = __webpack_require__(513);
+	var _Col2 = __webpack_require__(518);
 
 	var _Col3 = _interopRequireDefault(_Col2);
 
@@ -32167,7 +32897,7 @@ webpackJsonp([1],[
 	exports.Col = _Col3.default;
 
 /***/ },
-/* 509 */
+/* 514 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32183,11 +32913,11 @@ webpackJsonp([1],[
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _createProps = __webpack_require__(510);
+	var _createProps = __webpack_require__(515);
 
 	var _createProps2 = _interopRequireDefault(_createProps);
 
-	var _flexboxgrid = __webpack_require__(511);
+	var _flexboxgrid = __webpack_require__(516);
 
 	var _flexboxgrid2 = _interopRequireDefault(_flexboxgrid);
 
@@ -32210,7 +32940,7 @@ webpackJsonp([1],[
 	Grid.propTypes = propTypes;
 
 /***/ },
-/* 510 */
+/* 515 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32230,14 +32960,14 @@ webpackJsonp([1],[
 	}
 
 /***/ },
-/* 511 */
+/* 516 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 	module.exports = {"container-fluid":"flexboxgrid__container-fluid___10rYK","container":"flexboxgrid__container___2_wHV","row":"flexboxgrid__row___29XjX","reverse":"flexboxgrid__reverse___m7007","col":"flexboxgrid__col___jT1yT","col-xs":"flexboxgrid__col-xs___1knTS","col-xs-1":"flexboxgrid__col-xs-1___13J4p","col-xs-2":"flexboxgrid__col-xs-2___3Y5tD","col-xs-3":"flexboxgrid__col-xs-3___R85Hj","col-xs-4":"flexboxgrid__col-xs-4___Fpo6G","col-xs-5":"flexboxgrid__col-xs-5___7uH-g","col-xs-6":"flexboxgrid__col-xs-6___1UkiL","col-xs-7":"flexboxgrid__col-xs-7___80o_p","col-xs-8":"flexboxgrid__col-xs-8___2nH-r","col-xs-9":"flexboxgrid__col-xs-9___3vLkm","col-xs-10":"flexboxgrid__col-xs-10___3LSEz","col-xs-11":"flexboxgrid__col-xs-11___wgp7T","col-xs-12":"flexboxgrid__col-xs-12___3qHsy","col-xs-offset-0":"flexboxgrid__col-xs-offset-0___3R6xs","col-xs-offset-1":"flexboxgrid__col-xs-offset-1___3MKdu","col-xs-offset-2":"flexboxgrid__col-xs-offset-2___1hIcF","col-xs-offset-3":"flexboxgrid__col-xs-offset-3___2QPtn","col-xs-offset-4":"flexboxgrid__col-xs-offset-4___3CA-M","col-xs-offset-5":"flexboxgrid__col-xs-offset-5___2hcaD","col-xs-offset-6":"flexboxgrid__col-xs-offset-6___13y9n","col-xs-offset-7":"flexboxgrid__col-xs-offset-7___2p3lw","col-xs-offset-8":"flexboxgrid__col-xs-offset-8___3I3nZ","col-xs-offset-9":"flexboxgrid__col-xs-offset-9___2mD-A","col-xs-offset-10":"flexboxgrid__col-xs-offset-10___1WX6O","col-xs-offset-11":"flexboxgrid__col-xs-offset-11___2w3dJ","col-xs-offset-12":"flexboxgrid__col-xs-offset-12___10_fo","start-xs":"flexboxgrid__start-xs___3sWJY","center-xs":"flexboxgrid__center-xs___2BPPf","end-xs":"flexboxgrid__end-xs___1AZF9","top-xs":"flexboxgrid__top-xs___3z11B","middle-xs":"flexboxgrid__middle-xs___3G53Z","bottom-xs":"flexboxgrid__bottom-xs___2oIs0","around-xs":"flexboxgrid__around-xs___1QEuG","between-xs":"flexboxgrid__between-xs___zz_qk","first-xs":"flexboxgrid__first-xs___3A7Fq","last-xs":"flexboxgrid__last-xs___3yleD","col-sm":"flexboxgrid__col-sm___2HYvS","col-sm-1":"flexboxgrid__col-sm-1___2Nuow","col-sm-2":"flexboxgrid__col-sm-2___WcD0I","col-sm-3":"flexboxgrid__col-sm-3___3-YJX","col-sm-4":"flexboxgrid__col-sm-4___3LJvN","col-sm-5":"flexboxgrid__col-sm-5___12i_D","col-sm-6":"flexboxgrid__col-sm-6___fz7Fn","col-sm-7":"flexboxgrid__col-sm-7___1okqP","col-sm-8":"flexboxgrid__col-sm-8___1D3v8","col-sm-9":"flexboxgrid__col-sm-9___GDGz4","col-sm-10":"flexboxgrid__col-sm-10___16e2Y","col-sm-11":"flexboxgrid__col-sm-11___3fgUN","col-sm-12":"flexboxgrid__col-sm-12___2Zdu7","col-sm-offset-0":"flexboxgrid__col-sm-offset-0___30X2J","col-sm-offset-1":"flexboxgrid__col-sm-offset-1___NbsGh","col-sm-offset-2":"flexboxgrid__col-sm-offset-2___DE2M7","col-sm-offset-3":"flexboxgrid__col-sm-offset-3___U2L9r","col-sm-offset-4":"flexboxgrid__col-sm-offset-4___1N_3K","col-sm-offset-5":"flexboxgrid__col-sm-offset-5___3LpXE","col-sm-offset-6":"flexboxgrid__col-sm-offset-6___AZPcf","col-sm-offset-7":"flexboxgrid__col-sm-offset-7___OwUjm","col-sm-offset-8":"flexboxgrid__col-sm-offset-8___16_-Z","col-sm-offset-9":"flexboxgrid__col-sm-offset-9___26N6Y","col-sm-offset-10":"flexboxgrid__col-sm-offset-10___2K5OH","col-sm-offset-11":"flexboxgrid__col-sm-offset-11___QHD-f","col-sm-offset-12":"flexboxgrid__col-sm-offset-12___rnmkO","start-sm":"flexboxgrid__start-sm___xSJb1","center-sm":"flexboxgrid__center-sm___14OcQ","end-sm":"flexboxgrid__end-sm___1Uy79","top-sm":"flexboxgrid__top-sm___2drJs","middle-sm":"flexboxgrid__middle-sm___9oVJo","bottom-sm":"flexboxgrid__bottom-sm___3RuGU","around-sm":"flexboxgrid__around-sm___1MU-K","between-sm":"flexboxgrid__between-sm___IpgII","first-sm":"flexboxgrid__first-sm___7Zq0N","last-sm":"flexboxgrid__last-sm___1WJV3","col-md":"flexboxgrid__col-md___2zAsJ","col-md-1":"flexboxgrid__col-md-1___C0UIp","col-md-2":"flexboxgrid__col-md-2___39NiP","col-md-3":"flexboxgrid__col-md-3___6Wc_1","col-md-4":"flexboxgrid__col-md-4___2cYbJ","col-md-5":"flexboxgrid__col-md-5___20oes","col-md-6":"flexboxgrid__col-md-6___2em-X","col-md-7":"flexboxgrid__col-md-7___3iAbi","col-md-8":"flexboxgrid__col-md-8___efLBh","col-md-9":"flexboxgrid__col-md-9___GeYRE","col-md-10":"flexboxgrid__col-md-10___3wufi","col-md-11":"flexboxgrid__col-md-11___3WoY1","col-md-12":"flexboxgrid__col-md-12___3-HIN","col-md-offset-0":"flexboxgrid__col-md-offset-0___3c3Nb","col-md-offset-1":"flexboxgrid__col-md-offset-1___t5eMd","col-md-offset-2":"flexboxgrid__col-md-offset-2___OQMBQ","col-md-offset-3":"flexboxgrid__col-md-offset-3___OW5WN","col-md-offset-4":"flexboxgrid__col-md-offset-4___2LoQG","col-md-offset-5":"flexboxgrid__col-md-offset-5___3T3C4","col-md-offset-6":"flexboxgrid__col-md-offset-6___3gU6r","col-md-offset-7":"flexboxgrid__col-md-offset-7___2I1CC","col-md-offset-8":"flexboxgrid__col-md-offset-8___2Er7v","col-md-offset-9":"flexboxgrid__col-md-offset-9___1ZoN-","col-md-offset-10":"flexboxgrid__col-md-offset-10___2B5Lu","col-md-offset-11":"flexboxgrid__col-md-offset-11___1riGK","col-md-offset-12":"flexboxgrid__col-md-offset-12___3Yk-7","start-md":"flexboxgrid__start-md___3yFhz","center-md":"flexboxgrid__center-md___1ZGVh","end-md":"flexboxgrid__end-md___LTWhl","top-md":"flexboxgrid__top-md___U8T4x","middle-md":"flexboxgrid__middle-md___2dXOW","bottom-md":"flexboxgrid__bottom-md___3G14S","around-md":"flexboxgrid__around-md___1Ydy4","between-md":"flexboxgrid__between-md___2VFln","first-md":"flexboxgrid__first-md___2gCpp","last-md":"flexboxgrid__last-md___2Hw8K","col-lg":"flexboxgrid__col-lg___1j8YB","col-lg-1":"flexboxgrid__col-lg-1___39dIX","col-lg-2":"flexboxgrid__col-lg-2___st6Op","col-lg-3":"flexboxgrid__col-lg-3___1v_td","col-lg-4":"flexboxgrid__col-lg-4___RzcI9","col-lg-5":"flexboxgrid__col-lg-5___1R3pK","col-lg-6":"flexboxgrid__col-lg-6___2lDJ6","col-lg-7":"flexboxgrid__col-lg-7___2ZwHb","col-lg-8":"flexboxgrid__col-lg-8___3XAVN","col-lg-9":"flexboxgrid__col-lg-9___3414X","col-lg-10":"flexboxgrid__col-lg-10___2RCeJ","col-lg-11":"flexboxgrid__col-lg-11___RXd3z","col-lg-12":"flexboxgrid__col-lg-12___1IfSd","col-lg-offset-0":"flexboxgrid__col-lg-offset-0___1q0ZJ","col-lg-offset-1":"flexboxgrid__col-lg-offset-1___-PPWY","col-lg-offset-2":"flexboxgrid__col-lg-offset-2___30FrD","col-lg-offset-3":"flexboxgrid__col-lg-offset-3___2jq86","col-lg-offset-4":"flexboxgrid__col-lg-offset-4___3CgeQ","col-lg-offset-5":"flexboxgrid__col-lg-offset-5___v7YY0","col-lg-offset-6":"flexboxgrid__col-lg-offset-6___36hnF","col-lg-offset-7":"flexboxgrid__col-lg-offset-7___1SS--","col-lg-offset-8":"flexboxgrid__col-lg-offset-8___Gy9_e","col-lg-offset-9":"flexboxgrid__col-lg-offset-9___1R7PJ","col-lg-offset-10":"flexboxgrid__col-lg-offset-10___fxPpx","col-lg-offset-11":"flexboxgrid__col-lg-offset-11___2uElT","col-lg-offset-12":"flexboxgrid__col-lg-offset-12___3A0Fr","start-lg":"flexboxgrid__start-lg___1-JZL","center-lg":"flexboxgrid__center-lg___3q7LG","end-lg":"flexboxgrid__end-lg___2cqDN","top-lg":"flexboxgrid__top-lg___2fsPm","middle-lg":"flexboxgrid__middle-lg___1L_96","bottom-lg":"flexboxgrid__bottom-lg___VUKIW","around-lg":"flexboxgrid__around-lg___1Bt8B","between-lg":"flexboxgrid__between-lg___1yopl","first-lg":"flexboxgrid__first-lg___2Urqs","last-lg":"flexboxgrid__last-lg___3wr6e"};
 
 /***/ },
-/* 512 */
+/* 517 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32253,11 +32983,11 @@ webpackJsonp([1],[
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _createProps = __webpack_require__(510);
+	var _createProps = __webpack_require__(515);
 
 	var _createProps2 = _interopRequireDefault(_createProps);
 
-	var _flexboxgrid = __webpack_require__(511);
+	var _flexboxgrid = __webpack_require__(516);
 
 	var _flexboxgrid2 = _interopRequireDefault(_flexboxgrid);
 
@@ -32308,7 +33038,7 @@ webpackJsonp([1],[
 	Row.propTypes = propTypes;
 
 /***/ },
-/* 513 */
+/* 518 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32320,11 +33050,11 @@ webpackJsonp([1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _createProps = __webpack_require__(510);
+	var _createProps = __webpack_require__(515);
 
 	var _createProps2 = _interopRequireDefault(_createProps);
 
-	var _flexboxgrid = __webpack_require__(511);
+	var _flexboxgrid = __webpack_require__(516);
 
 	var _flexboxgrid2 = _interopRequireDefault(_flexboxgrid);
 
@@ -32385,7 +33115,7 @@ webpackJsonp([1],[
 	Col.propTypes = propTypes;
 
 /***/ },
-/* 514 */
+/* 519 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32393,25 +33123,30 @@ webpackJsonp([1],[
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.RecipeCard = exports.DropdownItem = exports.MenuDialog = undefined;
+	exports.ProgressBar = exports.RecipeCard = exports.DropdownItem = exports.MenuDialog = undefined;
 
-	var _menuDialog = __webpack_require__(515);
+	var _menuDialog = __webpack_require__(520);
 
 	var _menuDialog2 = _interopRequireDefault(_menuDialog);
 
-	var _dropdownItem = __webpack_require__(517);
+	var _dropdownItem = __webpack_require__(522);
 
 	var _dropdownItem2 = _interopRequireDefault(_dropdownItem);
 
-	var _recipeCard = __webpack_require__(519);
+	var _recipeCard = __webpack_require__(524);
 
 	var _recipeCard2 = _interopRequireDefault(_recipeCard);
+
+	var _progressBar = __webpack_require__(527);
+
+	var _progressBar2 = _interopRequireDefault(_progressBar);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.MenuDialog = _menuDialog2.default;
 	exports.DropdownItem = _dropdownItem2.default;
 	exports.RecipeCard = _recipeCard2.default;
+	exports.ProgressBar = _progressBar2.default;
 	;
 
 	var _temp = function () {
@@ -32423,7 +33158,7 @@ webpackJsonp([1],[
 	;
 
 /***/ },
-/* 515 */
+/* 520 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32444,11 +33179,11 @@ webpackJsonp([1],[
 
 	var _firebase = __webpack_require__(237);
 
-	var _components = __webpack_require__(514);
+	var _components = __webpack_require__(519);
 
 	var _reactToolbox = __webpack_require__(247);
 
-	var _styles = __webpack_require__(516);
+	var _styles = __webpack_require__(521);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -32512,7 +33247,7 @@ webpackJsonp([1],[
 	      var ref = (0, _firebase.database)().ref('menus/' + uid);
 
 	      var name = this.state.newMenu ? this.state.newMenu : this.state.selectedMenu;
-	      var recipeId = this.props.recipeId;
+	      var recipe = this.props.recipe;
 
 	      if (!name) return;
 
@@ -32521,14 +33256,15 @@ webpackJsonp([1],[
 	        var menu = _ramda2.default.find(_ramda2.default.propEq('name', name), menus);
 
 	        if (menu) {
-	          var recipes = _ramda2.default.append(recipeId, _ramda2.default.prop('recipes', menu));
+	          var recipes = _ramda2.default.append(recipe, _ramda2.default.prop('recipes', menu));
 	          var newMenus = _ramda2.default.assoc('recipes', recipes, menu);
 	          return _ramda2.default.update(index, newMenus, menus);
 	        }
 
 	        return _ramda2.default.append({
 	          name: name,
-	          recipes: [recipeId]
+	          image: recipe.image,
+	          recipes: [recipe]
 	        }, menus);
 	      }).then(function (menus) {
 	        _this5.props.onDialogToggle();
@@ -32582,7 +33318,7 @@ webpackJsonp([1],[
 	            { className: _styles2.default.listItem },
 	            _react2.default.createElement(_reactToolbox.Input, {
 	              type: 'text',
-	              label: 'Nome da receita',
+	              label: 'Nome do menu',
 	              className: _styles2.default.input,
 	              value: this.state.newMenu,
 	              onChange: this.handleNewChange
@@ -32622,22 +33358,22 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(MenuDialog, 'MenuDialog', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/menu-dialog/index.js');
+	  __REACT_HOT_LOADER__.register(MenuDialog, 'MenuDialog', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/menu-dialog/index.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/menu-dialog/index.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/menu-dialog/index.js');
 	}();
 
 	;
 
 /***/ },
-/* 516 */
+/* 521 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 	module.exports = {"input":"styles__input___Qk_uG","listItem":"styles__listItem___3XO9Q"};
 
 /***/ },
-/* 517 */
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32650,7 +33386,7 @@ webpackJsonp([1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _styles = __webpack_require__(518);
+	var _styles = __webpack_require__(523);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -32687,22 +33423,22 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(DropdownItem, 'DropdownItem', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/dropdown-item/index.js');
+	  __REACT_HOT_LOADER__.register(DropdownItem, 'DropdownItem', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/dropdown-item/index.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/dropdown-item/index.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/dropdown-item/index.js');
 	}();
 
 	;
 
 /***/ },
-/* 518 */
+/* 523 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 	module.exports = {"container":"styles__container___2Q6xw","image":"styles__image___1Om_k","content":"styles__content___3H1qY"};
 
 /***/ },
-/* 519 */
+/* 524 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32721,11 +33457,11 @@ webpackJsonp([1],[
 
 	var _reactToolbox = __webpack_require__(247);
 
-	var _icons = __webpack_require__(520);
+	var _icons = __webpack_require__(525);
 
-	var _components = __webpack_require__(514);
+	var _components = __webpack_require__(519);
 
-	var _styles = __webpack_require__(521);
+	var _styles = __webpack_require__(526);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -32833,17 +33569,17 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(translateDifficulty, 'translateDifficulty', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/recipe-card/index.js');
+	  __REACT_HOT_LOADER__.register(translateDifficulty, 'translateDifficulty', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/recipe-card/index.js');
 
-	  __REACT_HOT_LOADER__.register(RecipeCard, 'RecipeCard', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/recipe-card/index.js');
+	  __REACT_HOT_LOADER__.register(RecipeCard, 'RecipeCard', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/recipe-card/index.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/recipe-card/index.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/recipe-card/index.js');
 	}();
 
 	;
 
 /***/ },
-/* 520 */
+/* 525 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32905,35 +33641,96 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(DifficultyIcon, "DifficultyIcon", "/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/icons/index.js");
+	  __REACT_HOT_LOADER__.register(DifficultyIcon, "DifficultyIcon", "/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/icons/index.js");
 
-	  __REACT_HOT_LOADER__.register(IngredientIcon, "IngredientIcon", "/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/icons/index.js");
+	  __REACT_HOT_LOADER__.register(IngredientIcon, "IngredientIcon", "/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/icons/index.js");
 
-	  __REACT_HOT_LOADER__.register(PortionIcon, "PortionIcon", "/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/icons/index.js");
+	  __REACT_HOT_LOADER__.register(PortionIcon, "PortionIcon", "/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/icons/index.js");
 
-	  __REACT_HOT_LOADER__.register(StepIcon, "StepIcon", "/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/icons/index.js");
+	  __REACT_HOT_LOADER__.register(StepIcon, "StepIcon", "/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/icons/index.js");
 
-	  __REACT_HOT_LOADER__.register(TimeIcon, "TimeIcon", "/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/components/icons/index.js");
+	  __REACT_HOT_LOADER__.register(TimeIcon, "TimeIcon", "/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/icons/index.js");
 	}();
 
 	;
 
 /***/ },
-/* 521 */
+/* 526 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 	module.exports = {"container":"styles__container___Z3qB8","info":"styles__info___2yy0j","favorite":"styles__favorite___3ywbz"};
 
 /***/ },
-/* 522 */
+/* 527 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactToolbox = __webpack_require__(247);
+
+	var _styles = __webpack_require__(528);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ProgressBar = function ProgressBar(props) {
+	  if (props.loading) {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: _styles2.default.progressBar },
+	      _react2.default.createElement(_reactToolbox.ProgressBar, {
+	        type: 'circular',
+	        mode: 'indeterminate',
+	        multicolor: true
+	      })
+	    );
+	  }
+
+	  return _react2.default.createElement('div', null);
+	};
+
+	var _default = ProgressBar;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+
+	  __REACT_HOT_LOADER__.register(ProgressBar, 'ProgressBar', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/progress-bar/index.js');
+
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/components/progress-bar/index.js');
+	}();
+
+	;
+
+/***/ },
+/* 528 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
-	module.exports = {"leftMenu":"styles__leftMenu___3Fvat","menuIcon":"styles__menuIcon___3MUl_","recipe":"styles__recipe___W96Xf","recipeInfo":"styles__recipeInfo___13-kj","addButton":"styles__addButton___3tUQi","iconFavorite":"styles__iconFavorite___2Ss8e"};
+	module.exports = {"progressBar":"styles__progressBar___2nXDq"};
 
 /***/ },
-/* 523 */
+/* 529 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+	module.exports = {"leftMenu":"styles__leftMenu___3Fvat","searchNavbar":"styles__searchNavbar___35U5G","closeIcon":"styles__closeIcon___3l4wx","searchIcon":"styles__searchIcon___1fPdy","menuIcon":"styles__menuIcon___3MUl_","recipe":"styles__recipe___W96Xf","recipeInfo":"styles__recipeInfo___13-kj","addButton":"styles__addButton___3tUQi","iconFavorite":"styles__iconFavorite___2Ss8e"};
+
+/***/ },
+/* 530 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32958,11 +33755,11 @@ webpackJsonp([1],[
 
 	var _reactToolbox = __webpack_require__(247);
 
-	var _icons = __webpack_require__(520);
+	var _icons = __webpack_require__(525);
 
-	var _components = __webpack_require__(514);
+	var _components = __webpack_require__(519);
 
-	var _styles = __webpack_require__(524);
+	var _styles = __webpack_require__(531);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -32991,6 +33788,8 @@ webpackJsonp([1],[
 	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Show.__proto__ || Object.getPrototypeOf(Show)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 	      comment: '',
 
+	      currentUser: {},
+
 	      recipe: {
 	        title: '',
 	        ingredients: [],
@@ -33000,9 +33799,11 @@ webpackJsonp([1],[
 	        user: {}
 	      },
 
+	      isLoading: true,
+
 	      dialog: {
 	        active: false,
-	        recipeId: null
+	        recipe: null
 	      }
 	    }, _this.trim = function () {
 	      var _this2;
@@ -33089,11 +33890,11 @@ webpackJsonp([1],[
 	    }
 	  }, {
 	    key: '__addRecipeToMenu__REACT_HOT_LOADER__',
-	    value: function __addRecipeToMenu__REACT_HOT_LOADER__(id) {
+	    value: function __addRecipeToMenu__REACT_HOT_LOADER__(recipe) {
 	      this.setState({
 	        dialog: {
-	          active: true,
-	          recipeId: id
+	          recipe: recipe,
+	          active: true
 	        }
 	      });
 	    }
@@ -33140,14 +33941,32 @@ webpackJsonp([1],[
 	      });
 	    }
 	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var currentUser = (0, _firebase.auth)().currentUser;
+
+	      this.setState({ currentUser: currentUser });
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this13 = this;
 
 	      var id = this.props.params.id;
+	      var reference = (0, _firebase.database)().ref('recipes').child(id);
 
-	      (0, _firebase.database)().ref('recipes').child(id).once('value').then(_ramda2.default.invoker(0, 'val')).then(_ramda2.default.merge({ comments: [], likes: [] })).then(function (recipe) {
+	      return Promise.resolve().then(function () {
+	        return _this13.setState({ isLoading: true });
+	      }).then(function () {
+	        return reference.once('value');
+	      }).then(_ramda2.default.invoker(0, 'val')).then(_ramda2.default.merge({
+	        id: id,
+	        comments: [],
+	        likes: []
+	      })).then(function (recipe) {
 	        return _this13.setState({ recipe: recipe });
+	      }).then(function () {
+	        return _this13.setState({ isLoading: false });
 	      });
 	    }
 	  }, {
@@ -33160,7 +33979,7 @@ webpackJsonp([1],[
 	        { scrollY: true },
 	        _react2.default.createElement(_components.MenuDialog, {
 	          active: this.state.dialog.active,
-	          recipeId: this.state.dialog.recipeId,
+	          recipe: this.state.dialog.recipe,
 	          onDialogToggle: this.handleDialogToggle
 	        }),
 	        _react2.default.createElement(
@@ -33176,9 +33995,10 @@ webpackJsonp([1],[
 	              this.trim(this.state.recipe.title)
 	            )
 	          ),
+	          _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
 	          _react2.default.createElement(
 	            _reactToolbox.Card,
-	            null,
+	            { style: { opacity: this.state.isLoading ? 0 : 1 } },
 	            _react2.default.createElement(_reactToolbox.CardMedia, {
 	              aspectRatio: 'wide',
 	              image: this.state.recipe.image
@@ -33244,7 +34064,7 @@ webpackJsonp([1],[
 	              _reactToolbox.CardActions,
 	              { style: { borderBottom: '1px solid #f5f5f5' } },
 	              _react2.default.createElement(_reactToolbox.IconButton, { icon: 'bookmark_border', onClick: function onClick() {
-	                  return _this14.addRecipeToMenu(_this14.props.params.id);
+	                  return _this14.addRecipeToMenu(_this14.state.recipe);
 	                } }),
 	              this.canFavoriteRecipe(this.props.params.id) ? _react2.default.createElement(_reactToolbox.IconButton, { className: _styles2.default.favorite, icon: 'favorite_border', onClick: function onClick() {
 	                  return _this14.favoriteRecipe(_this14.props.params.id);
@@ -33320,7 +34140,7 @@ webpackJsonp([1],[
 	                  _react2.default.createElement(
 	                    _reactToolbox.Avatar,
 	                    { className: _styles2.default.commentAvatar },
-	                    _react2.default.createElement('img', { src: 'https://avatars2.githubusercontent.com/u/7416751?v=3&s=466' })
+	                    _react2.default.createElement('img', { src: this.state.currentUser.photoURL })
 	                  ),
 	                  _react2.default.createElement(_reactToolbox.Input, { className: _styles2.default.commentInput, multiline: true, label: 'Adicionar Coment\xE1rio', value: this.state.comment, onChange: this.handleCommentChange })
 	                ),
@@ -33353,22 +34173,22 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Show, 'Show', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/screens/recipes/show/index.js');
+	  __REACT_HOT_LOADER__.register(Show, 'Show', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/recipes/show/index.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/screens/recipes/show/index.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/recipes/show/index.js');
 	}();
 
 	;
 
 /***/ },
-/* 524 */
+/* 531 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 	module.exports = {"favorite":"styles__favorite___3iBgh","leftMenu":"styles__leftMenu___3C80x","menuIcon":"styles__menuIcon___204iR","recipeInfo":"styles__recipeInfo___3o-wg","step":"styles__step___3xz3r","tags":"styles__tags___3VqQl","comment":"styles__comment___2Nird","commentForm":"styles__commentForm___3mncv","commentBox":"styles__commentBox___1DrOj","commentInput":"styles__commentInput___vA7gu","commentAvatar":"styles__commentAvatar___G3CSu","commentButton":"styles__commentButton___973ng"};
 
 /***/ },
-/* 525 */
+/* 532 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33383,7 +34203,7 @@ webpackJsonp([1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bluebird = __webpack_require__(526);
+	var _bluebird = __webpack_require__(533);
 
 	var _bluebird2 = _interopRequireDefault(_bluebird);
 
@@ -33397,11 +34217,11 @@ webpackJsonp([1],[
 
 	var _reactToolbox = __webpack_require__(247);
 
-	var _icons = __webpack_require__(520);
+	var _icons = __webpack_require__(525);
 
-	var _components = __webpack_require__(514);
+	var _components = __webpack_require__(519);
 
-	var _styles = __webpack_require__(528);
+	var _styles = __webpack_require__(535);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -33958,15 +34778,15 @@ webpackJsonp([1],[
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(New, 'New', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/screens/recipes/new/index.js');
+	  __REACT_HOT_LOADER__.register(New, 'New', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/recipes/new/index.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando-app/app/screens/recipes/new/index.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/recipes/new/index.js');
 	}();
 
 	;
 
 /***/ },
-/* 526 */
+/* 533 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process, global, setImmediate) {/* @preserve
@@ -39567,10 +40387,10 @@ webpackJsonp([1],[
 
 	},{"./es5":13}]},{},[4])(4)
 	});                    ;if (typeof window !== 'undefined' && window !== null) {                               window.P = window.Promise;                                                     } else if (typeof self !== 'undefined' && self !== null) {                             self.P = self.Promise;                                                         }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), (function() { return this; }()), __webpack_require__(527).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), (function() { return this; }()), __webpack_require__(534).setImmediate))
 
 /***/ },
-/* 527 */
+/* 534 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(3).nextTick;
@@ -39649,14 +40469,460 @@ webpackJsonp([1],[
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(527).setImmediate, __webpack_require__(527).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(534).setImmediate, __webpack_require__(534).clearImmediate))
 
 /***/ },
-/* 528 */
+/* 535 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 	module.exports = {"addPicture":"styles__addPicture___2H76t","recipeImage":"styles__recipeImage___3u9gI","input":"styles__input___21001","fileInput":"styles__fileInput___32sGt","activeInput":"styles__activeInput___etrpS styles__input___21001","inputIcon":"styles__inputIcon___vnEEZ","dropdown":"styles__dropdown___2ngXQ styles__input___21001","list":"styles__list___2dEDy","listDivider":"styles__listDivider___1mk7k","listItemInput":"styles__listItemInput___cUYQF","listItemDropdown":"styles__listItemDropdown___1yMyD styles__listItemInput___cUYQF","listItemIngredient":"styles__listItemIngredient___2OQEa","listItemStep":"styles__listItemStep___3HeIT","listItemTags":"styles__listItemTags___uIb3Z"};
+
+/***/ },
+/* 536 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.MenuList = undefined;
+
+	var _list = __webpack_require__(537);
+
+	var _list2 = _interopRequireDefault(_list);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.MenuList = _list2.default;
+	;
+
+	var _temp = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+	}();
+
+	;
+
+/***/ },
+/* 537 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _ramda = __webpack_require__(244);
+
+	var _ramda2 = _interopRequireDefault(_ramda);
+
+	var _index = __webpack_require__(513);
+
+	var _auth = __webpack_require__(504);
+
+	var _firebase = __webpack_require__(237);
+
+	var _components = __webpack_require__(519);
+
+	var _reactToolbox = __webpack_require__(247);
+
+	var _icons = __webpack_require__(525);
+
+	var _styles = __webpack_require__(538);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var MenuList = function (_Component) {
+	  _inherits(MenuList, _Component);
+
+	  function MenuList() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, MenuList);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MenuList.__proto__ || Object.getPrototypeOf(MenuList)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+	      isLoading: false,
+
+	      menus: []
+	    }, _this.handleSignOut = function () {
+	      var _this2;
+
+	      return (_this2 = _this).__handleSignOut__REACT_HOT_LOADER__.apply(_this2, arguments);
+	    }, _this.seeRecipe = function () {
+	      var _this3;
+
+	      return (_this3 = _this).__seeRecipe__REACT_HOT_LOADER__.apply(_this3, arguments);
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(MenuList, [{
+	    key: '__handleSignOut__REACT_HOT_LOADER__',
+	    value: function __handleSignOut__REACT_HOT_LOADER__() {
+	      (0, _auth.signOut)().then(function () {
+	        return (0, _auth.redirect)('/login');
+	      });
+	    }
+	  }, {
+	    key: '__seeRecipe__REACT_HOT_LOADER__',
+	    value: function __seeRecipe__REACT_HOT_LOADER__(id) {
+	      return (0, _auth.redirect)('/' + id);
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this4 = this;
+
+	      var uid = (0, _firebase.auth)().currentUser.uid;
+	      var reference = (0, _firebase.database)().ref('menus/' + uid);
+
+	      return Promise.resolve().then(function () {
+	        return _this4.setState({ isLoading: true });
+	      }).then(function () {
+	        return reference.once('value');
+	      }).then(function (snapshot) {
+	        return snapshot.val();
+	      }).then(_ramda2.default.tap(console.log)).then(_firebase.normalize).then(function (menus) {
+	        return _this4.setState({ menus: menus });
+	      }).then(function () {
+	        return _this4.setState({ isLoading: false });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this5 = this;
+
+	      return _react2.default.createElement(
+	        _reactToolbox.Panel,
+	        { scrollY: true },
+	        _react2.default.createElement(
+	          'section',
+	          null,
+	          _react2.default.createElement(
+	            _reactToolbox.AppBar,
+	            null,
+	            _react2.default.createElement(_reactToolbox.IconButton, { icon: 'menu', inverse: true, onClick: this.props.onToggleDrawer }),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              'MENUS'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: _styles2.default.leftMenu },
+	              _react2.default.createElement(
+	                _reactToolbox.IconMenu,
+	                { position: 'topRight', className: _styles2.default.menuIcon },
+	                _react2.default.createElement(_reactToolbox.MenuItem, { value: 'signout', icon: 'exit_to_app', caption: 'Sign out', onClick: this.handleSignOut })
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
+	          _react2.default.createElement(
+	            _reactToolbox.List,
+	            { selectable: true, ripple: true },
+	            this.state.menus.map(function (menu, index) {
+	              return _react2.default.createElement(
+	                'div',
+	                { key: '' + menu.name + index },
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: menu.name }),
+	                menu.recipes.map(function (recipe, recipeIndex) {
+	                  return _react2.default.createElement(
+	                    _reactToolbox.ListItem,
+	                    {
+	                      onClick: function onClick() {
+	                        return _this5.seeRecipe(recipe.id);
+	                      },
+	                      key: '' + recipe.name + recipe.id
+	                    },
+	                    _react2.default.createElement(_components.DropdownItem, {
+	                      image: recipe.image,
+	                      name: recipe.title,
+	                      description: 'Por ' + recipe.user.displayName
+	                    })
+	                  );
+	                }),
+	                index !== _this5.state.menus.length - 1 && _react2.default.createElement(_reactToolbox.ListDivider, null)
+	              );
+	            })
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return MenuList;
+	}(_react.Component);
+
+	var _default = MenuList;
+	exports.default = _default;
+	;
+
+	var _temp2 = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+
+	  __REACT_HOT_LOADER__.register(MenuList, 'MenuList', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/menus/list/index.js');
+
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/menus/list/index.js');
+	}();
+
+	;
+
+/***/ },
+/* 538 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+	module.exports = {"leftMenu":"styles__leftMenu___1lhBf","menuIcon":"styles__menuIcon___1ADih","recipe":"styles__recipe___3uSsc","recipeInfo":"styles__recipeInfo___2tEcG","addButton":"styles__addButton___pK0_e","iconFavorite":"styles__iconFavorite___35BDL"};
+
+/***/ },
+/* 539 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.SearchList = undefined;
+
+	var _list = __webpack_require__(540);
+
+	var _list2 = _interopRequireDefault(_list);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.SearchList = _list2.default;
+	;
+
+	var _temp = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+	}();
+
+	;
+
+/***/ },
+/* 540 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _ramda = __webpack_require__(244);
+
+	var _ramda2 = _interopRequireDefault(_ramda);
+
+	var _auth = __webpack_require__(504);
+
+	var _firebase = __webpack_require__(237);
+
+	var _components = __webpack_require__(519);
+
+	var _reactToolbox = __webpack_require__(247);
+
+	var _icons = __webpack_require__(525);
+
+	var _styles = __webpack_require__(541);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SearchList = function (_Component) {
+	  _inherits(SearchList, _Component);
+
+	  function SearchList() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, SearchList);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SearchList.__proto__ || Object.getPrototypeOf(SearchList)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+	      isLoading: false,
+
+	      term: '',
+
+	      recipes: []
+	    }, _this.handleSignOut = function () {
+	      var _this2;
+
+	      return (_this2 = _this).__handleSignOut__REACT_HOT_LOADER__.apply(_this2, arguments);
+	    }, _this.seeRecipe = function () {
+	      var _this3;
+
+	      return (_this3 = _this).__seeRecipe__REACT_HOT_LOADER__.apply(_this3, arguments);
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(SearchList, [{
+	    key: '__handleSignOut__REACT_HOT_LOADER__',
+	    value: function __handleSignOut__REACT_HOT_LOADER__() {
+	      (0, _auth.signOut)().then(function () {
+	        return (0, _auth.redirect)('/login');
+	      });
+	    }
+	  }, {
+	    key: '__seeRecipe__REACT_HOT_LOADER__',
+	    value: function __seeRecipe__REACT_HOT_LOADER__(id) {
+	      return (0, _auth.redirect)('/' + id);
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var term = this.props.location.query.term;
+
+	      this.setState({ term: term });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this4 = this;
+
+	      var reference = (0, _firebase.database)().ref('recipes');
+	      var term = this.state.term;
+
+	      return Promise.resolve().then(function () {
+	        return _this4.setState({ isLoading: true });
+	      }).then(function () {
+	        return reference.once('value');
+	      }).then(function (snapshot) {
+	        return snapshot.val();
+	      }).then(_firebase.normalize).then(_ramda2.default.filter(_ramda2.default.where({ tags: _ramda2.default.contains(term) }))).then(_ramda2.default.tap(console.log)).then(function (recipes) {
+	        return _this4.setState({ recipes: recipes });
+	      }).then(function () {
+	        return _this4.setState({ isLoading: false });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this5 = this;
+
+	      return _react2.default.createElement(
+	        _reactToolbox.Panel,
+	        { scrollY: true },
+	        _react2.default.createElement(
+	          'section',
+	          null,
+	          _react2.default.createElement(
+	            _reactToolbox.AppBar,
+	            null,
+	            _react2.default.createElement(_reactToolbox.IconButton, { icon: 'menu', inverse: true, onClick: this.props.onToggleDrawer }),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              'PESQUISA'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: _styles2.default.leftMenu },
+	              _react2.default.createElement(
+	                _reactToolbox.IconMenu,
+	                { position: 'topRight', className: _styles2.default.menuIcon },
+	                _react2.default.createElement(_reactToolbox.MenuItem, { value: 'signout', icon: 'exit_to_app', caption: 'Sign out', onClick: this.handleSignOut })
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            _reactToolbox.List,
+	            { selectable: true, ripple: true },
+	            this.state.isLoading === false && this.state.recipes.length === 0 ? _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Nenhum resultado encontrado' }) : _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Procurando por: "' + this.state.term + '"' }),
+	            this.state.recipes.map(function (recipe, recipeIndex) {
+	              return _react2.default.createElement(
+	                _reactToolbox.ListItem,
+	                {
+	                  onClick: function onClick() {
+	                    return _this5.seeRecipe(recipe.id);
+	                  },
+	                  key: '' + recipe.name + recipe.id
+	                },
+	                _react2.default.createElement(_components.DropdownItem, {
+	                  image: recipe.image,
+	                  name: recipe.title,
+	                  description: 'Por ' + recipe.user.displayName
+	                })
+	              );
+	            })
+	          ),
+	          _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return SearchList;
+	}(_react.Component);
+
+	var _default = SearchList;
+	exports.default = _default;
+	;
+
+	var _temp2 = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+
+	  __REACT_HOT_LOADER__.register(SearchList, 'SearchList', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/search/list/index.js');
+
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/grvcoelho/Hyperspace/panelando/panelando/app/screens/search/list/index.js');
+	}();
+
+	;
+
+/***/ },
+/* 541 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+	module.exports = {"leftMenu":"styles__leftMenu___122xT","menuIcon":"styles__menuIcon___30aDg","recipe":"styles__recipe___m1STc","recipeInfo":"styles__recipeInfo___m4MAy","addButton":"styles__addButton___2q_xz","iconFavorite":"styles__iconFavorite___1ZT3j"};
 
 /***/ }
 ]);
