@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 
 module.exports = {
@@ -37,7 +38,7 @@ module.exports = {
         'babel-loader'
       ]
     }, {
-      test: /\.html$/,
+      test: /\.(html|json|png)$/,
       loaders: [
         'file?name=[name].[ext]'
       ]
@@ -49,6 +50,10 @@ module.exports = {
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
     new ExtractTextPlugin('bundle.css', { allChunks: true }),
+    new CopyPlugin([
+      { from: 'images/icons/*' },
+      { from: 'manifest.json' }
+    ]),
     new SWPrecachePlugin({
       cacheId: 'panelando-v1',
       filename: 'sw.js',
