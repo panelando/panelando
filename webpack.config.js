@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 
 module.exports = {
   context: path.join(__dirname, './app'),
@@ -47,6 +48,14 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
-    new ExtractTextPlugin('bundle.css', { allChunks: true })
+    new ExtractTextPlugin('bundle.css', { allChunks: true }),
+    new SWPrecachePlugin({
+      cacheId: 'panelando-v1',
+      filename: 'sw.js',
+      runtimeCaching: [{
+        urlPattern: /^https:\/\/firebasestorage\.googleapis\.com/,
+        handler: 'cacheFirst'
+      }]
+    })
   ]
 }
