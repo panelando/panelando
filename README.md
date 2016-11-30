@@ -1,1 +1,1 @@
-# panelando-app
+# panelando
