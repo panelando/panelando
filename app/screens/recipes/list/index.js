@@ -110,8 +110,7 @@ class List extends Component {
         const recipes = R.update(recipeIndex, recipe, this.state.recipes)
 
         reference.set(likes)
-        this.setState({ recipes })
-
+        this.updateRecipes(recipes)
       })
   }
 
@@ -134,7 +133,7 @@ class List extends Component {
         const recipes = R.update(recipeIndex, recipe, this.state.recipes)
 
         reference.set(likes)
-        this.setState({ recipes })
+        this.updateRecipes(recipes)
       })
   }
 
@@ -161,6 +160,13 @@ class List extends Component {
     )(recipes)
   }
 
+  updateRecipes = recipes => {
+    const popularRecipes = this.getPopularRecipes(recipes)
+    const favoriteRecipes = this.getFavoriteRecipes(recipes)
+
+    this.setState({ recipes, popularRecipes, favoriteRecipes })
+  }
+
   componentWillMount () {
     const { tab } = this.props.location.query
 
@@ -185,7 +191,7 @@ class List extends Component {
       .then(() => reference.once('value'))
       .then(snapshot => snapshot.val())
       .then(normalize)
-      .then(recipes => this.setState({ recipes }))
+      .then(this.updateRecipes)
       .then(() => this.setState({ isLoading: false }))
   }
 
@@ -235,7 +241,7 @@ class List extends Component {
             <Tab label="Populares">
               <ProgressBar loading={this.state.isLoading} />
 
-              {this.getPopularRecipes(this.state.recipes).map(recipe => (
+              {this.state.popularRecipes.map(recipe => (
                 <RecipeCard
                   key={recipe.id}
                   recipe={recipe}
@@ -253,7 +259,7 @@ class List extends Component {
             <Tab label="Favoritos">
               <ProgressBar loading={this.state.isLoading} />
 
-              {this.getFavoriteRecipes(this.state.recipes).map(recipe => (
+              {this.state.favoriteRecipes.map(recipe => (
                 <RecipeCard
                   key={recipe.id}
                   recipe={recipe}
