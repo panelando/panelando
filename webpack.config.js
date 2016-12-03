@@ -55,7 +55,7 @@ module.exports = {
       { from: 'manifest.json' }
     ]),
     new SWPrecachePlugin({
-      cacheId: 'panelando-v1',
+      cacheId: `panelando-v1-rc-${Date.now()}`,
       filename: 'sw.js',
       runtimeCaching: [{
         urlPattern: /^https:\/\/firebasestorage\.googleapis\.com/,
