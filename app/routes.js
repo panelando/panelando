@@ -6,6 +6,7 @@ import { ApplicationShell } from 'screens/layout'
 import { Login } from 'screens/auth'
 import { RecipeList, RecipeShow, RecipeNew } from 'screens/recipes'
 import { MenuList } from 'screens/menus'
+import { SearchList } from 'screens/search'
 
 const requireAuth = (nextState, replace, callback) => {
   auth().onAuthStateChanged(user => {
@@ -28,6 +29,7 @@ const App = () => (
       <IndexRoute component={RecipeList} />
       <Route path="/new" component={RecipeNew} />
       <Route path="/menus" component={MenuList} />
+      <Route path="/search" component={SearchList} />
       <Route path="/:id" component={RecipeShow} />
     </Route>
   </Router>
