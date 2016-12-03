@@ -2,6 +2,22 @@
   margin-left: auto;
 }
 
+.searchNavbar {
+  background: white;
+
+  input {
+    flex: 1;
+  }
+}
+
+.closeIcon {
+  opacity: .5;
+}
+
+.searchIcon {
+  color: white !important;
+}
+
 .menuIcon > button {
   color: white !important;
 }

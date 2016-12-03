@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { findDOMNode } from 'react-dom'
 import R from 'ramda'
+import qs from 'qs'
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index'
 import { signOut, redirect } from 'lib/auth'
 import { database, normalize, auth } from 'lib/firebase'
@@ -37,6 +39,10 @@ import styles from './styles'
 class List extends Component {
   state = {
     isLoading: false,
+
+    search: {
+      active: false
+    },
 
     tabs: {
       tabIndex: 0
@@ -167,6 +173,32 @@ class List extends Component {
     this.setState({ recipes, popularRecipes, favoriteRecipes })
   }
 
+  openSearch = () => {
+    this.setState({
+      search: { active: true }
+    })
+  }
+
+  closeSearch = () => {
+    this.setState({
+      search: { active: false }
+    })
+  }
+
+  submitSearch = event => {
+    if (event.keyCode === 13) {
+      const value = event.target.value
+
+      const query = qs.stringify({
+        term: value
+      })
+
+      const url = `/search?${query}`
+
+      redirect(url)
+    }
+  }
+
   componentWillMount () {
     const { tab } = this.props.location.query
 
@@ -208,16 +240,32 @@ class List extends Component {
         />
 
         <section>
-          <AppBar>
-            <IconButton icon="menu" inverse={true} onClick={this.props.onToggleDrawer} />
-            <span>RECEITAS</span>
+          {this.state.search.active ? (
+            <AppBar className={styles.searchNavbar}>
+              <input
+                ref="searchInput"
+                autoFocus
+                onKeyDown={this.submitSearch}
+              />
 
-            <div className={styles.leftMenu}>
-              <IconMenu position="topRight" className={styles.menuIcon}>
-                <MenuItem value="signout" icon="exit_to_app" caption="Sign out" onClick={this.handleSignOut} />
-              </IconMenu>
-            </div>
-          </AppBar>
+              <div className={styles.leftMenu}>
+                <IconButton icon="close" className={styles.closeIcon} onClick={this.closeSearch} />
+              </div>
+            </AppBar>
+          ) : (
+            <AppBar>
+              <IconButton icon="menu" inverse={true} onClick={this.props.onToggleDrawer} />
+              <span>RECEITAS</span>
+
+              <div className={styles.leftMenu}>
+                <IconButton icon="search" className={styles.searchIcon} onClick={this.openSearch} />
+
+                <IconMenu position="topRight" className={styles.menuIcon}>
+                  <MenuItem value="signout" icon="exit_to_app" caption="Sign out" onClick={this.handleSignOut} />
+                </IconMenu>
+              </div>
+            </AppBar>
+          )}
 
           <Tabs index={this.state.tabs.tabIndex} onChange={this.handleTabChange} fixed inverse>
             <Tab label="Descobrir">
