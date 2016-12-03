@@ -10,6 +10,8 @@ import {
   NavDrawer
 } from 'react-toolbox'
 
+import { auth } from 'lib/firebase'
+
 import styles from './styles'
 
 class ApplicationShell extends Component {
@@ -17,7 +19,11 @@ class ApplicationShell extends Component {
     super(props)
 
     this.state = {
-      drawerActive: false
+      drawerActive: false,
+      user: {
+        displayName: '',
+        photoURL: ''
+      }
     }
   }
 
@@ -33,6 +39,12 @@ class ApplicationShell extends Component {
     return React.cloneElement(this.props.children, propsToPassToChildren)
   }
 
+  componentDidMount () {
+    return Promise.resolve()
+      .then(() => auth().currentUser)
+      .then(user => this.setState({ user  }))
+  }
+
   render () {
     return (
       <Layout>
@@ -43,11 +55,11 @@ class ApplicationShell extends Component {
           <div className={styles.drawerHeaderContainer}>
             <div className={styles.drawerHeader}>
               <Avatar className={styles.drawerUserAvatar}>
-                <img src="https://avatars2.githubusercontent.com/u/7416751?v=3&s=466" />
+                <img src={this.state.user.photoURL} />
               </Avatar>
 
               <div className={styles.drawerUserName}>
-                Guilherme Coelho
+                {this.state.user.displayName}
               </div>
 
               <div className={styles.drawerUserLocation}>
