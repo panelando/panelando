@@ -39,6 +39,8 @@ class Show extends Component {
   state = {
     comment: '',
 
+    currentUser: {},
+
     recipe: {
       title: '',
       ingredients: [],
@@ -158,6 +160,11 @@ class Show extends Component {
       })
   }
 
+  componentWillMount () {
+    const currentUser = auth().currentUser
+
+    this.setState({ currentUser })
+  }
 
   componentDidMount () {
     const id = this.props.params.id
@@ -288,7 +295,7 @@ class Show extends Component {
                 <form className={styles.commentForm}>
                   <div className={styles.commentBox}>
                     <Avatar className={styles.commentAvatar}>
-                      <img src="https://avatars2.githubusercontent.com/u/7416751?v=3&s=466" />
+                      <img src={this.state.currentUser.photoURL} />
                     </Avatar>
 
                     <Input className={styles.commentInput} multiline label="Adicionar Comentário" value={this.state.comment} onChange={this.handleCommentChange} />
