@@ -5,8 +5,11 @@
 .searchNavbar {
   background: white;
 
-  input {
+  input,
+  input:focus {
     flex: 1;
+    border: none;
+    outline: none;
   }
 }
 
