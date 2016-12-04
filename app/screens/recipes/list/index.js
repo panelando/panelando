@@ -187,7 +187,7 @@ class List extends Component {
 
   submitSearch = event => {
     if (event.keyCode === 13) {
-      const value = event.target.value
+      const value = event.target.value.toLowerCase()
 
       const query = qs.stringify({
         term: value
