@@ -78,33 +78,34 @@ class MenuList extends Component {
             </div>
           </AppBar>
 
-          <ProgressBar loading={this.state.isLoading} />
+          <Grid>
+            <ProgressBar loading={this.state.isLoading} />
 
-          <List selectable ripple>
-            {this.state.menus.map((menu, index) => (
-              <div key={`${menu.name}${index}`}>
-                <ListSubHeader caption={menu.name} />
+            <List selectable ripple>
+              {this.state.menus.map((menu, index) => (
+                <div key={`${menu.name}${index}`}>
+                  <ListSubHeader caption={menu.name} />
 
-                {menu.recipes.map((recipe, recipeIndex) => (
-                  <ListItem
-                    onClick={() => this.seeRecipe(recipe.id)}
-                    key={`${recipe.name}${recipe.id}`}
-                  >
-                    <DropdownItem
-                      image={recipe.image}
-                      name={recipe.title}
-                      description={`Por ${recipe.user.displayName}`}
-                    />
-                  </ListItem>
-                ))}
+                  {menu.recipes.map((recipe, recipeIndex) => (
+                    <ListItem
+                      onClick={() => this.seeRecipe(recipe.id)}
+                      key={`${recipe.name}${recipe.id}`}
+                    >
+                      <DropdownItem
+                        image={recipe.image}
+                        name={recipe.title}
+                        description={`Por ${recipe.user.displayName}`}
+                      />
+                    </ListItem>
+                  ))}
 
-                {index !== this.state.menus.length - 1 && (
-                  <ListDivider />
-                )}
-              </div>
-            ))}
-          </List>
-
+                  {index !== this.state.menus.length - 1 && (
+                    <ListDivider />
+                  )}
+                </div>
+              ))}
+            </List>
+          </Grid>
         </section>
       </Panel>
     )

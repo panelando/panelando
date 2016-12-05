@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import R from 'ramda'
+import { Grid, Row, Col } from 'react-flexbox-grid'
 import { signOut, redirect } from 'lib/auth'
 import { database, normalize, auth } from 'lib/firebase'
 import { MenuDialog } from 'components'
@@ -85,29 +86,30 @@ class SearchList extends Component {
             </div>
           </AppBar>
 
+          <Grid>
+            <List selectable ripple>
+              {(this.state.isLoading === false && this.state.recipes.length === 0) ? (
+                <ListSubHeader caption="Nenhum resultado encontrado" />
+              ) : (
+                <ListSubHeader caption={`Procurando por: "${this.state.term}"`} />
+              )}
 
-          <List selectable ripple>
-            {(this.state.isLoading === false && this.state.recipes.length === 0) ? (
-              <ListSubHeader caption="Nenhum resultado encontrado" />
-            ) : (
-              <ListSubHeader caption={`Procurando por: "${this.state.term}"`} />
-            )}
+              {this.state.recipes.map((recipe, recipeIndex) => (
+                <ListItem
+                  onClick={() => this.seeRecipe(recipe.id)}
+                  key={`${recipe.name}${recipe.id}`}
+                >
+                  <DropdownItem
+                    image={recipe.image}
+                    name={recipe.title}
+                    description={`Por ${recipe.user.displayName}`}
+                  />
+                </ListItem>
+              ))}
+            </List>
 
-            {this.state.recipes.map((recipe, recipeIndex) => (
-              <ListItem
-                onClick={() => this.seeRecipe(recipe.id)}
-                key={`${recipe.name}${recipe.id}`}
-              >
-                <DropdownItem
-                  image={recipe.image}
-                  name={recipe.title}
-                  description={`Por ${recipe.user.displayName}`}
-                />
-              </ListItem>
-            ))}
-          </List>
-
-          <ProgressBar loading={this.state.isLoading} />
+            <ProgressBar loading={this.state.isLoading} />
+          </Grid>
         </section>
       </Panel>
     )

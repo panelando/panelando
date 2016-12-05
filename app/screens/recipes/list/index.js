@@ -271,17 +271,21 @@ class List extends Component {
             <Tab label="Descobrir">
               <ProgressBar loading={this.state.isLoading} />
 
-              {this.state.recipes.map(recipe => (
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  canFavorite={this.canFavoriteRecipe(recipe.id)}
-                  onSeeDetails={this.seeRecipe}
-                  onFavorite={this.favoriteRecipe}
-                  onUnfavorite={this.unfavoriteRecipe}
-                  onBookmark={() => this.addRecipeToMenu(recipe)}
-                />
-              ))}
+              <Row>
+                {this.state.recipes.map(recipe => (
+                  <Col xs={12} sm={6} md={6} lg={4} key={recipe.id}>
+                    <RecipeCard
+                      key={recipe.id}
+                      recipe={recipe}
+                      canFavorite={this.canFavoriteRecipe(recipe.id)}
+                      onSeeDetails={this.seeRecipe}
+                      onFavorite={this.favoriteRecipe}
+                      onUnfavorite={this.unfavoriteRecipe}
+                      onBookmark={() => this.addRecipeToMenu(recipe)}
+                    />
+                  </Col>
+                ))}
+              </Row>
 
               <Button icon="add" floating accent className={styles.addButton} onClick={this.newRecipe} />
             </Tab>
@@ -289,17 +293,20 @@ class List extends Component {
             <Tab label="Populares">
               <ProgressBar loading={this.state.isLoading} />
 
-              {this.state.popularRecipes.map(recipe => (
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  canFavorite={this.canFavoriteRecipe(recipe.id)}
-                  onSeeDetails={this.seeRecipe}
-                  onFavorite={this.favoriteRecipe}
-                  onUnfavorite={this.unfavoriteRecipe}
-                  onBookmark={() => this.addRecipeToMenu(recipe)}
-                />
-              ))}
+              <Row>
+                {this.state.popularRecipes.map(recipe => (
+                  <Col xs={12} sm={6} md={6} lg={4} key={recipe.id}>
+                    <RecipeCard
+                      recipe={recipe}
+                      canFavorite={this.canFavoriteRecipe(recipe.id)}
+                      onSeeDetails={this.seeRecipe}
+                      onFavorite={this.favoriteRecipe}
+                      onUnfavorite={this.unfavoriteRecipe}
+                      onBookmark={() => this.addRecipeToMenu(recipe)}
+                    />
+                  </Col>
+                ))}
+              </Row>
 
               <Button icon="add" floating accent className={styles.addButton} onClick={this.newRecipe} />
             </Tab>
@@ -307,17 +314,21 @@ class List extends Component {
             <Tab label="Favoritos">
               <ProgressBar loading={this.state.isLoading} />
 
-              {this.state.favoriteRecipes.map(recipe => (
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  canFavorite={this.canFavoriteRecipe(recipe.id)}
-                  onSeeDetails={this.seeRecipe}
-                  onFavorite={this.favoriteRecipe}
-                  onUnfavorite={this.unfavoriteRecipe}
-                  onBookmark={() => this.addRecipeToMenu(recipe)}
-                />
-              ))}
+              <Row>
+                {this.state.favoriteRecipes.map(recipe => (
+                  <Col xs={12} sm={6} md={6} lg={4} key={recipe.id}>
+                    <RecipeCard
+                      key={recipe.id}
+                      recipe={recipe}
+                      canFavorite={this.canFavoriteRecipe(recipe.id)}
+                      onSeeDetails={this.seeRecipe}
+                      onFavorite={this.favoriteRecipe}
+                      onUnfavorite={this.unfavoriteRecipe}
+                      onBookmark={() => this.addRecipeToMenu(recipe)}
+                    />
+                  </Col>
+                ))}
+              </Row>
 
               <Button icon="add" floating accent className={styles.addButton} onClick={this.newRecipe} />
             </Tab>
