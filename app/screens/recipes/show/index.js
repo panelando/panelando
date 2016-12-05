@@ -23,6 +23,8 @@ import {
   Panel
 } from 'react-toolbox'
 
+import { Grid, Row, Col } from 'react-flexbox-grid'
+
 import {
   DifficultyIcon,
   IngredientIcon,
@@ -184,20 +186,21 @@ class Show extends Component {
   }
 
   render () {
-      return (
-        <Panel scrollY>
-          <MenuDialog
-            active={this.state.dialog.active}
-           recipe={this.state.dialog.recipe}
-            onDialogToggle={this.handleDialogToggle}
-          />
+    return (
+      <Panel scrollY>
+        <MenuDialog
+          active={this.state.dialog.active}
+         recipe={this.state.dialog.recipe}
+          onDialogToggle={this.handleDialogToggle}
+        />
 
-          <section>
-            <AppBar>
-              <IconButton icon="arrow_back" inverse={true} onClick={this.props.router.goBack} />
-              <span>{this.trim(this.state.recipe.title)}</span>
-            </AppBar>
+        <section>
+          <AppBar>
+            <IconButton icon="arrow_back" inverse={true} onClick={this.props.router.goBack} />
+            <span>{this.trim(this.state.recipe.title)}</span>
+          </AppBar>
 
+          <Grid>
             <ProgressBar loading={this.state.isLoading} />
 
             <Card style={{ opacity: this.state.isLoading ? 0 : 1 }}>
@@ -312,9 +315,10 @@ class Show extends Component {
                 </form>
               </List>
             </Card>
-          </section>
-        </Panel>
-      )
+          </Grid>
+        </section>
+      </Panel>
+    )
   }
 }
 

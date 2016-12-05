@@ -21,6 +21,8 @@ import {
   Panel
 } from 'react-toolbox'
 
+import { Grid, Col, Row } from 'react-flexbox-grid'
+
 import {
   DifficultyIcon,
   IngredientIcon,
@@ -275,200 +277,202 @@ class New extends Component {
             <span>Nova Receita</span>
           </AppBar>
 
-          <Card>
-            <List
-              className={styles.list}
-              ripple
-            >
-              <CardMedia
-                aspectRatio="wide"
-                className={styles.recipeImage}
-                image={this.state.recipeImagePreview}
-                onClick={this.handleFileInput}
+          <Grid>
+            <Card>
+              <List
+                className={styles.list}
+                ripple
               >
-              </CardMedia>
+                <CardMedia
+                  aspectRatio="wide"
+                  className={styles.recipeImage}
+                  image={this.state.recipeImagePreview}
+                  onClick={this.handleFileInput}
+                >
+                </CardMedia>
 
-              <ListSubHeader caption="Informações da Receita" />
+                <ListSubHeader caption="Informações da Receita" />
 
-              <ListItem className={styles.listItemInput}>
-                <Input
-                  type="text"
-                  className={styles.input}
-                  icon="local_dining"
-                  label="Nome da receita"
-                  value={this.state.data.title}
-                  onChange={this.handleDataChange('title')}
-                />
-              </ListItem>
+                <ListItem className={styles.listItemInput}>
+                  <Input
+                    type="text"
+                    className={styles.input}
+                    icon="local_dining"
+                    label="Nome da receita"
+                    value={this.state.data.title}
+                    onChange={this.handleDataChange('title')}
+                  />
+                </ListItem>
 
-              <ListItem className={styles.listItemInput}>
-                <Input
-                  type="number" step="10" min="0" max="180"
-                  className={this.getClassForInput('time')}
-                  icon={this.icons.time}
-                  label="Tempo de preparo (minutos)"
-                  value={this.state.data.time}
-                  onChange={this.handleDataChange('time')}
-                  onFocus={this.handleInputFocus('time')}
-                  onBlur={this.handleInputBlur('time')}
-                />
-              </ListItem>
+                <ListItem className={styles.listItemInput}>
+                  <Input
+                    type="number" step="10" min="0" max="180"
+                    className={this.getClassForInput('time')}
+                    icon={this.icons.time}
+                    label="Tempo de preparo (minutos)"
+                    value={this.state.data.time}
+                    onChange={this.handleDataChange('time')}
+                    onFocus={this.handleInputFocus('time')}
+                    onBlur={this.handleInputBlur('time')}
+                  />
+                </ListItem>
 
-              <ListItem className={styles.listItemDropdown}>
-                {this.icons.difficulty}
+                <ListItem className={styles.listItemDropdown}>
+                  {this.icons.difficulty}
 
-                <Dropdown
-                  auto={false}
-                  className={styles.dropdown}
-                  label="Dificuldade"
-                  onChange={this.handleDifficultyChange}
-                  source={this.difficultyValues}
-                  value={this.state.data.difficulty}
-                />
-              </ListItem>
+                  <Dropdown
+                    auto={false}
+                    className={styles.dropdown}
+                    label="Dificuldade"
+                    onChange={this.handleDifficultyChange}
+                    source={this.difficultyValues}
+                    value={this.state.data.difficulty}
+                  />
+                </ListItem>
 
-              <ListItem className={styles.listItemInput}>
-                <Input
-                  type="number"
-                  className={this.getClassForInput('portion')}
-                  icon={this.icons.portion}
-                  label="Número de porções"
-                  value={this.state.data.portion}
-                  onChange={this.handleDataChange('portion')}
-                  onFocus={this.handleInputFocus('portion')}
-                  onBlur={this.handleInputBlur('portion')}
-                />
-              </ListItem>
+                <ListItem className={styles.listItemInput}>
+                  <Input
+                    type="number"
+                    className={this.getClassForInput('portion')}
+                    icon={this.icons.portion}
+                    label="Número de porções"
+                    value={this.state.data.portion}
+                    onChange={this.handleDataChange('portion')}
+                    onFocus={this.handleInputFocus('portion')}
+                    onBlur={this.handleInputBlur('portion')}
+                  />
+                </ListItem>
 
-              <ListDivider className={styles.listDivider} />
+                <ListDivider className={styles.listDivider} />
 
-              <ListSubHeader caption="Categoria da Receita" />
+                <ListSubHeader caption="Categoria da Receita" />
 
-              <ListItem className={styles.listItemInput}>
-                <Dropdown
-                  className={styles.input}
-                  source={this.state.inputs.categories}
-                  onChange={this.handleCategoryChange}
-                  label="Selecionar categoria"
-                  template={DropdownItem}
-                  value={this.state.data.category}
-                />
-              </ListItem>
+                <ListItem className={styles.listItemInput}>
+                  <Dropdown
+                    className={styles.input}
+                    source={this.state.inputs.categories}
+                    onChange={this.handleCategoryChange}
+                    label="Selecionar categoria"
+                    template={DropdownItem}
+                    value={this.state.data.category}
+                  />
+                </ListItem>
 
-              <ListDivider className={styles.listDivider} />
+                <ListDivider className={styles.listDivider} />
 
-              <ListSubHeader caption="Ingredientes" />
+                <ListSubHeader caption="Ingredientes" />
 
-              <ListItem className={styles.listItemInput}>
-                <Input
-                  className={this.getClassForInput('ingredient')}
-                  icon={this.icons.ingredient}
-                  label="Ingrediente e quantidade"
-                  value={this.state.inputs.ingredient}
-                  onChange={this.handleInputChange('ingredient')}
-                  onFocus={this.handleInputFocus('ingredient')}
-                  onBlur={this.handleInputBlur('ingredient')}
-                  onKeyDown={this.addItemToData('ingredients', 'ingredient')}
-                />
-              </ListItem>
+                <ListItem className={styles.listItemInput}>
+                  <Input
+                    className={this.getClassForInput('ingredient')}
+                    icon={this.icons.ingredient}
+                    label="Ingrediente e quantidade"
+                    value={this.state.inputs.ingredient}
+                    onChange={this.handleInputChange('ingredient')}
+                    onFocus={this.handleInputFocus('ingredient')}
+                    onBlur={this.handleInputBlur('ingredient')}
+                    onKeyDown={this.addItemToData('ingredients', 'ingredient')}
+                  />
+                </ListItem>
 
-              <div>
-                {this.state.data.ingredients.length > 0 && (
-                  this.state.data.ingredients.map((ingredient, index) =>
-                    <ListItem
-                      caption={ingredient}
-                      className={styles.listItemIngredient}
-                      rightIcon="clear"
-                      key={`${ingredient}_${index}`}
-                      onClick={() => this.removeItemFromData('ingredients', ingredient)}
-                    >
-                      <IconButton><IngredientIcon /></IconButton>
-                    </ListItem>
-                  )
-                )}
-              </div>
-
-              <ListDivider className={styles.listDivider} />
-
-              <ListSubHeader caption="Modo de Preparo" />
-
-              <ListItem className={styles.listItemInput}>
-                <Input
-                  className={this.getClassForInput('step')}
-                  icon={this.icons.step}
-                  label="Descrição do passo-a-passo"
-                  value={this.state.inputs.step}
-                  onChange={this.handleInputChange('step')}
-                  onFocus={this.handleInputFocus('step')}
-                  onBlur={this.handleInputBlur('step')}
-                  onKeyDown={this.addItemToData('steps', 'step')}
-                />
-              </ListItem>
-
-              <div>
-                {this.state.data.steps.length > 0 && (
-                  this.state.data.steps.map((step, index) =>
-                    <ListItem
-                      caption={step}
-                      className={styles.listItemStep}
-                      rightIcon="clear"
-                      key={`${step}_${index}`}
-                      onClick={() => this.removeItemFromData('steps', step)}
-                    >
-                      <strong>{index + 1}</strong>
-                    </ListItem>
-                  )
-                )}
-              </div>
-
-              <ListDivider className={styles.listDivider} />
-
-              <ListSubHeader caption="Tags" />
-
-              <ListItem className={styles.listItemInput}>
-                <Input
-                  className={styles.input}
-                  icon="label_outline"
-                  label="Tag"
-                  value={this.state.inputs.tag}
-                  onChange={this.handleInputChange('tag')}
-                  onKeyDown={this.addItemToData('tags', 'tag')}
-                />
-              </ListItem>
-
-              <div>
-                {this.state.data.tags.length > 0 && (
-                  <ListItem className={styles.listItemTags} >
-                    {this.state.data.tags.map((tag, index) =>
-                      <Chip
-                        deletable
-                        key={`${tag}_${index}`}
-                        onDeleteClick={() => this.removeItemFromData('tags', tag)}
+                <div>
+                  {this.state.data.ingredients.length > 0 && (
+                    this.state.data.ingredients.map((ingredient, index) =>
+                      <ListItem
+                        caption={ingredient}
+                        className={styles.listItemIngredient}
+                        rightIcon="clear"
+                        key={`${ingredient}_${index}`}
+                        onClick={() => this.removeItemFromData('ingredients', ingredient)}
                       >
-                        {tag}
-                      </Chip>
-                    )}
-                  </ListItem>
-                )}
-              </div>
+                        <IconButton><IngredientIcon /></IconButton>
+                      </ListItem>
+                    )
+                  )}
+                </div>
 
-              <ListDivider className={styles.listDivider} />
+                <ListDivider className={styles.listDivider} />
 
-              <ListItem
-                caption="Publicar Receita"
-                leftIcon="send"
-                onClick={this.publish}
-              />
-            </List>
-          </Card>
+                <ListSubHeader caption="Modo de Preparo" />
 
-          <BrowseButton
-            className={styles.addPicture}
-            onChange={this.handlePhotoChange}
-            icon="add_a_photo"
-            accent
-            floating
-          />
+                <ListItem className={styles.listItemInput}>
+                  <Input
+                    className={this.getClassForInput('step')}
+                    icon={this.icons.step}
+                    label="Descrição do passo-a-passo"
+                    value={this.state.inputs.step}
+                    onChange={this.handleInputChange('step')}
+                    onFocus={this.handleInputFocus('step')}
+                    onBlur={this.handleInputBlur('step')}
+                    onKeyDown={this.addItemToData('steps', 'step')}
+                  />
+                </ListItem>
+
+                <div>
+                  {this.state.data.steps.length > 0 && (
+                    this.state.data.steps.map((step, index) =>
+                      <ListItem
+                        caption={step}
+                        className={styles.listItemStep}
+                        rightIcon="clear"
+                        key={`${step}_${index}`}
+                        onClick={() => this.removeItemFromData('steps', step)}
+                      >
+                        <strong>{index + 1}</strong>
+                      </ListItem>
+                    )
+                  )}
+                </div>
+
+                <ListDivider className={styles.listDivider} />
+
+                <ListSubHeader caption="Tags" />
+
+                <ListItem className={styles.listItemInput}>
+                  <Input
+                    className={styles.input}
+                    icon="label_outline"
+                    label="Tag"
+                    value={this.state.inputs.tag}
+                    onChange={this.handleInputChange('tag')}
+                    onKeyDown={this.addItemToData('tags', 'tag')}
+                  />
+                </ListItem>
+
+                <div>
+                  {this.state.data.tags.length > 0 && (
+                    <ListItem className={styles.listItemTags} >
+                      {this.state.data.tags.map((tag, index) =>
+                        <Chip
+                          deletable
+                          key={`${tag}_${index}`}
+                          onDeleteClick={() => this.removeItemFromData('tags', tag)}
+                        >
+                          {tag}
+                        </Chip>
+                      )}
+                    </ListItem>
+                  )}
+                </div>
+
+                <ListDivider className={styles.listDivider} />
+
+                <ListItem
+                  caption="Publicar Receita"
+                  leftIcon="send"
+                  onClick={this.publish}
+                />
+              </List>
+            </Card>
+
+            <BrowseButton
+              className={styles.addPicture}
+              onChange={this.handlePhotoChange}
+              icon="add_a_photo"
+              accent
+              floating
+            />
+          </Grid>
         </section>
       </Panel>
     )
