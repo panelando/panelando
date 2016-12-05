@@ -32199,57 +32199,80 @@ webpackJsonp([1],[
 	              _reactToolbox.Tab,
 	              { label: 'Descobrir' },
 	              _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
-	              this.state.recipes.map(function (recipe) {
-	                return _react2.default.createElement(_components.RecipeCard, {
-	                  key: recipe.id,
-	                  recipe: recipe,
-	                  canFavorite: _this19.canFavoriteRecipe(recipe.id),
-	                  onSeeDetails: _this19.seeRecipe,
-	                  onFavorite: _this19.favoriteRecipe,
-	                  onUnfavorite: _this19.unfavoriteRecipe,
-	                  onBookmark: function onBookmark() {
-	                    return _this19.addRecipeToMenu(recipe);
-	                  }
-	                });
-	              }),
+	              _react2.default.createElement(
+	                _index.Row,
+	                null,
+	                this.state.recipes.map(function (recipe) {
+	                  return _react2.default.createElement(
+	                    _index.Col,
+	                    { xs: 12, sm: 6, md: 6, lg: 4, key: recipe.id },
+	                    _react2.default.createElement(_components.RecipeCard, {
+	                      key: recipe.id,
+	                      recipe: recipe,
+	                      canFavorite: _this19.canFavoriteRecipe(recipe.id),
+	                      onSeeDetails: _this19.seeRecipe,
+	                      onFavorite: _this19.favoriteRecipe,
+	                      onUnfavorite: _this19.unfavoriteRecipe,
+	                      onBookmark: function onBookmark() {
+	                        return _this19.addRecipeToMenu(recipe);
+	                      }
+	                    })
+	                  );
+	                })
+	              ),
 	              _react2.default.createElement(_reactToolbox.Button, { icon: 'add', floating: true, accent: true, className: _styles2.default.addButton, onClick: this.newRecipe })
 	            ),
 	            _react2.default.createElement(
 	              _reactToolbox.Tab,
 	              { label: 'Populares' },
 	              _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
-	              this.state.popularRecipes.map(function (recipe) {
-	                return _react2.default.createElement(_components.RecipeCard, {
-	                  key: recipe.id,
-	                  recipe: recipe,
-	                  canFavorite: _this19.canFavoriteRecipe(recipe.id),
-	                  onSeeDetails: _this19.seeRecipe,
-	                  onFavorite: _this19.favoriteRecipe,
-	                  onUnfavorite: _this19.unfavoriteRecipe,
-	                  onBookmark: function onBookmark() {
-	                    return _this19.addRecipeToMenu(recipe);
-	                  }
-	                });
-	              }),
+	              _react2.default.createElement(
+	                _index.Row,
+	                null,
+	                this.state.popularRecipes.map(function (recipe) {
+	                  return _react2.default.createElement(
+	                    _index.Col,
+	                    { xs: 12, sm: 6, md: 6, lg: 4, key: recipe.id },
+	                    _react2.default.createElement(_components.RecipeCard, {
+	                      recipe: recipe,
+	                      canFavorite: _this19.canFavoriteRecipe(recipe.id),
+	                      onSeeDetails: _this19.seeRecipe,
+	                      onFavorite: _this19.favoriteRecipe,
+	                      onUnfavorite: _this19.unfavoriteRecipe,
+	                      onBookmark: function onBookmark() {
+	                        return _this19.addRecipeToMenu(recipe);
+	                      }
+	                    })
+	                  );
+	                })
+	              ),
 	              _react2.default.createElement(_reactToolbox.Button, { icon: 'add', floating: true, accent: true, className: _styles2.default.addButton, onClick: this.newRecipe })
 	            ),
 	            _react2.default.createElement(
 	              _reactToolbox.Tab,
 	              { label: 'Favoritos' },
 	              _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
-	              this.state.favoriteRecipes.map(function (recipe) {
-	                return _react2.default.createElement(_components.RecipeCard, {
-	                  key: recipe.id,
-	                  recipe: recipe,
-	                  canFavorite: _this19.canFavoriteRecipe(recipe.id),
-	                  onSeeDetails: _this19.seeRecipe,
-	                  onFavorite: _this19.favoriteRecipe,
-	                  onUnfavorite: _this19.unfavoriteRecipe,
-	                  onBookmark: function onBookmark() {
-	                    return _this19.addRecipeToMenu(recipe);
-	                  }
-	                });
-	              }),
+	              _react2.default.createElement(
+	                _index.Row,
+	                null,
+	                this.state.favoriteRecipes.map(function (recipe) {
+	                  return _react2.default.createElement(
+	                    _index.Col,
+	                    { xs: 12, sm: 6, md: 6, lg: 4, key: recipe.id },
+	                    _react2.default.createElement(_components.RecipeCard, {
+	                      key: recipe.id,
+	                      recipe: recipe,
+	                      canFavorite: _this19.canFavoriteRecipe(recipe.id),
+	                      onSeeDetails: _this19.seeRecipe,
+	                      onFavorite: _this19.favoriteRecipe,
+	                      onUnfavorite: _this19.unfavoriteRecipe,
+	                      onBookmark: function onBookmark() {
+	                        return _this19.addRecipeToMenu(recipe);
+	                      }
+	                    })
+	                  );
+	                })
+	              ),
 	              _react2.default.createElement(_reactToolbox.Button, { icon: 'add', floating: true, accent: true, className: _styles2.default.addButton, onClick: this.newRecipe })
 	            )
 	          )
@@ -33755,6 +33778,8 @@ webpackJsonp([1],[
 
 	var _reactToolbox = __webpack_require__(247);
 
+	var _reactFlexboxGrid = __webpack_require__(513);
+
 	var _icons = __webpack_require__(525);
 
 	var _components = __webpack_require__(519);
@@ -33995,163 +34020,167 @@ webpackJsonp([1],[
 	              this.trim(this.state.recipe.title)
 	            )
 	          ),
-	          _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
 	          _react2.default.createElement(
-	            _reactToolbox.Card,
-	            { style: { opacity: this.state.isLoading ? 0 : 1 } },
-	            _react2.default.createElement(_reactToolbox.CardMedia, {
-	              aspectRatio: 'wide',
-	              image: this.state.recipe.image
-	            }),
-	            _react2.default.createElement(_reactToolbox.CardTitle, {
-	              title: this.state.recipe.title
-	            }),
+	            _reactFlexboxGrid.Grid,
+	            null,
+	            _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
 	            _react2.default.createElement(
-	              _reactToolbox.CardText,
-	              { className: _styles2.default.recipeInfo },
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                  _reactToolbox.IconButton,
-	                  null,
-	                  _react2.default.createElement(_icons.TimeIcon, null)
-	                ),
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  this.state.recipe.time,
-	                  ' min'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                  _reactToolbox.IconButton,
-	                  null,
-	                  _react2.default.createElement(_icons.PortionIcon, null)
-	                ),
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  this.state.recipe.portion,
-	                  ' por\xE7\xF5es'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                  _reactToolbox.IconButton,
-	                  null,
-	                  _react2.default.createElement(_icons.DifficultyIcon, null)
-	                ),
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  this.state.recipe.difficulty
-	                )
-	              )
-	            ),
-	            _react2.default.createElement(_reactToolbox.CardTitle, {
-	              avatar: this.state.recipe.user.photoURL,
-	              title: this.state.recipe.user.displayName,
-	              subtitle: 'Food artisan and disruptive entrepreneur',
-	              style: { borderTop: '1px solid #f5f5f5', borderBottom: '1px solid #f5f5f5' }
-	            }),
-	            _react2.default.createElement(
-	              _reactToolbox.CardActions,
-	              { style: { borderBottom: '1px solid #f5f5f5' } },
-	              _react2.default.createElement(_reactToolbox.IconButton, { icon: 'bookmark_border', onClick: function onClick() {
-	                  return _this14.addRecipeToMenu(_this14.state.recipe);
-	                } }),
-	              this.canFavoriteRecipe(this.props.params.id) ? _react2.default.createElement(_reactToolbox.IconButton, { className: _styles2.default.favorite, icon: 'favorite_border', onClick: function onClick() {
-	                  return _this14.favoriteRecipe(_this14.props.params.id);
-	                } }) : _react2.default.createElement(_reactToolbox.IconButton, { className: _styles2.default.favorite, icon: 'favorite', onClick: function onClick() {
-	                  return _this14.unfavoriteRecipe(_this14.props.params.id);
-	                } }),
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                this.state.recipe.likes ? this.state.recipe.likes.length : 0
-	              )
-	            ),
-	            _react2.default.createElement(
-	              _reactToolbox.List,
-	              { selectable: true, ripple: true },
-	              _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Ingredientes' }),
-	              this.state.recipe.ingredients.map(function (ingredient, index) {
-	                return _react2.default.createElement(
-	                  _reactToolbox.ListItem,
-	                  { caption: ingredient, key: '' + ingredient + index },
-	                  _react2.default.createElement(
-	                    _reactToolbox.IconButton,
-	                    null,
-	                    _react2.default.createElement(_icons.IngredientIcon, null)
-	                  )
-	                );
+	              _reactToolbox.Card,
+	              { style: { opacity: this.state.isLoading ? 0 : 1 } },
+	              _react2.default.createElement(_reactToolbox.CardMedia, {
+	                aspectRatio: 'wide',
+	                image: this.state.recipe.image
 	              }),
-	              _react2.default.createElement(_reactToolbox.ListDivider, null),
-	              _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Modo de Preparo' }),
-	              this.state.recipe.steps.map(function (step, index) {
-	                return _react2.default.createElement(
-	                  _reactToolbox.ListItem,
-	                  { className: _styles2.default.step, caption: step, key: '' + step + index },
-	                  _react2.default.createElement(
-	                    _reactToolbox.IconButton,
-	                    null,
-	                    _react2.default.createElement(_icons.StepIcon, null)
-	                  )
-	                );
+	              _react2.default.createElement(_reactToolbox.CardTitle, {
+	                title: this.state.recipe.title
 	              }),
-	              _react2.default.createElement(_reactToolbox.ListDivider, null),
-	              _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Tags' }),
 	              _react2.default.createElement(
-	                _reactToolbox.ListItem,
-	                { className: _styles2.default.tags },
-	                this.state.recipe.tags.map(function (tag, index) {
-	                  return _react2.default.createElement(
-	                    _reactToolbox.Chip,
-	                    { key: '' + tag + index },
-	                    tag
-	                  );
-	                })
-	              ),
-	              _react2.default.createElement(_reactToolbox.ListDivider, null),
-	              _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Coment\xE1rios' }),
-	              this.state.recipe.comments.map(function (comment, index) {
-	                return _react2.default.createElement(_reactToolbox.ListItem, {
-	                  className: _styles2.default.comment,
-	                  key: '' + comment + index,
-	                  avatar: comment.photoURL,
-	                  caption: comment.displayName,
-	                  legend: comment.text,
-	                  rightIcon: 'reply'
-	                });
-	              }),
-	              _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Adicionar Coment\xE1rio' }),
-	              _react2.default.createElement(
-	                'form',
-	                { className: _styles2.default.commentForm },
+	                _reactToolbox.CardText,
+	                { className: _styles2.default.recipeInfo },
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: _styles2.default.commentBox },
+	                  null,
 	                  _react2.default.createElement(
-	                    _reactToolbox.Avatar,
-	                    { className: _styles2.default.commentAvatar },
-	                    _react2.default.createElement('img', { src: this.state.currentUser.photoURL })
+	                    _reactToolbox.IconButton,
+	                    null,
+	                    _react2.default.createElement(_icons.TimeIcon, null)
 	                  ),
-	                  _react2.default.createElement(_reactToolbox.Input, { className: _styles2.default.commentInput, multiline: true, label: 'Adicionar Coment\xE1rio', value: this.state.comment, onChange: this.handleCommentChange })
+	                  _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    this.state.recipe.time,
+	                    ' min'
+	                  )
 	                ),
-	                _react2.default.createElement(_reactToolbox.Button, {
-	                  type: 'submit',
-	                  className: _styles2.default.commentButton,
-	                  icon: 'send',
-	                  label: 'Enviar',
-	                  primary: true,
-	                  onClick: this.submitComment
-	                })
+	                _react2.default.createElement(
+	                  'div',
+	                  null,
+	                  _react2.default.createElement(
+	                    _reactToolbox.IconButton,
+	                    null,
+	                    _react2.default.createElement(_icons.PortionIcon, null)
+	                  ),
+	                  _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    this.state.recipe.portion,
+	                    ' por\xE7\xF5es'
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  null,
+	                  _react2.default.createElement(
+	                    _reactToolbox.IconButton,
+	                    null,
+	                    _react2.default.createElement(_icons.DifficultyIcon, null)
+	                  ),
+	                  _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    this.state.recipe.difficulty
+	                  )
+	                )
+	              ),
+	              _react2.default.createElement(_reactToolbox.CardTitle, {
+	                avatar: this.state.recipe.user.photoURL,
+	                title: this.state.recipe.user.displayName,
+	                subtitle: 'Food artisan and disruptive entrepreneur',
+	                style: { borderTop: '1px solid #f5f5f5', borderBottom: '1px solid #f5f5f5' }
+	              }),
+	              _react2.default.createElement(
+	                _reactToolbox.CardActions,
+	                { style: { borderBottom: '1px solid #f5f5f5' } },
+	                _react2.default.createElement(_reactToolbox.IconButton, { icon: 'bookmark_border', onClick: function onClick() {
+	                    return _this14.addRecipeToMenu(_this14.state.recipe);
+	                  } }),
+	                this.canFavoriteRecipe(this.props.params.id) ? _react2.default.createElement(_reactToolbox.IconButton, { className: _styles2.default.favorite, icon: 'favorite_border', onClick: function onClick() {
+	                    return _this14.favoriteRecipe(_this14.props.params.id);
+	                  } }) : _react2.default.createElement(_reactToolbox.IconButton, { className: _styles2.default.favorite, icon: 'favorite', onClick: function onClick() {
+	                    return _this14.unfavoriteRecipe(_this14.props.params.id);
+	                  } }),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  this.state.recipe.likes ? this.state.recipe.likes.length : 0
+	                )
+	              ),
+	              _react2.default.createElement(
+	                _reactToolbox.List,
+	                { selectable: true, ripple: true },
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Ingredientes' }),
+	                this.state.recipe.ingredients.map(function (ingredient, index) {
+	                  return _react2.default.createElement(
+	                    _reactToolbox.ListItem,
+	                    { caption: ingredient, key: '' + ingredient + index },
+	                    _react2.default.createElement(
+	                      _reactToolbox.IconButton,
+	                      null,
+	                      _react2.default.createElement(_icons.IngredientIcon, null)
+	                    )
+	                  );
+	                }),
+	                _react2.default.createElement(_reactToolbox.ListDivider, null),
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Modo de Preparo' }),
+	                this.state.recipe.steps.map(function (step, index) {
+	                  return _react2.default.createElement(
+	                    _reactToolbox.ListItem,
+	                    { className: _styles2.default.step, caption: step, key: '' + step + index },
+	                    _react2.default.createElement(
+	                      _reactToolbox.IconButton,
+	                      null,
+	                      _react2.default.createElement(_icons.StepIcon, null)
+	                    )
+	                  );
+	                }),
+	                _react2.default.createElement(_reactToolbox.ListDivider, null),
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Tags' }),
+	                _react2.default.createElement(
+	                  _reactToolbox.ListItem,
+	                  { className: _styles2.default.tags },
+	                  this.state.recipe.tags.map(function (tag, index) {
+	                    return _react2.default.createElement(
+	                      _reactToolbox.Chip,
+	                      { key: '' + tag + index },
+	                      tag
+	                    );
+	                  })
+	                ),
+	                _react2.default.createElement(_reactToolbox.ListDivider, null),
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Coment\xE1rios' }),
+	                this.state.recipe.comments.map(function (comment, index) {
+	                  return _react2.default.createElement(_reactToolbox.ListItem, {
+	                    className: _styles2.default.comment,
+	                    key: '' + comment + index,
+	                    avatar: comment.photoURL,
+	                    caption: comment.displayName,
+	                    legend: comment.text,
+	                    rightIcon: 'reply'
+	                  });
+	                }),
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Adicionar Coment\xE1rio' }),
+	                _react2.default.createElement(
+	                  'form',
+	                  { className: _styles2.default.commentForm },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: _styles2.default.commentBox },
+	                    _react2.default.createElement(
+	                      _reactToolbox.Avatar,
+	                      { className: _styles2.default.commentAvatar },
+	                      _react2.default.createElement('img', { src: this.state.currentUser.photoURL })
+	                    ),
+	                    _react2.default.createElement(_reactToolbox.Input, { className: _styles2.default.commentInput, multiline: true, label: 'Adicionar Coment\xE1rio', value: this.state.comment, onChange: this.handleCommentChange })
+	                  ),
+	                  _react2.default.createElement(_reactToolbox.Button, {
+	                    type: 'submit',
+	                    className: _styles2.default.commentButton,
+	                    icon: 'send',
+	                    label: 'Enviar',
+	                    primary: true,
+	                    onClick: this.submitComment
+	                  })
+	                )
 	              )
 	            )
 	          )
@@ -34216,6 +34245,8 @@ webpackJsonp([1],[
 	var _firebase = __webpack_require__(237);
 
 	var _reactToolbox = __webpack_require__(247);
+
+	var _reactFlexboxGrid = __webpack_require__(513);
 
 	var _icons = __webpack_require__(525);
 
@@ -34550,216 +34581,220 @@ webpackJsonp([1],[
 	            )
 	          ),
 	          _react2.default.createElement(
-	            _reactToolbox.Card,
+	            _reactFlexboxGrid.Grid,
 	            null,
 	            _react2.default.createElement(
-	              _reactToolbox.List,
-	              {
-	                className: _styles2.default.list,
-	                ripple: true
-	              },
-	              _react2.default.createElement(_reactToolbox.CardMedia, {
-	                aspectRatio: 'wide',
-	                className: _styles2.default.recipeImage,
-	                image: this.state.recipeImagePreview,
-	                onClick: this.handleFileInput
-	              }),
-	              _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Informa\xE7\xF5es da Receita' }),
+	              _reactToolbox.Card,
+	              null,
 	              _react2.default.createElement(
-	                _reactToolbox.ListItem,
-	                { className: _styles2.default.listItemInput },
-	                _react2.default.createElement(_reactToolbox.Input, {
-	                  type: 'text',
-	                  className: _styles2.default.input,
-	                  icon: 'local_dining',
-	                  label: 'Nome da receita',
-	                  value: this.state.data.title,
-	                  onChange: this.handleDataChange('title')
-	                })
-	              ),
-	              _react2.default.createElement(
-	                _reactToolbox.ListItem,
-	                { className: _styles2.default.listItemInput },
-	                _react2.default.createElement(_reactToolbox.Input, {
-	                  type: 'number', step: '10', min: '0', max: '180',
-	                  className: this.getClassForInput('time'),
-	                  icon: this.icons.time,
-	                  label: 'Tempo de preparo (minutos)',
-	                  value: this.state.data.time,
-	                  onChange: this.handleDataChange('time'),
-	                  onFocus: this.handleInputFocus('time'),
-	                  onBlur: this.handleInputBlur('time')
-	                })
-	              ),
-	              _react2.default.createElement(
-	                _reactToolbox.ListItem,
-	                { className: _styles2.default.listItemDropdown },
-	                this.icons.difficulty,
-	                _react2.default.createElement(_reactToolbox.Dropdown, {
-	                  auto: false,
-	                  className: _styles2.default.dropdown,
-	                  label: 'Dificuldade',
-	                  onChange: this.handleDifficultyChange,
-	                  source: this.difficultyValues,
-	                  value: this.state.data.difficulty
-	                })
-	              ),
-	              _react2.default.createElement(
-	                _reactToolbox.ListItem,
-	                { className: _styles2.default.listItemInput },
-	                _react2.default.createElement(_reactToolbox.Input, {
-	                  type: 'number',
-	                  className: this.getClassForInput('portion'),
-	                  icon: this.icons.portion,
-	                  label: 'N\xFAmero de por\xE7\xF5es',
-	                  value: this.state.data.portion,
-	                  onChange: this.handleDataChange('portion'),
-	                  onFocus: this.handleInputFocus('portion'),
-	                  onBlur: this.handleInputBlur('portion')
-	                })
-	              ),
-	              _react2.default.createElement(_reactToolbox.ListDivider, { className: _styles2.default.listDivider }),
-	              _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Categoria da Receita' }),
-	              _react2.default.createElement(
-	                _reactToolbox.ListItem,
-	                { className: _styles2.default.listItemInput },
-	                _react2.default.createElement(_reactToolbox.Dropdown, {
-	                  className: _styles2.default.input,
-	                  source: this.state.inputs.categories,
-	                  onChange: this.handleCategoryChange,
-	                  label: 'Selecionar categoria',
-	                  template: _components.DropdownItem,
-	                  value: this.state.data.category
-	                })
-	              ),
-	              _react2.default.createElement(_reactToolbox.ListDivider, { className: _styles2.default.listDivider }),
-	              _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Ingredientes' }),
-	              _react2.default.createElement(
-	                _reactToolbox.ListItem,
-	                { className: _styles2.default.listItemInput },
-	                _react2.default.createElement(_reactToolbox.Input, {
-	                  className: this.getClassForInput('ingredient'),
-	                  icon: this.icons.ingredient,
-	                  label: 'Ingrediente e quantidade',
-	                  value: this.state.inputs.ingredient,
-	                  onChange: this.handleInputChange('ingredient'),
-	                  onFocus: this.handleInputFocus('ingredient'),
-	                  onBlur: this.handleInputBlur('ingredient'),
-	                  onKeyDown: this.addItemToData('ingredients', 'ingredient')
-	                })
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                this.state.data.ingredients.length > 0 && this.state.data.ingredients.map(function (ingredient, index) {
-	                  return _react2.default.createElement(
-	                    _reactToolbox.ListItem,
-	                    {
-	                      caption: ingredient,
-	                      className: _styles2.default.listItemIngredient,
-	                      rightIcon: 'clear',
-	                      key: ingredient + '_' + index,
-	                      onClick: function onClick() {
-	                        return _this9.removeItemFromData('ingredients', ingredient);
-	                      }
-	                    },
-	                    _react2.default.createElement(
-	                      _reactToolbox.IconButton,
-	                      null,
-	                      _react2.default.createElement(_icons.IngredientIcon, null)
-	                    )
-	                  );
-	                })
-	              ),
-	              _react2.default.createElement(_reactToolbox.ListDivider, { className: _styles2.default.listDivider }),
-	              _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Modo de Preparo' }),
-	              _react2.default.createElement(
-	                _reactToolbox.ListItem,
-	                { className: _styles2.default.listItemInput },
-	                _react2.default.createElement(_reactToolbox.Input, {
-	                  className: this.getClassForInput('step'),
-	                  icon: this.icons.step,
-	                  label: 'Descri\xE7\xE3o do passo-a-passo',
-	                  value: this.state.inputs.step,
-	                  onChange: this.handleInputChange('step'),
-	                  onFocus: this.handleInputFocus('step'),
-	                  onBlur: this.handleInputBlur('step'),
-	                  onKeyDown: this.addItemToData('steps', 'step')
-	                })
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                this.state.data.steps.length > 0 && this.state.data.steps.map(function (step, index) {
-	                  return _react2.default.createElement(
-	                    _reactToolbox.ListItem,
-	                    {
-	                      caption: step,
-	                      className: _styles2.default.listItemStep,
-	                      rightIcon: 'clear',
-	                      key: step + '_' + index,
-	                      onClick: function onClick() {
-	                        return _this9.removeItemFromData('steps', step);
-	                      }
-	                    },
-	                    _react2.default.createElement(
-	                      'strong',
-	                      null,
-	                      index + 1
-	                    )
-	                  );
-	                })
-	              ),
-	              _react2.default.createElement(_reactToolbox.ListDivider, { className: _styles2.default.listDivider }),
-	              _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Tags' }),
-	              _react2.default.createElement(
-	                _reactToolbox.ListItem,
-	                { className: _styles2.default.listItemInput },
-	                _react2.default.createElement(_reactToolbox.Input, {
-	                  className: _styles2.default.input,
-	                  icon: 'label_outline',
-	                  label: 'Tag',
-	                  value: this.state.inputs.tag,
-	                  onChange: this.handleInputChange('tag'),
-	                  onKeyDown: this.addItemToData('tags', 'tag')
-	                })
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                this.state.data.tags.length > 0 && _react2.default.createElement(
+	                _reactToolbox.List,
+	                {
+	                  className: _styles2.default.list,
+	                  ripple: true
+	                },
+	                _react2.default.createElement(_reactToolbox.CardMedia, {
+	                  aspectRatio: 'wide',
+	                  className: _styles2.default.recipeImage,
+	                  image: this.state.recipeImagePreview,
+	                  onClick: this.handleFileInput
+	                }),
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Informa\xE7\xF5es da Receita' }),
+	                _react2.default.createElement(
 	                  _reactToolbox.ListItem,
-	                  { className: _styles2.default.listItemTags },
-	                  this.state.data.tags.map(function (tag, index) {
+	                  { className: _styles2.default.listItemInput },
+	                  _react2.default.createElement(_reactToolbox.Input, {
+	                    type: 'text',
+	                    className: _styles2.default.input,
+	                    icon: 'local_dining',
+	                    label: 'Nome da receita',
+	                    value: this.state.data.title,
+	                    onChange: this.handleDataChange('title')
+	                  })
+	                ),
+	                _react2.default.createElement(
+	                  _reactToolbox.ListItem,
+	                  { className: _styles2.default.listItemInput },
+	                  _react2.default.createElement(_reactToolbox.Input, {
+	                    type: 'number', step: '10', min: '0', max: '180',
+	                    className: this.getClassForInput('time'),
+	                    icon: this.icons.time,
+	                    label: 'Tempo de preparo (minutos)',
+	                    value: this.state.data.time,
+	                    onChange: this.handleDataChange('time'),
+	                    onFocus: this.handleInputFocus('time'),
+	                    onBlur: this.handleInputBlur('time')
+	                  })
+	                ),
+	                _react2.default.createElement(
+	                  _reactToolbox.ListItem,
+	                  { className: _styles2.default.listItemDropdown },
+	                  this.icons.difficulty,
+	                  _react2.default.createElement(_reactToolbox.Dropdown, {
+	                    auto: false,
+	                    className: _styles2.default.dropdown,
+	                    label: 'Dificuldade',
+	                    onChange: this.handleDifficultyChange,
+	                    source: this.difficultyValues,
+	                    value: this.state.data.difficulty
+	                  })
+	                ),
+	                _react2.default.createElement(
+	                  _reactToolbox.ListItem,
+	                  { className: _styles2.default.listItemInput },
+	                  _react2.default.createElement(_reactToolbox.Input, {
+	                    type: 'number',
+	                    className: this.getClassForInput('portion'),
+	                    icon: this.icons.portion,
+	                    label: 'N\xFAmero de por\xE7\xF5es',
+	                    value: this.state.data.portion,
+	                    onChange: this.handleDataChange('portion'),
+	                    onFocus: this.handleInputFocus('portion'),
+	                    onBlur: this.handleInputBlur('portion')
+	                  })
+	                ),
+	                _react2.default.createElement(_reactToolbox.ListDivider, { className: _styles2.default.listDivider }),
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Categoria da Receita' }),
+	                _react2.default.createElement(
+	                  _reactToolbox.ListItem,
+	                  { className: _styles2.default.listItemInput },
+	                  _react2.default.createElement(_reactToolbox.Dropdown, {
+	                    className: _styles2.default.input,
+	                    source: this.state.inputs.categories,
+	                    onChange: this.handleCategoryChange,
+	                    label: 'Selecionar categoria',
+	                    template: _components.DropdownItem,
+	                    value: this.state.data.category
+	                  })
+	                ),
+	                _react2.default.createElement(_reactToolbox.ListDivider, { className: _styles2.default.listDivider }),
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Ingredientes' }),
+	                _react2.default.createElement(
+	                  _reactToolbox.ListItem,
+	                  { className: _styles2.default.listItemInput },
+	                  _react2.default.createElement(_reactToolbox.Input, {
+	                    className: this.getClassForInput('ingredient'),
+	                    icon: this.icons.ingredient,
+	                    label: 'Ingrediente e quantidade',
+	                    value: this.state.inputs.ingredient,
+	                    onChange: this.handleInputChange('ingredient'),
+	                    onFocus: this.handleInputFocus('ingredient'),
+	                    onBlur: this.handleInputBlur('ingredient'),
+	                    onKeyDown: this.addItemToData('ingredients', 'ingredient')
+	                  })
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  null,
+	                  this.state.data.ingredients.length > 0 && this.state.data.ingredients.map(function (ingredient, index) {
 	                    return _react2.default.createElement(
-	                      _reactToolbox.Chip,
+	                      _reactToolbox.ListItem,
 	                      {
-	                        deletable: true,
-	                        key: tag + '_' + index,
-	                        onDeleteClick: function onDeleteClick() {
-	                          return _this9.removeItemFromData('tags', tag);
+	                        caption: ingredient,
+	                        className: _styles2.default.listItemIngredient,
+	                        rightIcon: 'clear',
+	                        key: ingredient + '_' + index,
+	                        onClick: function onClick() {
+	                          return _this9.removeItemFromData('ingredients', ingredient);
 	                        }
 	                      },
-	                      tag
+	                      _react2.default.createElement(
+	                        _reactToolbox.IconButton,
+	                        null,
+	                        _react2.default.createElement(_icons.IngredientIcon, null)
+	                      )
 	                    );
 	                  })
-	                )
-	              ),
-	              _react2.default.createElement(_reactToolbox.ListDivider, { className: _styles2.default.listDivider }),
-	              _react2.default.createElement(_reactToolbox.ListItem, {
-	                caption: 'Publicar Receita',
-	                leftIcon: 'send',
-	                onClick: this.publish
-	              })
-	            )
-	          ),
-	          _react2.default.createElement(_reactToolbox.BrowseButton, {
-	            className: _styles2.default.addPicture,
-	            onChange: this.handlePhotoChange,
-	            icon: 'add_a_photo',
-	            accent: true,
-	            floating: true
-	          })
+	                ),
+	                _react2.default.createElement(_reactToolbox.ListDivider, { className: _styles2.default.listDivider }),
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Modo de Preparo' }),
+	                _react2.default.createElement(
+	                  _reactToolbox.ListItem,
+	                  { className: _styles2.default.listItemInput },
+	                  _react2.default.createElement(_reactToolbox.Input, {
+	                    className: this.getClassForInput('step'),
+	                    icon: this.icons.step,
+	                    label: 'Descri\xE7\xE3o do passo-a-passo',
+	                    value: this.state.inputs.step,
+	                    onChange: this.handleInputChange('step'),
+	                    onFocus: this.handleInputFocus('step'),
+	                    onBlur: this.handleInputBlur('step'),
+	                    onKeyDown: this.addItemToData('steps', 'step')
+	                  })
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  null,
+	                  this.state.data.steps.length > 0 && this.state.data.steps.map(function (step, index) {
+	                    return _react2.default.createElement(
+	                      _reactToolbox.ListItem,
+	                      {
+	                        caption: step,
+	                        className: _styles2.default.listItemStep,
+	                        rightIcon: 'clear',
+	                        key: step + '_' + index,
+	                        onClick: function onClick() {
+	                          return _this9.removeItemFromData('steps', step);
+	                        }
+	                      },
+	                      _react2.default.createElement(
+	                        'strong',
+	                        null,
+	                        index + 1
+	                      )
+	                    );
+	                  })
+	                ),
+	                _react2.default.createElement(_reactToolbox.ListDivider, { className: _styles2.default.listDivider }),
+	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Tags' }),
+	                _react2.default.createElement(
+	                  _reactToolbox.ListItem,
+	                  { className: _styles2.default.listItemInput },
+	                  _react2.default.createElement(_reactToolbox.Input, {
+	                    className: _styles2.default.input,
+	                    icon: 'label_outline',
+	                    label: 'Tag',
+	                    value: this.state.inputs.tag,
+	                    onChange: this.handleInputChange('tag'),
+	                    onKeyDown: this.addItemToData('tags', 'tag')
+	                  })
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  null,
+	                  this.state.data.tags.length > 0 && _react2.default.createElement(
+	                    _reactToolbox.ListItem,
+	                    { className: _styles2.default.listItemTags },
+	                    this.state.data.tags.map(function (tag, index) {
+	                      return _react2.default.createElement(
+	                        _reactToolbox.Chip,
+	                        {
+	                          deletable: true,
+	                          key: tag + '_' + index,
+	                          onDeleteClick: function onDeleteClick() {
+	                            return _this9.removeItemFromData('tags', tag);
+	                          }
+	                        },
+	                        tag
+	                      );
+	                    })
+	                  )
+	                ),
+	                _react2.default.createElement(_reactToolbox.ListDivider, { className: _styles2.default.listDivider }),
+	                _react2.default.createElement(_reactToolbox.ListItem, {
+	                  caption: 'Publicar Receita',
+	                  leftIcon: 'send',
+	                  onClick: this.publish
+	                })
+	              )
+	            ),
+	            _react2.default.createElement(_reactToolbox.BrowseButton, {
+	              className: _styles2.default.addPicture,
+	              onChange: this.handlePhotoChange,
+	              icon: 'add_a_photo',
+	              accent: true,
+	              floating: true
+	            })
+	          )
 	        )
 	      );
 	    }
@@ -40641,34 +40676,38 @@ webpackJsonp([1],[
 	              )
 	            )
 	          ),
-	          _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
 	          _react2.default.createElement(
-	            _reactToolbox.List,
-	            { selectable: true, ripple: true },
-	            this.state.menus.map(function (menu, index) {
-	              return _react2.default.createElement(
-	                'div',
-	                { key: '' + menu.name + index },
-	                _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: menu.name }),
-	                menu.recipes.map(function (recipe, recipeIndex) {
-	                  return _react2.default.createElement(
-	                    _reactToolbox.ListItem,
-	                    {
-	                      onClick: function onClick() {
-	                        return _this5.seeRecipe(recipe.id);
+	            _index.Grid,
+	            null,
+	            _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading }),
+	            _react2.default.createElement(
+	              _reactToolbox.List,
+	              { selectable: true, ripple: true },
+	              this.state.menus.map(function (menu, index) {
+	                return _react2.default.createElement(
+	                  'div',
+	                  { key: '' + menu.name + index },
+	                  _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: menu.name }),
+	                  menu.recipes.map(function (recipe, recipeIndex) {
+	                    return _react2.default.createElement(
+	                      _reactToolbox.ListItem,
+	                      {
+	                        onClick: function onClick() {
+	                          return _this5.seeRecipe(recipe.id);
+	                        },
+	                        key: '' + recipe.name + recipe.id
 	                      },
-	                      key: '' + recipe.name + recipe.id
-	                    },
-	                    _react2.default.createElement(_components.DropdownItem, {
-	                      image: recipe.image,
-	                      name: recipe.title,
-	                      description: 'Por ' + recipe.user.displayName
-	                    })
-	                  );
-	                }),
-	                index !== _this5.state.menus.length - 1 && _react2.default.createElement(_reactToolbox.ListDivider, null)
-	              );
-	            })
+	                      _react2.default.createElement(_components.DropdownItem, {
+	                        image: recipe.image,
+	                        name: recipe.title,
+	                        description: 'Por ' + recipe.user.displayName
+	                      })
+	                    );
+	                  }),
+	                  index !== _this5.state.menus.length - 1 && _react2.default.createElement(_reactToolbox.ListDivider, null)
+	                );
+	              })
+	            )
 	          )
 	        )
 	      );
@@ -40748,6 +40787,8 @@ webpackJsonp([1],[
 	var _ramda = __webpack_require__(244);
 
 	var _ramda2 = _interopRequireDefault(_ramda);
+
+	var _reactFlexboxGrid = __webpack_require__(513);
 
 	var _auth = __webpack_require__(504);
 
@@ -40872,27 +40913,31 @@ webpackJsonp([1],[
 	            )
 	          ),
 	          _react2.default.createElement(
-	            _reactToolbox.List,
-	            { selectable: true, ripple: true },
-	            this.state.isLoading === false && this.state.recipes.length === 0 ? _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Nenhum resultado encontrado' }) : _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Procurando por: "' + this.state.term + '"' }),
-	            this.state.recipes.map(function (recipe, recipeIndex) {
-	              return _react2.default.createElement(
-	                _reactToolbox.ListItem,
-	                {
-	                  onClick: function onClick() {
-	                    return _this5.seeRecipe(recipe.id);
+	            _reactFlexboxGrid.Grid,
+	            null,
+	            _react2.default.createElement(
+	              _reactToolbox.List,
+	              { selectable: true, ripple: true },
+	              this.state.isLoading === false && this.state.recipes.length === 0 ? _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Nenhum resultado encontrado' }) : _react2.default.createElement(_reactToolbox.ListSubHeader, { caption: 'Procurando por: "' + this.state.term + '"' }),
+	              this.state.recipes.map(function (recipe, recipeIndex) {
+	                return _react2.default.createElement(
+	                  _reactToolbox.ListItem,
+	                  {
+	                    onClick: function onClick() {
+	                      return _this5.seeRecipe(recipe.id);
+	                    },
+	                    key: '' + recipe.name + recipe.id
 	                  },
-	                  key: '' + recipe.name + recipe.id
-	                },
-	                _react2.default.createElement(_components.DropdownItem, {
-	                  image: recipe.image,
-	                  name: recipe.title,
-	                  description: 'Por ' + recipe.user.displayName
-	                })
-	              );
-	            })
-	          ),
-	          _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading })
+	                  _react2.default.createElement(_components.DropdownItem, {
+	                    image: recipe.image,
+	                    name: recipe.title,
+	                    description: 'Por ' + recipe.user.displayName
+	                  })
+	                );
+	              })
+	            ),
+	            _react2.default.createElement(_components.ProgressBar, { loading: this.state.isLoading })
+	          )
 	        )
 	      );
 	    }

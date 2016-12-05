@@ -37,8 +37,8 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["bundle.css","68672682ab7c2ec1cf215779658f8de4"],["bundle.js","891f85f2d739d75a32a4c508f476d4f4"],["images/icons/icon-128x128.png","1c7d5d20e56601cc7632f77ff2dad272"],["images/icons/icon-144x144.png","57b896b39157a5ad68899cbac42cc3d4"],["images/icons/icon-152x152.png","44ad76774e6e9f895d5b4e29639ff3ef"],["images/icons/icon-192x192.png","69a7cc53be34315ae80a1430a4929bc4"],["images/icons/icon-384x384.png","69a7cc53be34315ae80a1430a4929bc4"],["images/icons/icon-512x512.png","69a7cc53be34315ae80a1430a4929bc4"],["images/icons/icon-72x72.png","d8f4da0992b38dcf0505de9ad81573a4"],["images/icons/icon-96x96.png","062eab9a8148e5ef8e2c0e1ecd76714d"],["index.html","86644038b418cd38125428971196782f"],["manifest.json","f53366442581c74aab7b50bbab9aaf77"],["vendors.js","f67f59342e2230ef29c4a2df150b8ac6"]];
-var cacheName = 'sw-precache-v2-panelando-v1-rc-1480858623747-' + (self.registration ? self.registration.scope : '');
+var precacheConfig = [["bundle.css","68672682ab7c2ec1cf215779658f8de4"],["bundle.js","b259d97b7fad244f098134df5f08d0b5"],["images/icons/icon-128x128.png","1c7d5d20e56601cc7632f77ff2dad272"],["images/icons/icon-144x144.png","57b896b39157a5ad68899cbac42cc3d4"],["images/icons/icon-152x152.png","44ad76774e6e9f895d5b4e29639ff3ef"],["images/icons/icon-192x192.png","69a7cc53be34315ae80a1430a4929bc4"],["images/icons/icon-384x384.png","69a7cc53be34315ae80a1430a4929bc4"],["images/icons/icon-512x512.png","69a7cc53be34315ae80a1430a4929bc4"],["images/icons/icon-72x72.png","d8f4da0992b38dcf0505de9ad81573a4"],["images/icons/icon-96x96.png","062eab9a8148e5ef8e2c0e1ecd76714d"],["index.html","86644038b418cd38125428971196782f"],["manifest.json","f53366442581c74aab7b50bbab9aaf77"],["vendors.js","f67f59342e2230ef29c4a2df150b8ac6"]];
+var cacheName = 'sw-precache-v2-panelando-v1-rc-1480941457377-' + (self.registration ? self.registration.scope : '');
 
 
 var ignoreUrlParametersMatching = [/^utm_/];
