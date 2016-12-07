@@ -223,6 +223,7 @@ class List extends Component {
       .then(() => reference.once('value'))
       .then(snapshot => snapshot.val())
       .then(normalize)
+      .then(R.reverse)
       .then(this.updateRecipes)
       .then(() => this.setState({ isLoading: false }))
   }
