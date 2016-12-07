@@ -32136,7 +32136,7 @@ webpackJsonp([1],[
 	        return reference.once('value');
 	      }).then(function (snapshot) {
 	        return snapshot.val();
-	      }).then(_firebase.normalize).then(this.updateRecipes).then(function () {
+	      }).then(_firebase.normalize).then(_ramda2.default.reverse).then(this.updateRecipes).then(function () {
 	        return _this18.setState({ isLoading: false });
 	      });
 	    }
@@ -33834,7 +33834,7 @@ webpackJsonp([1],[
 	      var _this2;
 
 	      return (_this2 = _this).__trim__REACT_HOT_LOADER__.apply(_this2, arguments);
-	    }, _this.handleCommentChange = function () {
+	    }, _this.translateDifficulty = _ramda2.default.cond([[_ramda2.default.equals('very_easy'), _ramda2.default.always('Muito Fácil')], [_ramda2.default.equals('easy'), _ramda2.default.always('Fácil')], [_ramda2.default.equals('average'), _ramda2.default.always('Médio')], [_ramda2.default.equals('hard'), _ramda2.default.always('Difícil')], [_ramda2.default.equals('very_hard'), _ramda2.default.always('Muito Difícil')]]), _this.handleCommentChange = function () {
 	      var _this3;
 
 	      return (_this3 = _this).__handleCommentChange__REACT_HOT_LOADER__.apply(_this3, arguments);
@@ -34078,7 +34078,7 @@ webpackJsonp([1],[
 	                  _react2.default.createElement(
 	                    'span',
 	                    null,
-	                    this.state.recipe.difficulty
+	                    this.translateDifficulty(this.state.recipe.difficulty)
 	                  )
 	                )
 	              ),
@@ -34244,6 +34244,8 @@ webpackJsonp([1],[
 
 	var _firebase = __webpack_require__(237);
 
+	var _auth = __webpack_require__(504);
+
 	var _reactToolbox = __webpack_require__(247);
 
 	var _reactFlexboxGrid = __webpack_require__(513);
@@ -34357,14 +34359,14 @@ webpackJsonp([1],[
 	    _this.state = {
 	      data: {
 	        picture: null,
-	        title: 'Pudim de Milho',
-	        time: '30',
-	        portion: '5',
-	        difficulty: 'easy',
-	        category: 'glutenfree',
-	        tags: ['pudim', 'receita da vovó'],
-	        steps: ['Bata o milho e os outros ingredientes no liquidificador', 'Misture os ovos e mexa bem', 'Coloque no forno pré-aquecido a 180C'],
-	        ingredients: ['3 ovos', '200 gramas de milho', '1 colhere de sopa de fermento', '4 xícaras de leite']
+	        title: '',
+	        time: '',
+	        portion: '',
+	        difficulty: '',
+	        category: '',
+	        tags: [],
+	        steps: [],
+	        ingredients: []
 	      },
 
 	      inputs: {
@@ -34475,7 +34477,11 @@ webpackJsonp([1],[
 	        return (0, _firebase.database)().ref('recipes').child(key).set(_ramda2.default.merge(_this6.state.data, { image: downloadURL }));
 	      };
 
-	      return _bluebird2.default.resolve().then(createRecipe).then(uploadPicture).then(getDownloadURL).then(updateRecipeWithPicture);
+	      return _bluebird2.default.resolve().then(createRecipe).then(uploadPicture).then(getDownloadURL).then(updateRecipeWithPicture).then(function () {
+	        return (0, _auth.redirect)('/');
+	      }).catch(function () {
+	        return (0, _auth.redirect)('/');
+	      });
 	    }
 	  }, {
 	    key: '__handleFileInput__REACT_HOT_LOADER__',
