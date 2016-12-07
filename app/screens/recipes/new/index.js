@@ -3,6 +3,7 @@ import Promise from 'bluebird'
 import R from 'ramda'
 import { withRouter } from 'react-router'
 import { auth, database, storage, normalize } from 'lib/firebase'
+import { redirect } from 'lib/auth'
 
 import {
   AppBar,
@@ -42,26 +43,14 @@ class New extends Component {
     this.state = {
       data: {
         picture: null,
-        title: 'Pudim de Milho',
-        time: '30',
-        portion: '5',
-        difficulty: 'easy',
-        category: 'glutenfree',
-        tags: [
-          'pudim',
-          'receita da vovó'
-        ],
-        steps: [
-          'Bata o milho e os outros ingredientes no liquidificador',
-          'Misture os ovos e mexa bem',
-          'Coloque no forno pré-aquecido a 180C'
-        ],
-        ingredients: [
-          '3 ovos',
-          '200 gramas de milho',
-          '1 colhere de sopa de fermento',
-          '4 xícaras de leite'
-        ]
+        title: '',
+        time: '',
+        portion: '',
+        difficulty: '',
+        category: '',
+        tags: [],
+        steps: [],
+        ingredients: []
       },
 
       inputs: {
@@ -194,6 +183,9 @@ class New extends Component {
       .then(uploadPicture)
       .then(getDownloadURL)
       .then(updateRecipeWithPicture)
+      .then(() => redirect('/'))
+      .catch(() => redirect('/'))
+
   }
 
   handleFileInput = () => {
