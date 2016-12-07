@@ -64,6 +64,14 @@ class Show extends Component {
     return str.substring(0, quantity)
   }
 
+  translateDifficulty = R.cond([
+    [R.equals('very_easy'), R.always('Muito Fácil')],
+    [R.equals('easy'), R.always('Fácil')],
+    [R.equals('average'), R.always('Médio')],
+    [R.equals('hard'), R.always('Difícil')],
+    [R.equals('very_hard'), R.always('Muito Difícil')]
+  ])
+
   handleCommentChange = comment => {
     this.setState({ comment })
   }
@@ -226,7 +234,7 @@ class Show extends Component {
 
                 <div>
                   <IconButton><DifficultyIcon /></IconButton>
-                  <span>{this.state.recipe.difficulty}</span>
+                  <span>{this.translateDifficulty(this.state.recipe.difficulty)}</span>
                 </div>
               </CardText>
 
